@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+        <solid android:color="@color/text_color_blue_btn" />
+        <corners android:radius="20dp"/>
+        <stroke android:width="2dp" android:color="@color/colorPrimary"/>
+</shape>
+<!--
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+
+
+        <item android:state_pressed= "true">
+                <shape>
+                        <gradient
+                            android:Color="@color/red"
+                            android:angle="270"/>
+
+                        <stroke
+                            android:width="3dp"
+                            android:Color="@color/"/>
+
+                        <corners
+                            android:radius="30dp"/>
+
+
+
+                </shape>
+        </item>
+
+        <item android:state_enabled= "true">
+                <shape>
+                        <gradient
+                            android:Color="@color/text_color_red"
+                            android:angle="270"/>
+
+                        <stroke
+                            android:width="3dp"
+                            android:Color="@color/text_color_red"/>
+
+                        <corners
+                            android:radius="30dp"/>
+
+
+
+                </shape>
+        </item>
+
+        <item android:state_enabled= "false">
+                <shape>
+                        <gradient
+                            android:Color="@color/text_color_blue"
+                            android:angle="270"/>
+
+                        <solid
+                            android:Color="@color/text_color_blue"
+
+                            />
+
+                        <stroke
+                            android:width="3dp"
+                            android:Color="@color/text_color_silver"/>
+
+                        <corners
+                            android:radius="30dp"/>
+
+
+
+                </shape>
+        </item>
+</selector>
+
+-->

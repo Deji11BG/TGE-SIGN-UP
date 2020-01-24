@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#050150</color>
+    <color name="colorPrimaryDark">#050150</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="textColorPrimary">#000000</color>
+
+    <color name="view_blue">#050150</color>
+    <color name="view_black">#202020</color>
+    <color name="view_green">#008000</color>
+    <color name="green">#60BD60</color>
+
+    <color name="view_red">#ff0000</color>
+    <color name="view_white">#000</color>
+    <color name="view_fadewhite">#a9a9a9</color>
+    <color name="hash">#D8D5D5</color>
+    <color name="colorWhite">#fff</color>
+
+    <color name="tfmHomeGridBackgroundColor">#FFFFFF</color>
+    <color name="colorRed">#ff0000</color>
+
+    <color name="colorGreen">#4CAF50</color>
+    <color name="text_color_white">#ecf0f1</color>
+    <color name="text_color_clear_white">#ffffff</color>
+    <color name="text_color_blue">#050150</color>
+    <color name="text_color_blue_btn">#D01C177C</color>
+    <color name="text_color_grey">#7d7d7d</color>
+    <color name="text_color_silver">#c0c0c0</color>
+    <color name="text_color_black">#202020</color>
+    <color name="absolute_black">#000000</color>
+    <color name="tabbed_text_color">#CfCfff</color>
+    <color name="text_color_red">#FF1100</color>
+    <color name="text_color_orange">#FF5C00</color>
+    <color name="text_color_yellow">#ffff00</color>
+    <color name="text_light_blue">#00BCD4</color>
+    <color name="text_light_blue_transparent">#9CDEE7</color>
+
+</resources>

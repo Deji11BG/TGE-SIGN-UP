@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.tgesign_up.TFMHome"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/toolbar_linear_layout"
+            android:padding="@dimen/tfm_toolbar_spacing">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_tfm"
+                android:layout_width="match_parent"
+                android:background="@color/colorWhite"
+                android:layout_height="?attr/actionBarSize"
+                style="@style/Widget.TGRecruitment.Toolbar"
+                app:navigationIcon="@drawable/ic_back_button" />
+
+            <!--<com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.TGRecruitment.TextInputLayout"
+                android:hint="@string/search"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_search_black_24dp"
+                app:endIconContentDescription="@string/custom_content_desc">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_search"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:padding="@dimen/tfm_text_view_padding"/>
+
+            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <TextView
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/view_looks1"
+                android:drawableEnd="@drawable/ic_search_black_24dp"
+                android:text="@string/search_here"
+                android:padding="@dimen/tfm_text_view_padding"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:orientation="horizontal"
+            android:id="@+id/search_linear_layout"
+            android:layout_marginStart="@dimen/tfm_search_view_margin"
+            android:layout_marginEnd="@dimen/tfm_search_view_margin"
+            android:layout_marginTop="@dimen/tfm_search_view_margin"
+            android:layout_marginBottom="@dimen/tfm_search_view_margin">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/back_to_toolbar"
+                android:layout_gravity="center"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/ic_back_button"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/search_edit_text"
+                android:background="@color/colorWhite"
+                android:layout_gravity="center"
+                android:inputType="text"
+                android:focusable="true"
+                android:hint="@string/search_here"
+                android:textColorHint="@color/textColorPrimary"
+                android:padding="@dimen/tfm_text_view_padding"/>
+
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/tfm_home_grid_spacing"
+        android:paddingEnd="@dimen/tfm_home_grid_spacing"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           />
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
