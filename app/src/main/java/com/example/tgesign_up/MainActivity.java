@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.setComponent(new ComponentName("com.babbangona.accesscontrol", "com.babbangona.accesscontrol.MainActivity"));
-                new Intent(getApplicationContext(), DeviceSetup.class);
+                new Intent(getApplicationContext(), LocationInfo.class);
                 startActivity(intent);
             }
         } else {

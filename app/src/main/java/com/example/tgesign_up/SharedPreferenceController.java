@@ -37,6 +37,8 @@ public class SharedPreferenceController {
     public static final String KEY_DISTANCE_Z2 = "distance_Z2";
     public static final String KEY_LGA_EDIT_FLAG   = "lga_edit_flag";
     public static final String KEY_MEMBER_QR_IK   = "member_qr_ik";
+    public static final String KEY_TGE_WARD= "tge_ward";
+
 
     /**
      * Keys below are for holding initial mapping information temporarily
@@ -293,6 +295,12 @@ public class SharedPreferenceController {
 
     }
 
+    //save selected ward here
+    public void saveTgeWard(String ward){
+        editor.putString(KEY_TGE_WARD,ward);
+        editor.commit();
+    }
+
     public String getUserLat(){
         String user_lat = pref.getString(KEY_USER_LAT, "");
         return user_lat;
@@ -316,6 +324,10 @@ public class SharedPreferenceController {
 
 
 
+    public String getKeyTgeWard(){
+        String tgeWard = pref.getString(KEY_TGE_WARD, "");
+        return tgeWard;
+    }
 
 
 

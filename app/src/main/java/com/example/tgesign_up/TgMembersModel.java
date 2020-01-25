@@ -5,13 +5,15 @@ public class TgMembersModel {
 
 
         private String memberId;
-        private String memberFirstName;
-        private String memberLastName;
+        private String uniqueMemberId;
+        private String memberName;
+        private String memberVillage;
 
-    public TgMembersModel(String memberId, String memberFirstName, String memberLastName) {
+    public TgMembersModel(String memberId, String uniqueMemberId, String memberName, String memberVillage) {
         this.memberId = memberId;
-        this.memberFirstName = memberFirstName;
-        this.memberLastName = memberLastName;
+        this.uniqueMemberId = uniqueMemberId;
+        this.memberName = memberName;
+        this.memberVillage = memberVillage;
     }
 
     public String getMemberId() {
@@ -22,19 +24,27 @@ public class TgMembersModel {
         this.memberId = memberId;
     }
 
-    public String getMemberFirstName() {
-        return memberFirstName;
+    public String getUniqueMemberId() {
+        return uniqueMemberId;
     }
 
-    public void setMemberFirstName(String memberFirstName) {
-        this.memberFirstName = memberFirstName;
+    public void setUniqueMemberId(String uniqueMemberId) {
+        this.uniqueMemberId = uniqueMemberId;
     }
 
-    public String getMemberLastName() {
-        return memberLastName;
+    public String getMemberName() {
+        return memberName;
     }
 
-    public void setMemberLastName(String memberLastName) {
-        this.memberLastName = memberLastName;
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getMemberVillage() {
+        return memberVillage;
+    }
+
+    public void setMemberVillage(String memberVillage) {
+        this.memberVillage = memberVillage;
     }
 }
