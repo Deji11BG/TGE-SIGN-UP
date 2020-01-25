@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import java.util.HashMap;
 
 
-public class SharedPreferenceController {
+public class LocSharedPreferenceController {
     // Shared Preferences
     SharedPreferences pref;
 
@@ -108,13 +108,13 @@ public class SharedPreferenceController {
 
 
     // Constructor
-    public SharedPreferenceController(Context context){
+    public LocSharedPreferenceController(Context context){
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
-    public SharedPreferenceController() {
+    public LocSharedPreferenceController() {
 
     }
 

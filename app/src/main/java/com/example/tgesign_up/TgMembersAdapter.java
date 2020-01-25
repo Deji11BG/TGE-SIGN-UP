@@ -60,9 +60,9 @@ public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.Prod
         member = memberList.get(position);
         sharedPreferenceController=new SharedPreferenceController(mCtx);
 
-        holder.memberName.setText(member.getMemberName());
-        holder.memberId.setText(member.getMemberId());
-        holder.memberVillage.setText(member.getMemberVillage());
+        holder.memberName.setText("Member Name:  "+ member.getMemberName());
+        holder.memberId.setText("Member ID:  "+member.getMemberId());
+        holder.memberVillage.setText("Member Village:  "+member.getMemberVillage());
 
         holder.memberCard.setOnClickListener(new View.OnClickListener() {
             @Override

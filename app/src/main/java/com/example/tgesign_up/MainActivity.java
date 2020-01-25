@@ -82,14 +82,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void  setRecordFlag(){
-        SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(getApplicationContext());
-        sharedPreferenceController.setImportFlag("1");
+        LocSharedPreferenceController locSharedPreferenceController = new LocSharedPreferenceController(getApplicationContext());
+        locSharedPreferenceController.setImportFlag("1");
 
     }
 
     public int getRecordFlag(){
-        SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(getApplicationContext());
-        int flag = Integer.valueOf(sharedPreferenceController.getImportFlag()) ;
+        LocSharedPreferenceController locSharedPreferenceController = new LocSharedPreferenceController(getApplicationContext());
+        int flag = Integer.valueOf(locSharedPreferenceController.getImportFlag()) ;
         return flag;
     }
 

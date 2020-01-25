@@ -24,12 +24,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -153,7 +151,7 @@ public class LocationInfo extends AppCompatActivity  {
     private static boolean DESC = false;
     Map<String,Double> stateDistance,lgaDistance,wardDistance,townDistance;
     String selectedState,selectedLga,selectedWard,selectedTown;
-    SharedPreferenceController sharedPreferenceController;
+    LocSharedPreferenceController locSharedPreferenceController;
     private BottomSheetBehavior sheetBehavior;
     Double userLat,userLng, X1, Y1, Z1, X2, Y2, Z2;
     ArrayAdapter state,lga,ward,town;
@@ -169,17 +167,17 @@ public class LocationInfo extends AppCompatActivity  {
 
         //Model and shared prefs initialisation
         LocationTable insertModel= new LocationTable();
-        sharedPreferenceController= new SharedPreferenceController(getApplicationContext());
+        locSharedPreferenceController = new LocSharedPreferenceController(getApplicationContext());
         lgaDistance= new HashMap<>();
         wardDistance= new HashMap<>();
         townDistance= new HashMap<>();
 
         sheetBehavior = BottomSheetBehavior.from(bottomSheet);
-        userLat = Double.valueOf(sharedPreferenceController.getUserLat());
-        userLng = Double.valueOf(sharedPreferenceController.getUserLong());
+        userLat = Double.valueOf(locSharedPreferenceController.getUserLat());
+        userLng = Double.valueOf(locSharedPreferenceController.getUserLong());
 
         //retrieving user data from shared prefs
-        HashMap<String, String> userDetails = sharedPreferenceController.getUserDetails();
+        HashMap<String, String> userDetails = locSharedPreferenceController.getUserDetails();
         staffId= userDetails.get("staff_id");
         appVersion= userDetails.get("app_version");
         staffRole= userDetails.get("staff_role");
@@ -520,8 +518,8 @@ public class LocationInfo extends AppCompatActivity  {
                     !ac_ward.getText().toString().equalsIgnoreCase("") &&
                     !ac_town.getText().toString().equalsIgnoreCase("") ){
 
-                sharedPreferenceController.saveTgeWard(ac_ward.getText().toString());
-                Intent i = new  Intent(this,VerifyActivity.class);
+                locSharedPreferenceController.saveTgeWard(ac_ward.getText().toString());
+                Intent i = new  Intent(this,TFMHome.class);
                 this.startActivity(i);
 
             }

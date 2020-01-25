@@ -46,13 +46,13 @@ public class QRScanner extends AppCompatActivity implements ZXingScannerView.Res
     public void handleResult(final com.google.zxing.Result result) {
         String cleanedData[] = result.getText().split("\\*");
         String data[] = cleanedData[0].split(",");
-        SharedPreferenceController sharedPreferenceController= new SharedPreferenceController(getApplicationContext());
+        LocSharedPreferenceController locSharedPreferenceController = new LocSharedPreferenceController(getApplicationContext());
 
 
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
         if(String.valueOf(year).equalsIgnoreCase(data[1])){
-            sharedPreferenceController.saveQrIkNumber(data[0]);
+            locSharedPreferenceController.saveQrIkNumber(data[0]);
         }
 
         Intent intent =  new Intent(getApplicationContext(),FormMemberInformation.class);

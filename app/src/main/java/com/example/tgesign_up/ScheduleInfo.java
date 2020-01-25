@@ -24,19 +24,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -96,7 +89,7 @@ public class ScheduleInfo extends AppCompatActivity {
     private static boolean DESC = false;
     Map<String,Double> stateDistance,lgaDistance,wardDistance,townDistance;
     String selectedWard,selectedGroup,selectedTime,selectedDay;
-    SharedPreferenceController sharedPreferenceController;
+    LocSharedPreferenceController sharedPreferenceController;
     private BottomSheetBehavior sheetBehavior;
     Double userLat,userLng, X1, Y1, Z1, X2, Y2, Z2;
     ArrayAdapter dayAdapter,groupAdapter,timeAdapter;
@@ -117,7 +110,7 @@ public class ScheduleInfo extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //Model and shared prefs initialisation
-        sharedPreferenceController= new SharedPreferenceController(getApplicationContext());
+        sharedPreferenceController= new LocSharedPreferenceController(getApplicationContext());
         sheetBehavior = BottomSheetBehavior.from(bottomSheet);
 //bottomsheet behavior initialisation
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
