@@ -3,7 +3,6 @@ package com.example.tgesign_up.Api;
 import com.example.tgesign_up.Database.TFM.Table.CheckListTable;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
-import com.example.tgesign_up.Database.TFM.Table.TrustGroupTable;
 import com.example.tgesign_up.Home.OldMembersDownloadModel;
 
 import java.util.List;

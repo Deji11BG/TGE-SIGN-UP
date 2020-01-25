@@ -16,6 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TGHome"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CaptureActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".VerifyActivity"
+            android:noHistory="true" />
     </application>
 
 </manifest>

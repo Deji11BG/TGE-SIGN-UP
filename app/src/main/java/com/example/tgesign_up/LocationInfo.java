@@ -77,17 +77,17 @@ public class LocationInfo extends AppCompatActivity {
     @BindView(R.id.bottom_sheet)
     LinearLayout bottomSheet;
 
-    @BindView(R.id.sheet_state)
-    TextView sheetState;
+    /*@BindView(R.id.sheet_state)
+    TextView sheetState;*/
 
-    @BindView(R.id.sheet_lga)
-    TextView sheetLga;
+    /*@BindView(R.id.sheet_lga)
+    TextView sheetLga;*/
 
     @BindView(R.id.sheet_ward)
     TextView sheetWard;
 
-    @BindView(R.id.sheet_town)
-    TextView sheetTown;
+    /*@BindView(R.id.sheet_town)
+    TextView sheetTown;*/
 
     @BindView(R.id.btnConfirm)
     Button sheetConfirm;
@@ -243,13 +243,13 @@ public class LocationInfo extends AppCompatActivity {
                     !ac_ward.getText().toString().equalsIgnoreCase("") ){
                 //ShowDialog();
 
-                Intent intent =  new Intent(getApplicationContext(),Main2Activity.class);
+                /*Intent intent =  new Intent(getApplicationContext(),Main2Activity.class);
                 intent.putExtra("staff_id",staffId);
                 intent.putExtra("app_version",appVersion);
                 intent.putExtra("staff_role",staffRole);
 
 
-                startActivity(intent);
+                startActivity(intent);*/
 
             }
 

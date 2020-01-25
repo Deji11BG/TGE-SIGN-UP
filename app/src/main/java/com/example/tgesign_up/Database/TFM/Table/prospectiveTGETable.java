@@ -17,9 +17,6 @@ public class prospectiveTGETable {
     @NonNull
     private String unique_member_id;
 
-    @ColumnInfo(name = TFMDBContractClass.TGE_ID)
-    private String tge_id;
-
     @ColumnInfo(name = TFMDBContractClass.COL_MEMBER_ID)
     private String member_id;
 
@@ -35,28 +32,21 @@ public class prospectiveTGETable {
     @ColumnInfo(name = TFMDBContractClass.COL_TEMPLATE)//
     private String template;
 
-    @ColumnInfo(name = TFMDBContractClass.COL_ROLE)//
-    private String role;
-    @ColumnInfo(name = TFMDBContractClass.COL_REG_DATE)//
-    private String regdate;
     @ColumnInfo(name = TFMDBContractClass.COL_SYNC_FLAG)
     private String sync_flag;
+
     @ColumnInfo(name = TFMDBContractClass.ACTIVE_FLAG)
     private String active_flag;
 
-    public prospectiveTGETable(@NonNull String unique_member_id, String tge_id, String ik_number,
-                           String member_id, String first_name, String middle_name, String last_name,
-                           String role, String template, String regdate,String active_flag,String sync_flag) {
+    public prospectiveTGETable(@NonNull String unique_member_id, String member_id,
+                               String first_name, String middle_name, String last_name,
+                               String template, String active_flag,String sync_flag) {
         this.unique_member_id = unique_member_id;
         this.member_id = member_id;
         this.first_name = first_name;
         this.middle_name = middle_name;
         this.last_name = last_name;
-        this.tge_id=tge_id;
-
-        this.role = role;
         this.template = template;
-        this.regdate = regdate;
         this.active_flag=active_flag;
         this.sync_flag=sync_flag;
     }
@@ -72,14 +62,6 @@ public class prospectiveTGETable {
 
     public void setUnique_member_id(@NonNull String unique_member_id) {
         this.unique_member_id = unique_member_id;
-    }
-
-    public String getTge_id() {
-        return tge_id;
-    }
-
-    public void setTge_id(String tge_id) {
-        this.tge_id = tge_id;
     }
 
     public String getMember_id() {
@@ -114,28 +96,12 @@ public class prospectiveTGETable {
         this.last_name = last_name;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getTemplate() {
         return template;
     }
 
     public void setTemplate(String template) {
         this.template = template;
-    }
-
-    public String getRegdate() {
-        return regdate;
-    }
-
-    public void setRegdate(String regdate) {
-        this.regdate = regdate;
     }
 
     public String getSync_flag() {

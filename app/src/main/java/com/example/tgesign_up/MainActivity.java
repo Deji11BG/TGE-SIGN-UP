@@ -32,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
     @BindView(R.id.bt_open)
     Button open;
 
@@ -238,8 +239,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.setComponent(new ComponentName("com.babbangona.accesscontrol", "com.babbangona.accesscontrol.MainActivity"));
-                new Intent(getApplicationContext(), DeviceSetup.class);
-                startActivity(intent);
+                /*new Intent(getApplicationContext(), DeviceSetup.class);
+                startActivity(intent);*/
             }
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);

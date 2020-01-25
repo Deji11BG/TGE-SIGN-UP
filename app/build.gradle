@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 
@@ -49,5 +53,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.opencsv:opencsv:4.6'
     implementation 'com.shuhart.stepview:stepview:1.3.2'
+
+    //BG Facial Recognition
+    implementation project(':BGFR')
 
 }

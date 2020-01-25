@@ -230,11 +230,11 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_help) {
             try {
-                startActivity(new Intent(FormMemberLocation.this, ViewActivityIssues.class)
+                /*startActivity(new Intent(FormMemberLocation.this, ViewActivityIssues.class)
                         .putExtra("activity_id", "tfm_4")
                         .putExtra("app_id", "tfm")
                         .putExtra("staff_id", "T-10000000000000AA")//get this guy from shared prefs
-                        .putExtra("user_location", ""));
+                        .putExtra("user_location", ""));*/
 
             } catch (Exception e) {
                 e.printStackTrace();
