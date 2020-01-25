@@ -32,7 +32,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
     @BindView(R.id.bt_open)
     Button open;
 
@@ -83,14 +82,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void  setRecordFlag(){
-        SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(getApplicationContext());
-        sharedPreferenceController.setImportFlag("1");
+        LocSharedPreferenceController locSharedPreferenceController = new LocSharedPreferenceController(getApplicationContext());
+        locSharedPreferenceController.setImportFlag("1");
 
     }
 
     public int getRecordFlag(){
-        SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(getApplicationContext());
-        int flag = Integer.valueOf(sharedPreferenceController.getImportFlag()) ;
+        LocSharedPreferenceController locSharedPreferenceController = new LocSharedPreferenceController(getApplicationContext());
+        int flag = Integer.valueOf(locSharedPreferenceController.getImportFlag()) ;
         return flag;
     }
 
@@ -239,8 +238,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.setComponent(new ComponentName("com.babbangona.accesscontrol", "com.babbangona.accesscontrol.MainActivity"));
-                /*new Intent(getApplicationContext(), DeviceSetup.class);
-                startActivity(intent);*/
+                new Intent(getApplicationContext(), LocationInfo.class);
+                startActivity(intent);
             }
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);

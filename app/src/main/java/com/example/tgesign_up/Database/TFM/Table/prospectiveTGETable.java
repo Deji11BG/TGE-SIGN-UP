@@ -1,11 +1,22 @@
 package com.example.tgesign_up.Database.TFM.Table;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 
 import com.example.tgesign_up.Database.TFM.TFMDBContractClass;
+import com.example.tgesign_up.Database.TFM.TFMDatabase;
+import com.example.tgesign_up.Home.LeaderModel;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity(primaryKeys = {TFMDBContractClass.COL_UNIQUE_MEMBER_ID},
         indices = {@Index(value = TFMDBContractClass.COL_UNIQUE_MEMBER_ID, unique = true)},
@@ -119,6 +130,31 @@ public class prospectiveTGETable {
     public void setActive_flag(String active_flag) {
         this.active_flag = active_flag;
     }
+
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getLeaderDetails extends AsyncTask<Void, Void, List<prospectiveTGETable>> {
+        Context mCtx;
+        List<prospectiveTGETable> leaderModelList = new ArrayList<>();
+        TFMDatabase tfmDatabase;
+
+        getLeaderDetails(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected List<prospectiveTGETable> doInBackground(Void... voids) {
+            try{
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                leaderModelList = tfmDatabase.getProspectiveTGEDao().getLeaders();
+                return leaderModelList;
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
 
 
 }

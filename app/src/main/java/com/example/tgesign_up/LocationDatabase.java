@@ -13,6 +13,8 @@ import androidx.room.RoomDatabase;
 public abstract  class LocationDatabase extends RoomDatabase {
 
     public abstract StateDao getStateInfo();
+    public abstract LocationDao getLocationInfo();
+
     public abstract ConstantsDao getConstantsInfo();
 
     private static LocationDatabase locationDatabase;

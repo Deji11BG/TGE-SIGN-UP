@@ -75,6 +75,11 @@ public class SharedPreferenceController {
 
     public static final String KEY_LAST_SYNC_TIME = "last_sync_time";
 
+    public static final String KEY_TG_IK_NUMBER = "tg_ik_number";
+
+    public static final String KEY_TG_UNIQUE_MEMBER_ID = "unique_member_id";
+
+
    // public static final String KEY_VILLAGE = "sum_interview_score";
 
     /**
@@ -130,6 +135,18 @@ public class SharedPreferenceController {
         editor.commit();
     }
 
+    //use this to save ik number of the leader that you selected on the tfm home page
+    public void saveIkNumber(String ikNumber){
+        editor.putString(KEY_TG_IK_NUMBER,ikNumber);
+        editor.commit();
+    }
+
+    //use this to save  unique member id of the member that you selected on the tg members page
+    public void saveUniqueMemberId(String memberId){
+        editor.putString(KEY_TG_UNIQUE_MEMBER_ID,memberId);
+        editor.commit();
+    }
+
     public void setImportFlag(String flag){
         editor.putString(KEY_IMPORT_FLAG,flag);
         editor.commit();
@@ -174,6 +191,7 @@ public class SharedPreferenceController {
         editor.putString(KEY_WARD,ward);
         editor.commit();
     }
+
 
     public void saveVillage(String village){
         editor.putString(KEY_VILLAGE,village);
@@ -320,6 +338,18 @@ public class SharedPreferenceController {
         return user;
     }
 
+    //use this to get ik number of the leader that you selected on the tg search page
+    public String getIkNumber(){
+        String ikNumber = pref.getString(KEY_TG_IK_NUMBER, "");
+        return ikNumber;
+    }
+
+
+    //use this to save  unique member id of the member that you selected on the tg members page
+    public String getUniqueMemberId(){
+        String memberId = pref.getString(KEY_TG_UNIQUE_MEMBER_ID, "");
+        return memberId;
+    }
 
 
 
