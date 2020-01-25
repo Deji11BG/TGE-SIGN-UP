@@ -23,6 +23,7 @@ import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
 import com.example.tgesign_up.Home.LeaderModel;
 import com.example.tgesign_up.Home.TFMHomePresenter;
 import com.example.tgesign_up.R;
+import com.example.tgesign_up.TFMHome;
 
 import java.io.File;
 import java.util.List;
@@ -139,13 +140,9 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
             sharedPreference.setUniqueIkNumber(unique_ik_number);
             sharedPreference.setIKNumber(mFilteredList.get(getAdapterPosition()).getIk_number());
 
-            if (!finished_check_list_flag.equalsIgnoreCase("0")){
-                Intent intent = new Intent (mCtx, TGHome.class);
-                mCtx.startActivity(intent);
-            }else{
-                Intent intent = new Intent (mCtx, CheckList.class);
-                mCtx.startActivity(intent);
-            }
+            Intent intent = new Intent (mCtx, TFMHome.class);
+            mCtx.startActivity(intent);
+
 
         }
 

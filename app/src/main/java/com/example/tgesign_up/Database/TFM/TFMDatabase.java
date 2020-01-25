@@ -14,6 +14,8 @@ import com.example.tgesign_up.Database.TFM.Dao.OldMembersDao;
 import com.example.tgesign_up.Database.TFM.Dao.TFMAppVariablesDao;
 import com.example.tgesign_up.Database.TFM.Dao.TFMTemplateTrackerTableDao;
 import com.example.tgesign_up.Database.TFM.Dao.TrustGroupDao;
+import com.example.tgesign_up.Database.TFM.Dao.prospectiveTGEDao;
+import com.example.tgesign_up.Database.TFM.Dao.prospectiveTGLDao;
 import com.example.tgesign_up.Database.TFM.Table.CheckListTable;
 import com.example.tgesign_up.Database.TFM.Table.LastSyncTable;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
@@ -37,6 +39,8 @@ public abstract  class TFMDatabase extends RoomDatabase {
     public abstract CheckListTableDao getCheckListTableDao();
     public abstract LastSyncTableDao getLastSyncTableDao();
     public abstract TFMTemplateTrackerTableDao getTFMTemplateTrackerTableDao();
+    public abstract prospectiveTGEDao getProspectiveTGEDao();
+    public abstract prospectiveTGLDao getProspectiveTGLDao();
 
     private static TFMDatabase tfmDatabase;
 

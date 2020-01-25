@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
+import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.LeaderCardRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -38,23 +39,23 @@ public class TFMHomePresenter  implements TFMHomePresenterInterface {
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public List<LeaderModel> getLeaderList(Context context, String staff_id) {
-        List<LeaderModel> leader_data = new ArrayList<>();
+    public List<prospectiveTGETable> getLeaderList(Context context) {
+        List<prospectiveTGETable> leader_data = new ArrayList<>();
         try {
             leader_data = new LeaderModel.getLeaderDetails(context){
                 @Override
-                protected void onPostExecute(List<LeaderModel> s) {}
-            }.execute(staff_id).get();
+                protected void onPostExecute(List<prospectiveTGETable> s) {}
+            }.execute().get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return leader_data;
     }
 
-    @Override
-    public String getFinishedCheckListFlagResult(Context context, String unique_ik_number) {
-        return stringOutputController(leaderModel.getFinishedCheckListFlagResult(context, unique_ik_number));
-    }
+//    @Override
+//    public String getFinishedCheckListFlagResult(Context context, String unique_ik_number) {
+//        return stringOutputController(leaderModel.getFinishedCheckListFlagResult(context, unique_ik_number));
+//    }
 
     @Override
     public void loadPreviousActivity() {
@@ -62,7 +63,7 @@ public class TFMHomePresenter  implements TFMHomePresenterInterface {
     }
 
     @Override
-    public List<LeaderModel> getSearchParameters(CharSequence constraint, List<LeaderModel> total_leader_list) {
+    public List<prospectiveTGETable> getSearchParameters(CharSequence constraint, List<LeaderModel> total_leader_list) {
         String charString = constraint.toString().trim();
 
         List<LeaderModel> mFilteredList;

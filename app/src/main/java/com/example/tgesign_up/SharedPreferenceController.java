@@ -36,6 +36,7 @@ public class SharedPreferenceController {
     public static final String KEY_DISTANCE_Y2   = "distance_Y2";
     public static final String KEY_DISTANCE_Z2 = "distance_Z2";
     public static final String KEY_LGA_EDIT_FLAG   = "lga_edit_flag";
+    public static final String KEY_MEMBER_QR_IK   = "member_qr_ik";
 
     /**
      * Keys below are for holding initial mapping information temporarily
@@ -210,6 +211,12 @@ public class SharedPreferenceController {
         editor.putString(KEY_SUN_MORNING   ,      sunMorning);
         editor.putString(KEY_SUN_EVENING   ,      sunEvening);
 
+
+        editor.commit();
+    }
+
+    public void saveQrIkNumber(String ikNumber){
+        editor.putString(KEY_MEMBER_QR_IK,  ikNumber);
 
         editor.commit();
     }

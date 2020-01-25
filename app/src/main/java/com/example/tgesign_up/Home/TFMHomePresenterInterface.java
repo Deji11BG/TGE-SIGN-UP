@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
+import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.LeaderCardRecyclerViewAdapter;
 
 import java.util.List;
@@ -13,8 +14,7 @@ public interface TFMHomePresenterInterface {
 
     void hideFeature(View view);
     void showFeature(View view);
-    List<LeaderModel> getLeaderList(Context context, String staff_id);
-    String getFinishedCheckListFlagResult(Context context, String unique_ik_number);
+    List<prospectiveTGETable> getLeaderList(Context context);
     void loadPreviousActivity();
     List<LeaderModel> getSearchParameters(CharSequence constraint, List<LeaderModel> total_leader_list);
     void textWatcher(EditText editText, LeaderCardRecyclerViewAdapter adapter);
