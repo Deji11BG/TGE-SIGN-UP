@@ -21,7 +21,7 @@ public class TFMDBContractClass {
     public static final String TABLE_TFM_TEMPLATE_TRACKER       = "tfm_template_tracker";
     public static final String TABLE_PROSPECTIVE_TGE   = "prospectiveTGE";
     public static final String TABLE_PROSPECTIVE_TGL   = "prospectiveTGL";
-
+    public static final String TABLE_SCHEDULE   = "schedule";
 
     /**
      * members data column names
@@ -109,4 +109,18 @@ public class TFMDBContractClass {
     public static final String COL_STAFF_ID                     = "staff_id";
     public static final String COL_LEVEL                        = "level";
     public static final String COL_FINISHED_CHECKLIST           = "finished_checklist";
+
+    /*schedule column names
+
+     */
+    public static final String WARD                     = "ward";
+    public static final String SLOTID                        = "slot_id";
+    public static final String FIRST_DAY           = "first_day";
+    public static final String FIRST_TIME           = "first_time";
+    public static final String SECOND_DAY           = "second_day";
+    public static final String SECOND_TIME           = "second_time";
+    public static final String SCHEDULE_SYNC_FLAG           = "schedule_sync_flag";
+    public static final String SCHEDULE_COUNT           = "schedule_count";
+
+
 }

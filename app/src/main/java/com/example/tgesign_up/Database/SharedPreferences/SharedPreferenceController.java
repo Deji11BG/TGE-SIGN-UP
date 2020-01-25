@@ -84,6 +84,16 @@ public class SharedPreferenceController {
     public static final String KEY_APPS_LIST_LAST_SYNC_DOWN = "apps_list_last_sync_down";
     public static final String KEY_ONBOARDING_STATUS = "onboarding_status";
 
+/*shared prefs for schedule sessions
+
+ */
+    public static final String SLOT_ID = "slot_id";
+    public static final String FIRST_DAY = "first_day";
+    public static final String SECOND_DAY = "second_day";
+    public static final String FIRST_TIME = "first_time";
+    public static final String SECOND_TIME = "second_time";
+    //public static final String SCHEDUL = "second_time";
+    public static final String SCHEDULE_COUNT = "shedule_count";
 
 
     // Constructor
@@ -297,6 +307,24 @@ public class SharedPreferenceController {
         editor.commit();
     }
 
+//save schedule info
+    public void scheduleInfo(String slotID,String firstDay,String secondDay,String
+            firstTIme,String secondTime){
+        editor.putString(SLOT_ID,slotID);
+        editor.putString(FIRST_DAY,firstDay);
+        editor.putString(SECOND_DAY,secondDay);
+        editor.putString(FIRST_TIME,firstTIme);
+        editor.putString(SECOND_TIME,secondTime);
+
+
+        editor.commit();
+    }
+    public void schedulecount(String answers){
+        editor.putString(SCHEDULE_COUNT, answers);
+        editor.commit();
+    }
+
+
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
         // user name
@@ -321,8 +349,30 @@ public class SharedPreferenceController {
     }
 
 
-
-
+    public String getSlotId() {
+        String name = pref.getString(SLOT_ID, "");
+        return name;
+    }
+    public String getFirstDay() {
+        String name = pref.getString(FIRST_DAY, "");
+        return name;
+    }
+    public String getSecondDay() {
+        String name = pref.getString(SECOND_DAY, "");
+        return name;
+    }
+    public String getFirstTime() {
+        String name = pref.getString(FIRST_TIME, "");
+        return name;
+    }
+    public String getSecondTime() {
+        String name = pref.getString(SECOND_TIME, "");
+        return name;
+    }
+    public String getScheduleCount() {
+        String name = pref.getString(SCHEDULE_COUNT, "");
+        return name;
+    }
 }
 
 

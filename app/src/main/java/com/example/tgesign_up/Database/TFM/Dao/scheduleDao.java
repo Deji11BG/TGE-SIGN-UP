@@ -11,6 +11,7 @@ import androidx.room.Update;
 import com.example.tgesign_up.Database.TFM.TFMDBContractClass;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
+import com.example.tgesign_up.Database.TFM.Table.scheduleTable;
 import com.example.tgesign_up.FormMemberInformationMVP.FormMemberInformationModel;
 import com.example.tgesign_up.TGHomeMVP.TGLeaderModel;
 import com.example.tgesign_up.TGHomeMVP.TGModel;
@@ -18,37 +19,44 @@ import com.example.tgesign_up.TGHomeMVP.TGModel;
 import java.util.List;
 
 @Dao
-public interface prospectiveTGLDao {
+public interface scheduleDao {
 
     @Query("SELECT * FROM " +
-            TFMDBContractClass.TABLE_PROSPECTIVE_TGL +" WHERE sync_flag ='0'")
-    List<prospectiveTGLTable> getUnsynced();
+            TFMDBContractClass.TABLE_SCHEDULE +" WHERE schedule_sync_flag ='0'")
+    List<scheduleTable> getUnsynced();
 
+
+    @Query("SELECT ward,first_day,first_time,second_day,second_time,slot_id,schedule_count FROM " +
+            TFMDBContractClass.TABLE_SCHEDULE +" WHERE ward = :ward AND schedule_count <20")
+    List<scheduleTable> getschedule(String ward);
+
+    @Query("UPDATE " + TFMDBContractClass.TABLE_SCHEDULE +" SET schedule_count =:schedule_count WHERE ward = :ward AND slot_id=:slot_id")
+    void updateScheduleCount(Integer schedule_count, String ward,String slot_id);
     /**
      * Insert the object in database
-     * @param prospectiveTGL, object to be inserted
+     * @param schedule, object to be inserted
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(prospectiveTGLTable prospectiveTGL);
+    void insert(scheduleDao schedule);
 
     /**
      * update the object in database
-     * @param prospectiveTGL, object to be updated
+     * @param schedule, object to be updated
      */
     @Update
-    void update(prospectiveTGLTable prospectiveTGL);
+    void update(scheduleDao schedule);
 
     /**
      * delete the object from database
-     * @param prospectiveTGL, object to be deleted
+     * @param schedule, object to be deleted
      */
     @Delete
-    void delete(prospectiveTGLTable prospectiveTGL);
+    void delete(scheduleDao schedule);
 
     /**
      * delete list of objects from database
      * @param data, array of objects to be deleted
      */
     @Delete
-    void delete(prospectiveTGLTable... data);      // data... is varargs, here data is an array
+    void delete(scheduleDao... data);      // data... is varargs, here data is an array
 }
