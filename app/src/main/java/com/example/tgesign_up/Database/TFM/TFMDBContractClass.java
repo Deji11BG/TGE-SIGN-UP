@@ -18,6 +18,7 @@ public class TFMDBContractClass {
     public static final String TFM_APP_VARIABLES                = "tfm_app_variables";
     public static final String TABLE_CHECK_LIST                 = "check_list";
     public static final String TABLE_LAST_SYNC                  = "last_sync_table";
+    public static final String TABLE_NEW_TGE                    = "new_tge";
     public static final String TABLE_TFM_TEMPLATE_TRACKER       = "tfm_template_tracker";
     public static final String TABLE_PROSPECTIVE_TGE   = "prospectiveTGE";
     public static final String TABLE_PROSPECTIVE_TGL   = "prospectiveTGL";

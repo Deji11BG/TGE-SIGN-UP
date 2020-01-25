@@ -13,8 +13,8 @@ import java.util.List;
 @Dao
 public interface StateDao {
 
-    @Query("SELECT distinct(state) FROM states_info")
-    List<String> getState();
+    @Query("SELECT state,min_lat,min_long,max_lat,max_long FROM states_info")
+    List<LocationInfo.stateModel> getStateDetails();
 
     @Query("SELECT distinct(lga) FROM states_info where state = :state ")
     List<String> getLga(String state);

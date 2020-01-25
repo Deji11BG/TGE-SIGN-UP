@@ -20,9 +20,8 @@ import java.util.List;
 public interface prospectiveTGEDao {
 
 
-    @Query("SELECT * FROM " +
-            TFMDBContractClass.TABLE_PROSPECTIVE_TGE +" WHERE sync_flag ='0'")
-    List<prospectiveTGETable> getUnsynced();
+    @Query("SELECT * FROM " + TFMDBContractClass.TABLE_PROSPECTIVE_TGE +"")
+    List<prospectiveTGETable> getLeaders();
 
     /**
      * Insert the object in database

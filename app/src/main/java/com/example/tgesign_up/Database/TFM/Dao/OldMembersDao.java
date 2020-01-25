@@ -13,6 +13,7 @@ import com.example.tgesign_up.Database.TFM.Table.OldMembersTable;
 import com.example.tgesign_up.FormMemberInformationMVP.FormMemberInformationModel;
 import com.example.tgesign_up.TGHomeMVP.TGLeaderModel;
 import com.example.tgesign_up.TGHomeMVP.TGModel;
+import com.example.tgesign_up.TgMembersModel;
 
 import java.util.List;
 
@@ -45,8 +46,12 @@ public interface OldMembersDao {
             " UNION "+
             "SELECT a.first_name, a.middle_name,a.last_name, a.village_name, a.unique_member_id, a.role FROM " + TFMDBContractClass.TABLE_NEW_MEMBERS_DATA +
             " a LEFT JOIN "+ TFMDBContractClass.TABLE_OLD_MEMBERS_DATA+" b ON b.unique_member_id = a.unique_member_id " +
-            "WHERE b.unique_member_id IS NULL AND a.unique_ik_number = :unique_ik_number AND a.role != 'Leader' and a.delete_flag = '0' ")
+            "WHERE b.unique_member_id IS NULL AND a.unique_ik_number = :unique_ik_number AND a.role != 'Leader'  ")
     List<TGModel> getTrustGroupMembers(String unique_ik_number);
+
+    @Query("SELECT  first_name, middle_name,last_name, village_name, unique_member_id, member_id FROM  "+ TFMDBContractClass.TABLE_OLD_MEMBERS_DATA +" " +
+            "WHERE unique_ik_number = :unique_ik_number AND role != 'Leader'  ")
+    List<TgMembersModel> getMembers(String unique_ik_number);
 
     @Query("SELECT template FROM " +
             TFMDBContractClass.TABLE_OLD_MEMBERS_DATA +" WHERE unique_ik_number = :unique_ik_number AND role = 'Leader'")

@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':BGFR'
 rootProject.name='TGE Sign-up'

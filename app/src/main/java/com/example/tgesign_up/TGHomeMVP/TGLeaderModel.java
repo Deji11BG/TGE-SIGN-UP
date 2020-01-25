@@ -10,12 +10,11 @@ import android.util.Log;
 import androidx.room.Room;
 
 import com.example.tgesign_up.Api.SyncingResponseTFM;
+import com.example.tgesign_up.Database.Location.LocationDatabase;
 import com.example.tgesign_up.Database.TFM.TFMDBContractClass;
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMTemplateTrackerTable;
-import com.example.tgesign_up.Database.TFM.Table.TrustGroupTable;
-import com.example.tgesign_up.LocationDatabase;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -32,6 +31,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class TGLeaderModel {
@@ -490,20 +490,21 @@ public class TGLeaderModel {
     }
 
 
-
-
-    String saveToSdCard(Bitmap bitmap, String filename) {
+    String saveToSdCard(Bitmap bitmap, String filename, String child_name, Context context) {
 
         String stored = null;
+        String picture_holder;
 
-            /*File sdcard = Environment.getExternalStorageDirectory() ;
-            File folder = new File(sdcard.getAbsoluteFile(), "TGL_TFMPictures/.nomedia");//the dot makes this directory hidden to the user
-            folder.mkdir();*/
+        if (child_name.equalsIgnoreCase("small")){
+            picture_holder = "TFMPictures";
+        }else{
+            picture_holder = "TFMPicturesLarge";
+        }
 
         File ChkImgDirectory;
         String storageState = Environment.getExternalStorageState();
         if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-            ChkImgDirectory = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(), "TFMPictures");
+            ChkImgDirectory = new File(Objects.requireNonNull(context.getExternalFilesDir(null)).getAbsoluteFile(), picture_holder);
 
             File file, file3;
             File file1 = new File(ChkImgDirectory.getAbsoluteFile(), filename + ".jpg");
@@ -928,6 +929,80 @@ public class TGLeaderModel {
 
         }
 
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static String getLgaIDFromWardIDResult(Context context, String ward_id) {
+        String result ;
+        try {
+            result = new getLgaIDFromWardID(context){
+                @Override
+                protected void onPostExecute(String s) {}
+            }.execute(ward_id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            result = "0";
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getLgaIDFromWardID extends AsyncTask<String, Void, String> {
+        Context mCtx;
+        LocationDatabase locationDatabase;
+
+        getLgaIDFromWardID(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try{
+                Log.d("get_lga_id_from_ward_id", Arrays.toString(strings));
+                locationDatabase = LocationDatabase.getInstance(mCtx);
+                return locationDatabase.getWard().getLgaId(strings[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+                return "";
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    static String getStateIDFromLgaIDResult(Context context, String lga_id) {
+        String result ;
+        try {
+            result = new getStateIDFromLgaID(context){
+                @Override
+                protected void onPostExecute(String s) {}
+            }.execute(lga_id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            result = "0";
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getStateIDFromLgaID extends AsyncTask<String, Void, String> {
+        Context mCtx;
+        LocationDatabase locationDatabase;
+
+        getStateIDFromLgaID(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try{
+                Log.d("state_id_from_lga_id", Arrays.toString(strings));
+                locationDatabase = LocationDatabase.getInstance(mCtx);
+                return locationDatabase.getLga().getStateId(strings[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+                return "";
+            }
+        }
     }
 
     public static class CountModel{

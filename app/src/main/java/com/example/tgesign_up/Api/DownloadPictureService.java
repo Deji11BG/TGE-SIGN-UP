@@ -16,7 +16,6 @@ import com.example.tgesign_up.Database.TFM.Table.CheckListTable;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
 import com.example.tgesign_up.Database.TFM.Table.OldMembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
-import com.example.tgesign_up.Database.TFM.Table.TrustGroupTable;
 import com.example.tgesign_up.Home.OldMembersDownloadModel;
 import com.example.tgesign_up.TGHomeMVP.TGLeaderModel;
 import com.google.gson.Gson;

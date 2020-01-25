@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_layout_loc"
+    android:orientation="vertical"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="0dp"
+    android:padding="8dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:drawablePadding="5dp"
+        android:textSize="18sp"
+        android:id="@+id/sheet_state"
+        android:textColor="@color/text_color_clear_white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:drawablePadding="5dp"
+        android:textSize="18sp"
+        android:id="@+id/sheet_lga"
+        android:textColor="@color/text_color_clear_white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/sheet_ward"
+        android:drawablePadding="5dp"
+        android:textSize="18sp"
+        android:textColor="@color/text_color_clear_white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:drawablePadding="5dp"
+        android:id="@+id/sheet_town"
+        android:textSize="18sp"
+        android:textColor="@color/text_color_clear_white"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+
+            android:id="@+id/btnCancel"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_margin="7dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/text_color_red"
+            android:text="@string/bottom_sheet_cancel"
+            android:textColor="#fff"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="145dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:layout_margin="7dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorGreen"
+            android:baselineAligned="false"
+            android:text="@string/bottom_sheet_confirm"
+            android:textColor="#fff"
+            android:textSize="16dp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
