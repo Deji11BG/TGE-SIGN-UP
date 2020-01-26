@@ -14,5 +14,7 @@
     <dimen name="bottom_sheet_text_view_separation">4dp</dimen>
     <dimen name="bottom_offset_dp">80dp</dimen>
     <dimen name="bottom_sheet_padding_tg_home">40dp</dimen>
-    <dimen name="check_list_text_size">20sp</dimen>
+    <dimen name="check_list_text_size">13sp</dimen>
+    <dimen name="check_list_preamble_text_size">15sp</dimen>
+    <dimen name="default_gap">8dip</dimen>
 </resources>

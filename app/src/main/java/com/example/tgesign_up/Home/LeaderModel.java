@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
+import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -230,9 +231,9 @@ public class LeaderModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public static abstract class getLeaderDetails extends AsyncTask<String, Void, List<LeaderModel>> {
+    public static abstract class getLeaderDetails extends AsyncTask<Void, Void, List<prospectiveTGETable>> {
         Context mCtx;
-        List<LeaderModel> leaderModelList = new ArrayList<>();
+        List<prospectiveTGETable> leaderModelList = new ArrayList<>();
         TFMDatabase tfmDatabase;
 
         getLeaderDetails(Context context) {
@@ -240,11 +241,10 @@ public class LeaderModel {
         }
 
         @Override
-        protected List<LeaderModel> doInBackground(String... strings) {
+        protected List<prospectiveTGETable> doInBackground(Void... voids) {
             try{
-                Log.d("answer", Arrays.toString(strings));
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
-                leaderModelList = tfmDatabase.getTrustGroupTable().getTrustGroups(strings[0]);
+                leaderModelList = tfmDatabase.getProspectiveTGEDao().getLeaders();
                 return leaderModelList;
             }catch (Exception e){
                 e.printStackTrace();
@@ -252,6 +252,30 @@ public class LeaderModel {
             }
         }
     }
+
+//    @SuppressLint("StaticFieldLeak")
+//    public static abstract class getLeaderDetails extends AsyncTask<String, Void, List<LeaderModel>> {
+//        Context mCtx;
+//        List<LeaderModel> leaderModelList = new ArrayList<>();
+//        TFMDatabase tfmDatabase;
+//
+//        getLeaderDetails(Context context) {
+//            this.mCtx = context;
+//        }
+//
+//        @Override
+//        protected List<LeaderModel> doInBackground(String... strings) {
+//            try{
+//                Log.d("answer", Arrays.toString(strings));
+//                tfmDatabase = TFMDatabase.getInstance(mCtx);
+//                leaderModelList = tfmDatabase.getTrustGroupTable().getTrustGroups(strings[0]);
+//                return leaderModelList;
+//            }catch (Exception e){
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//    }
 
     @SuppressLint("StaticFieldLeak")
     int getMemberCountResult(Context context, String unique_ik_number) {

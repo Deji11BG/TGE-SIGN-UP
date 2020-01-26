@@ -6,15 +6,146 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <TextView-->
-<!--        android:id="@+id/tv_select_state"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="1"-->
-<!--        android:textSize="20dp"-->
-<!--        android:fontFamily="sans-serif-black"-->
-<!--        android:text="@string/tv_fil_fields" />-->
-<!--    -->
+
+    <!--    <LinearLayout-->
+
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:gravity="center"-->
+    <!--        android:id="@+id/location_info_radio_vertical"-->
+    <!--        android:layout_below="@id/tv_select_state"-->
+
+    <!--        >-->
+
+
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical"-->
+    <!--            android:layout_weight="0.25"-->
+    <!--            android:id="@+id/radioButtonLayout1"-->
+
+    <!--            android:gravity="center">-->
+
+
+
+
+    <!--            <RadioButton-->
+    <!--                android:id="@+id/radioButton1"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:onClick="rb1Clicked"-->
+    <!--                android:layout_centerHorizontal="true"/>-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/rb_textview1"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_weight="1"-->
+
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:text="TextView" />-->
+
+    <!--        </LinearLayout>-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical"-->
+    <!--            android:layout_weight="0.25"-->
+    <!--            android:id="@+id/radioButtonLayout2"-->
+
+    <!--            android:gravity="center">-->
+
+
+    <!--            <RadioButton-->
+    <!--                android:id="@+id/radioButton2"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:onClick="rb2Clicked"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_centerHorizontal="true"/>-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/rb_textview2"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:text="TextView" />-->
+
+    <!--        </LinearLayout>-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical"-->
+    <!--            android:id="@+id/radioButtonLayout3"-->
+
+    <!--            android:layout_weight="0.25"-->
+    <!--            android:gravity="center">-->
+
+
+    <!--            <RadioButton-->
+    <!--                android:id="@+id/radioButton3"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:onClick="rb3Clicked"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_centerHorizontal="true"/>-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/rb_textview3"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:text="TextView" />-->
+
+    <!--        </LinearLayout>-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical"-->
+    <!--            android:id="@+id/radioButtonLayout4"-->
+
+    <!--            android:layout_weight="0.25"-->
+    <!--            android:gravity="center">-->
+
+
+    <!--            <RadioButton-->
+    <!--                android:id="@+id/radioButton4"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:onClick="rb4Clicked"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_centerHorizontal="true"/>-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/rb_textview4"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:text="TextView" />-->
+
+    <!--        </LinearLayout>-->
+
+
+
+    <!--    </LinearLayout>-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -60,6 +191,27 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:id="@+id/et_location_lga"-->
+    <!--    android:layout_marginTop="50dp"-->
+    <!--    android:layout_below="@id/location_info_radio_vertical"-->
+    <!--    style="@style/AppTextField"-->
+    <!--    android:hint="@string/et_location_lga"-->
+    <!--    android:visibility="gone"-->
+    <!--    >-->
+
+
+    <!--    <com.google.android.material.textfield.TextInputEditText-->
+    <!--        android:id="@+id/et_location_lga_val"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:textSize="16dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:inputType="text" />-->
+
+    <!--</com.google.android.material.textfield.TextInputLayout>-->
+
 
 
 
@@ -86,7 +238,71 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:id="@+id/et_location_ward"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:layout_below="@id/et_location_lga"-->
+    <!--        style="@style/AppTextField"-->
+    <!--        android:hint="@string/et_location_ward"-->
+    <!--        android:visibility="gone"-->
+    <!--        >-->
 
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:id="@+id/et_location_ward_val"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:textSize="16dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:inputType="text" />-->
+
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sp_location_town"
+        android:visibility="visible"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@id/sp_location_ward"
+        style="@style/ExposedDropdownMenu"
+        android:hint="@string/ac_location_town"
+
+        >
+
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:editable="true"
+            android:id="@+id/ac_location_town"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:id="@+id/et_location_town"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:layout_below="@id/et_location_lga"-->
+    <!--        style="@style/AppTextField"-->
+    <!--        android:hint="@string/et_location_ward"-->
+    <!--        android:visibility="gone"-->
+    <!--        >-->
+
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:id="@+id/et_location_town_val"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:textSize="16dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:inputType="text" />-->
+
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/next"

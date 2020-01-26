@@ -23,6 +23,7 @@ import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
 import com.example.tgesign_up.Home.LeaderModel;
 import com.example.tgesign_up.Home.TFMHomePresenter;
 import com.example.tgesign_up.R;
+import com.example.tgesign_up.TGHome;
 
 import java.io.File;
 import java.util.List;
@@ -143,8 +144,8 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
                 Intent intent = new Intent (mCtx, TGHome.class);
                 mCtx.startActivity(intent);
             }else{
-                Intent intent = new Intent (mCtx, CheckList.class);
-                mCtx.startActivity(intent);
+                /*Intent intent = new Intent (mCtx, CheckList.class);
+                mCtx.startActivity(intent);*/
             }
 
         }

@@ -11,7 +11,7 @@
 
     <include layout="@layout/loc_activity_schedule_info" />
 
-    <include layout="@layout/loc_test_new_confirmation_dialog" />
+    <include layout="@layout/schedule_bottomsheet" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

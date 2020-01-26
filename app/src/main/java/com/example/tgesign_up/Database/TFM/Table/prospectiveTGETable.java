@@ -1,11 +1,22 @@
 package com.example.tgesign_up.Database.TFM.Table;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 
 import com.example.tgesign_up.Database.TFM.TFMDBContractClass;
+import com.example.tgesign_up.Database.TFM.TFMDatabase;
+import com.example.tgesign_up.Home.LeaderModel;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity(primaryKeys = {TFMDBContractClass.COL_UNIQUE_MEMBER_ID},
         indices = {@Index(value = TFMDBContractClass.COL_UNIQUE_MEMBER_ID, unique = true)},
@@ -16,9 +27,6 @@ public class prospectiveTGETable {
     @ColumnInfo(name = TFMDBContractClass.COL_UNIQUE_MEMBER_ID)//
     @NonNull
     private String unique_member_id;
-
-    @ColumnInfo(name = TFMDBContractClass.TGE_ID)
-    private String tge_id;
 
     @ColumnInfo(name = TFMDBContractClass.COL_MEMBER_ID)
     private String member_id;
@@ -35,28 +43,21 @@ public class prospectiveTGETable {
     @ColumnInfo(name = TFMDBContractClass.COL_TEMPLATE)//
     private String template;
 
-    @ColumnInfo(name = TFMDBContractClass.COL_ROLE)//
-    private String role;
-    @ColumnInfo(name = TFMDBContractClass.COL_REG_DATE)//
-    private String regdate;
     @ColumnInfo(name = TFMDBContractClass.COL_SYNC_FLAG)
     private String sync_flag;
+
     @ColumnInfo(name = TFMDBContractClass.ACTIVE_FLAG)
     private String active_flag;
 
-    public prospectiveTGETable(@NonNull String unique_member_id, String tge_id, String ik_number,
-                           String member_id, String first_name, String middle_name, String last_name,
-                           String role, String template, String regdate,String active_flag,String sync_flag) {
+    public prospectiveTGETable(@NonNull String unique_member_id, String member_id,
+                               String first_name, String middle_name, String last_name,
+                               String template, String active_flag,String sync_flag) {
         this.unique_member_id = unique_member_id;
         this.member_id = member_id;
         this.first_name = first_name;
         this.middle_name = middle_name;
         this.last_name = last_name;
-        this.tge_id=tge_id;
-
-        this.role = role;
         this.template = template;
-        this.regdate = regdate;
         this.active_flag=active_flag;
         this.sync_flag=sync_flag;
     }
@@ -72,14 +73,6 @@ public class prospectiveTGETable {
 
     public void setUnique_member_id(@NonNull String unique_member_id) {
         this.unique_member_id = unique_member_id;
-    }
-
-    public String getTge_id() {
-        return tge_id;
-    }
-
-    public void setTge_id(String tge_id) {
-        this.tge_id = tge_id;
     }
 
     public String getMember_id() {
@@ -114,28 +107,12 @@ public class prospectiveTGETable {
         this.last_name = last_name;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getTemplate() {
         return template;
     }
 
     public void setTemplate(String template) {
         this.template = template;
-    }
-
-    public String getRegdate() {
-        return regdate;
-    }
-
-    public void setRegdate(String regdate) {
-        this.regdate = regdate;
     }
 
     public String getSync_flag() {
@@ -153,6 +130,31 @@ public class prospectiveTGETable {
     public void setActive_flag(String active_flag) {
         this.active_flag = active_flag;
     }
+
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getLeaderDetails extends AsyncTask<Void, Void, List<prospectiveTGETable>> {
+        Context mCtx;
+        List<prospectiveTGETable> leaderModelList = new ArrayList<>();
+        TFMDatabase tfmDatabase;
+
+        getLeaderDetails(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected List<prospectiveTGETable> doInBackground(Void... voids) {
+            try{
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                leaderModelList = tfmDatabase.getProspectiveTGEDao().getLeaders();
+                return leaderModelList;
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
 
 
 }
