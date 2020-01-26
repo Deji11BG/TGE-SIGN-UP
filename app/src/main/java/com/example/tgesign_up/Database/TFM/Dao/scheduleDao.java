@@ -25,7 +25,6 @@ public interface scheduleDao {
             TFMDBContractClass.TABLE_SCHEDULE +" WHERE schedule_sync_flag ='0'")
     List<scheduleTable> getUnsynced();
 
-
     @Query("SELECT ward,first_day,first_time,second_day,second_time,slot_id,schedule_count FROM " +
             TFMDBContractClass.TABLE_SCHEDULE +" WHERE ward = :ward AND schedule_count <20")
     List<scheduleTable> getschedule(String ward);
@@ -37,7 +36,7 @@ public interface scheduleDao {
      * @param schedule, object to be inserted
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(scheduleDao schedule);
+    void insert(List<scheduleTable> schedule);
 
     /**
      * update the object in database

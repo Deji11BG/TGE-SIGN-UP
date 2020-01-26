@@ -8,8 +8,8 @@ import androidx.room.Entity;
 import androidx.room.Index;
 
 
-@Entity(primaryKeys = {TFMDBContractClass.WARD},
-        indices = {@Index(value = TFMDBContractClass.WARD, unique = true)},
+@Entity(primaryKeys = {TFMDBContractClass.WARD,TFMDBContractClass.SLOTID},
+        //indices = {@Index(value = {TFMDBContractClass.WARD,TFMDBContractClass.SLOTID}, unique = true)},
         tableName = TFMDBContractClass.TABLE_SCHEDULE)
 
 public class scheduleTable {

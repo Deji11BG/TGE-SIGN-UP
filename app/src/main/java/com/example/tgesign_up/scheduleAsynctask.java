@@ -61,8 +61,9 @@ public class scheduleAsynctask {
                 // Room.databaseBuilder(context,
                 //TFMDatabase.class, "DB").build();
                 tfmDatabase = TFMDatabase.getInstance(context);
+                String ward =sharedPreference.getWard();
 
-                return tfmDatabase.getscheduleTable().getschedule("");
+                return tfmDatabase.getscheduleTable().getschedule(ward);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -96,10 +97,12 @@ public class scheduleAsynctask {
 
                 String count=sharedPreference.getScheduleCount();
                 Integer countInt= Integer.valueOf(count);
+                String ward=sharedPreference.getWard();
+                String slot_id=sharedPreference.getSlotId();
 
                 //fd.fieldsdao().updateFieldStatusRoom(field_id,status);
 
-                tfmDatabase.getscheduleTable().updateScheduleCount(countInt,field_id,sync_status);
+                tfmDatabase.getscheduleTable().updateScheduleCount(countInt,ward,slot_id);
 
             }catch (Exception e){
                 e.printStackTrace();

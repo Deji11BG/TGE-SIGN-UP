@@ -22,10 +22,11 @@ import com.example.tgesign_up.Database.TFM.Table.OldMembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
 import com.example.tgesign_up.Database.TFM.Table.TFMTemplateTrackerTable;
 import com.example.tgesign_up.Database.TFM.Table.TrustGroupTable;
+import com.example.tgesign_up.Database.TFM.Table.scheduleTable;
 
 
 @Database(entities = {MembersTable.class , OldMembersTable.class, TrustGroupTable.class,
-        TFMAppVariables.class, CheckListTable.class, LastSyncTable.class, TFMTemplateTrackerTable.class},
+        TFMAppVariables.class, CheckListTable.class, LastSyncTable.class, TFMTemplateTrackerTable.class, scheduleTable.class},
 
         version = TFMDBContractClass.TFM_DATABASE_VERSION, exportSchema = false)
 
