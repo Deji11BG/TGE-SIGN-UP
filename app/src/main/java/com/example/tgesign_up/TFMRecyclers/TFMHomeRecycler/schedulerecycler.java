@@ -1,5 +1,6 @@
 package com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
 import com.example.tgesign_up.R;
 import com.example.tgesign_up.TGHomeMVP.schedulemodel;
+import com.example.tgesign_up.scheduleAsynctask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +140,10 @@ public class schedulerecycler extends RecyclerView.Adapter<schedulerecycler.View
                                     String count=sharedPreferenceController.getScheduleCount();
                                     Integer countInt=Integer.valueOf(count)+1;
                                     sharedPreferenceController.schedulecount(String.valueOf(countInt));
+                                    @SuppressLint("StaticFieldLeak")
+                                    scheduleAsynctask.updateScheduleCount x = new scheduleAsynctask.updateScheduleCount(mContext) {
+
+                                    };
 
                                     //mContext.startActivity(intent);
 
