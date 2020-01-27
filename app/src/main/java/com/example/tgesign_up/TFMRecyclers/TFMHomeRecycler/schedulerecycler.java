@@ -140,6 +140,7 @@ public class schedulerecycler extends RecyclerView.Adapter<schedulerecycler.View
                                     String count=sharedPreferenceController.getScheduleCount();
                                     Integer countInt=Integer.valueOf(count)+1;
                                     sharedPreferenceController.schedulecount(String.valueOf(countInt));
+                                    Log.d("selectresult",slotID+firstDay+" "+first_time+" "+second_time+count);
                                     @SuppressLint("StaticFieldLeak")
                                     scheduleAsynctask.updateScheduleCount x = new scheduleAsynctask.updateScheduleCount(mContext) {
 

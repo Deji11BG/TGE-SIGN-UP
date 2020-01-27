@@ -36,7 +36,7 @@ public interface scheduleDao {
      * @param schedule, object to be inserted
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<scheduleTable> schedule);
+    void insert(scheduleTable schedule);
 
     /**
      * update the object in database

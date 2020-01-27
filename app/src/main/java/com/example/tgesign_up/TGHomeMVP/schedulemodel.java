@@ -12,10 +12,11 @@ public class schedulemodel {
     private String second_day;
     private String second_time;
 
-    private String schedulecount;
+    private Integer schedulecount;
+    private String schedule_flag;
 
     public schedulemodel(String ward, String slot_id, String first_time, String first_day,
-                       String second_time, String second_day, String schedule_count  ) {
+                       String second_time, String second_day,String schedule_flag, Integer schedule_count  ) {
 
         this.ward = ward;
         this.slot_id = slot_id;
@@ -24,11 +25,20 @@ public class schedulemodel {
         this.second_day = second_day;
         this.second_time = second_time;
         this.schedulecount = schedule_count;
+        this.schedule_flag=schedule_flag;
 
     }
 
     public String getWard() {
         return ward;
+    }
+
+    public String getSchedule_flag() {
+        return schedule_flag;
+    }
+
+    public void setSchedule_flag(String schedule_flag) {
+        this.schedule_flag = schedule_flag;
     }
 
     public void setWard(String ward) {
@@ -75,11 +85,11 @@ public class schedulemodel {
         this.second_time = second_time;
     }
 
-    public String getSchedulecount() {
+    public Integer getSchedulecount() {
         return schedulecount;
     }
 
-    public void setSchedulecount(String schedulecount) {
+    public void setSchedulecount(Integer schedulecount) {
         this.schedulecount = schedulecount;
     }
 }

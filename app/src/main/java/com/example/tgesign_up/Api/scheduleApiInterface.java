@@ -2,6 +2,7 @@ package com.example.tgesign_up.Api;
 
 import com.example.tgesign_up.Database.TFM.Table.scheduleTable;
 import com.example.tgesign_up.Home.OldMembersDownloadModel;
+import com.example.tgesign_up.TGHomeMVP.schedulemodel;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface scheduleApiInterface {
     Call<List<scheduleTable>> syncUpSchedule(@Field("wordlist") String sync_up_data);
 
     @GET("TGEsignup_schedule_syncdown.php")
-    Call<List<scheduleTable>> syncDownSchedule();
+    Call<List<schedulemodel>> syncDownSchedule();
 }
