@@ -33,7 +33,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class scheduleAsynctask {
 
-
     @SuppressLint("StaticFieldLeak")
     public static class getshedule extends AsyncTask<String, Void, List<scheduleTable>>{
 
@@ -106,6 +105,7 @@ public class scheduleAsynctask {
             return null;
         }
     }
+
 
 }
 

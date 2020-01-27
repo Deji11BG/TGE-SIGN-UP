@@ -7,12 +7,14 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.scheduleTable;
 import com.example.tgesign_up.ScheduleInfo;
 import com.example.tgesign_up.TGHomeMVP.schedulemodel;
+import com.example.tgesign_up.scheduleDefaultResponse;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +47,7 @@ public class uploadSchedule {
     private List<SyncingResponseTFM> syncingResponseTFM = new ArrayList<>();
     private List<scheduleTable> membersTableList = new ArrayList<>();
     private List<schedulemodel> oldMembersDownloadModelList = new ArrayList<>();
+    List<scheduleTable> unsyncedFields;
 
 
 
@@ -167,6 +170,61 @@ public class uploadSchedule {
     }
 
 
+    private void startFieldMappingSync() {
 
+        TFMDatabase tfmDatabase;
+        tfmDatabase = TFMDatabase.getInstance(context);
+
+        unsyncedFields = tfmDatabase.getscheduleTable().getUnsynced();
+
+        //access the count through the integer unsyncedFM
+
+        //sync start
+        if (unsyncedFields.isEmpty()) {
+            //Toast.makeText(StartSync.this, "Field Mapping Table up to date", Toast.LENGTH_LONG).show();
+        } else {
+            apiInterface = ApiClient.getApiClient().create(scheduleApiInterface.class);
+
+            //ApiInterface service = ApiClient.getInstance().create(scheduleApiInterface.class);
+
+            Call<List<scheduleDefaultResponse>> call = apiInterface.syncUpSchedule(new Gson().toJson(unsyncedFields));
+            //Call<List<schedulemodel>> call = apiInterface.syncDownSchedule(ward);
+
+            Log.d("CHECK", new Gson().toJson(unsyncedFields));
+
+            call.enqueue(new Callback<List<scheduleDefaultResponse>>() {
+                @Override
+                public void onResponse(@NonNull Call<List<scheduleDefaultResponse>> call, @NonNull Response<List<scheduleDefaultResponse>> response) {
+                    List<scheduleDefaultResponse> syncingResponse = response.body();
+
+                    if (syncingResponse != null) {
+                        for(scheduleDefaultResponse h: syncingResponse){
+                            Log.d("CHECK", "Field ID: " + h.getSchedule_flag() + " Sync Status: "  + " Last synced: " + h.getLast_synced());
+                            //fd.fieldsdao().updateSyncStatusRoom(h.getStatus(), h.getField_id());
+                            SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
+                            //sharedPreferenceController.setFMflagsandDescriptions("1","sync success");
+                            //sharedPreferenceController.setLastSyncTimefm(h.getLast_synced());
+
+                        }
+                    }
+                    else{
+                        SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
+                        //sharedPreferenceController.setFMflagsandDescriptions("0","sync failure");
+                    }
+                    //Toast.makeText(StartSync.this, "Field's Table Successfully Uploaded", Toast.LENGTH_LONG).show();
+
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<List<scheduleDefaultResponse>> call, @NonNull Throwable t) {
+                    Toast.makeText(context, "Failed : " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
+                    //sharedPreferenceController.setFMflagsandDescriptions("0","sync failure");
+
+                }
+            });
+
+        }
+    }
 
 }
