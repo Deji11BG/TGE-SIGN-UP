@@ -18,6 +18,6 @@ public interface scheduleApiInterface {
     @POST("tgesignup_schedule_syncup.php")
     Call<List<scheduleTable>> syncUpSchedule(@Field("wordlist") String sync_up_data);
 
-    @GET("TGEsignup_schedule_syncdown.php")
-    Call<List<schedulemodel>> syncDownSchedule();
+    @GET("downloadSignUpWardSchedule.php")
+    Call<List<schedulemodel>> syncDownSchedule(String ward);
 }

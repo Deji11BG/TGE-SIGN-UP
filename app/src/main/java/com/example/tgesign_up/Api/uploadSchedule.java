@@ -73,9 +73,10 @@ public class uploadSchedule {
 
         SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
         //String last_synced = sharedPreferenceController.getTfmOutputSyncTime();
+        String ward =sharedPreferenceController.getWard();
 
         apiInterface = ApiClient.getApiClient().create(scheduleApiInterface.class);
-        Call<List<schedulemodel>> call = apiInterface.syncDownSchedule();
+        Call<List<schedulemodel>> call = apiInterface.syncDownSchedule(ward);
 
         call.enqueue(new Callback<List<schedulemodel>>() {
             @SuppressWarnings("unchecked")
