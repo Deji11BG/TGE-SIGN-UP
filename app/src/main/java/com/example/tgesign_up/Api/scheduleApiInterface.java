@@ -2,6 +2,8 @@ package com.example.tgesign_up.Api;
 
 import com.example.tgesign_up.Database.TFM.Table.scheduleTable;
 import com.example.tgesign_up.Home.OldMembersDownloadModel;
+import com.example.tgesign_up.TGHomeMVP.schedulemodel;
+import com.example.tgesign_up.scheduleDefaultResponse;
 
 import java.util.List;
 
@@ -14,9 +16,9 @@ import retrofit2.http.Query;
 
 public interface scheduleApiInterface {
     @FormUrlEncoded
-    @POST("tgesignup_schedule_syncup.php")
-    Call<List<scheduleTable>> syncUpSchedule(@Field("wordlist") String sync_up_data);
+    @POST("uploadSignUpWardSchedule")
+    Call<List<scheduleDefaultResponse>> syncUpSchedule(@Field("wordlist") String sync_up_data);
 
-    @GET("TGEsignup_schedule_syncdown.php")
-    Call<List<scheduleTable>> syncDownSchedule();
+    @GET("downloadSignUpWardSchedule")
+    Call<List<schedulemodel>> syncDownSchedule(String ward);
 }

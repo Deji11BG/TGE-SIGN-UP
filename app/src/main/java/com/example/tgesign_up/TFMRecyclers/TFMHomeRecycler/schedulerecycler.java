@@ -1,5 +1,6 @@
 package com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,9 +13,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.tgesign_up.Api.uploadSchedule;
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
 import com.example.tgesign_up.R;
 import com.example.tgesign_up.TGHomeMVP.schedulemodel;
+import com.example.tgesign_up.scheduleAsynctask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +141,14 @@ public class schedulerecycler extends RecyclerView.Adapter<schedulerecycler.View
                                     String count=sharedPreferenceController.getScheduleCount();
                                     Integer countInt=Integer.valueOf(count)+1;
                                     sharedPreferenceController.schedulecount(String.valueOf(countInt));
+                                    Log.d("selectresult",slotID+firstDay+" "+first_time+" "+second_time+count);
+                                    @SuppressLint("StaticFieldLeak")
+                                    scheduleAsynctask.updateScheduleCount x = new scheduleAsynctask.updateScheduleCount(mContext) {
+
+                                    };
+                                    //uploadSchedule uploadTFMData = new uploadSchedule(this);
+                                    //uploadTFMData.saveScheduleData();
+                                    //saveToScheduleTable();
 
                                     //mContext.startActivity(intent);
 
@@ -162,7 +173,12 @@ public class schedulerecycler extends RecyclerView.Adapter<schedulerecycler.View
 
         }
     }
-
+//    private void saveToScheduleTable() {
+//        uploadSchedule uploadTFMData = new uploadSchedule(mContext);
+//        uploadTFMData.saveScheduleData();
+//        //count = uploadTFMData.countTFMData() + uploadTFMData.countTGData();
+//        //Log.d("tfm_counter", String.valueOf(count));
+//    }
 
 }
 

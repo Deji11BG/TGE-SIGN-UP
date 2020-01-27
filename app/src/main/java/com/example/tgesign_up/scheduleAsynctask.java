@@ -33,7 +33,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class scheduleAsynctask {
 
-
     @SuppressLint("StaticFieldLeak")
     public static class getshedule extends AsyncTask<String, Void, List<scheduleTable>>{
 
@@ -89,12 +88,8 @@ public class scheduleAsynctask {
 
 
             try{
-                String memberID,fieldstatus;
-                tfmDatabase = TFMDatabase.getInstance(context);
-                final String status="inactive";
-                final String sync_status="0";
-                String field_id= member.getString("field_id_active", "Sodipo");
 
+                tfmDatabase = TFMDatabase.getInstance(context);
                 String count=sharedPreference.getScheduleCount();
                 Integer countInt= Integer.valueOf(count);
                 String ward=sharedPreference.getWard();
@@ -110,6 +105,7 @@ public class scheduleAsynctask {
             return null;
         }
     }
+
 
 }
 
