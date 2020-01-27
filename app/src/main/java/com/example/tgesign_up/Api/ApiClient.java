@@ -15,8 +15,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 class ApiClient {
 
-    private static final String BASE_URL = "http://172.168.1.32/tgl_recruitment_tfm/";
-//    private static final String BASE_URL = "http://apps.babbangona.com/mkt_app/tfm/";
+    //private static final String BASE_URL = "http://172.168.1.32/tgl_recruitment_tfm/";
+  private static final String BASE_URL = "http://apps.babbangona.com/sign_up_app/public/api/v1/";
+//private static final String BASE_URL = "http://172.168.1.32/tgl_recruitment_tfm/";
+
     private static Retrofit retrofit = null;
 
 
