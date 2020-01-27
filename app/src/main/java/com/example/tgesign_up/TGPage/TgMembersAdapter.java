@@ -92,8 +92,6 @@ public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.Prod
         TextView memberVillage;
         CardView memberCard;
 
-
-
         ProductViewHolder(View itemView) {
             super(itemView);
 
@@ -102,9 +100,7 @@ public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.Prod
             memberVillage= itemView.findViewById(R.id.tv_member_village);
             memberCard= itemView.findViewById(R.id.member_card);
 
-
         }
-
 
     }
 
