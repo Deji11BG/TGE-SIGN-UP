@@ -89,12 +89,8 @@ public class scheduleAsynctask {
 
 
             try{
-                String memberID,fieldstatus;
-                tfmDatabase = TFMDatabase.getInstance(context);
-                final String status="inactive";
-                final String sync_status="0";
-                String field_id= member.getString("field_id_active", "Sodipo");
 
+                tfmDatabase = TFMDatabase.getInstance(context);
                 String count=sharedPreference.getScheduleCount();
                 Integer countInt= Integer.valueOf(count);
                 String ward=sharedPreference.getWard();
