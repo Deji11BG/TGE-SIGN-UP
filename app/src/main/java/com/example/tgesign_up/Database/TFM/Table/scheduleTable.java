@@ -19,6 +19,7 @@ public class scheduleTable {
     public String ward;
 
     @ColumnInfo(name = TFMDBContractClass.SLOTID)
+    @NonNull
     public String slot_id;
 
     @ColumnInfo(name = TFMDBContractClass.FIRST_DAY)

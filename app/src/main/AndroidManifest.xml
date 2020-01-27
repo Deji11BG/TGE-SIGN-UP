@@ -52,6 +52,9 @@
             android:name=".CaptureActivity" />
         <activity
             android:name=".VerifyActivity" />
+        <activity
+            android:name=".ScheduleInfo"
+            android:theme="@style/AppTheme.NoActionBar" />/>
     </application>
 
 </manifest>
