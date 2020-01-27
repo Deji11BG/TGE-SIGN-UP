@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity{
                 prospectiveTGEInsertResult();
 
                 //function call to the method that reads prospective TGL data from asset
-                prospectiveTGLInsertResult();
+                //prospectiveTGLInsertResult();
 
                 new CountDownTimer(10000,1000){
                     @Override
