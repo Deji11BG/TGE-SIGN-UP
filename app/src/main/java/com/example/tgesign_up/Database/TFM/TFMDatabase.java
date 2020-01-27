@@ -16,6 +16,7 @@ import com.example.tgesign_up.Database.TFM.Dao.TFMTemplateTrackerTableDao;
 import com.example.tgesign_up.Database.TFM.Dao.TGEDao;
 import com.example.tgesign_up.Database.TFM.Dao.prospectiveTGEDao;
 import com.example.tgesign_up.Database.TFM.Dao.prospectiveTGLDao;
+import com.example.tgesign_up.Database.TFM.Dao.scheduleDao;
 import com.example.tgesign_up.Database.TFM.Table.CheckListTable;
 import com.example.tgesign_up.Database.TFM.Table.LastSyncTable;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
@@ -30,8 +31,7 @@ import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
 
 @Database(entities = {MembersTable.class , OldMembersTable.class, TGE.class,
         TFMAppVariables.class, CheckListTable.class, LastSyncTable.class,
-        TFMTemplateTrackerTable.class, prospectiveTGETable.class, prospectiveTGLTable.class},
-        TFMAppVariables.class, CheckListTable.class, LastSyncTable.class, TFMTemplateTrackerTable.class, scheduleTable.class},
+        TFMTemplateTrackerTable.class, prospectiveTGETable.class, prospectiveTGLTable.class, scheduleTable.class},
 
         version = TFMDBContractClass.TFM_DATABASE_VERSION, exportSchema = false)
 
