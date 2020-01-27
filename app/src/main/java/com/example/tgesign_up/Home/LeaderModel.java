@@ -194,46 +194,9 @@ public class LeaderModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    String getFinishedCheckListFlagResult(Context context, String unique_ik_number) {
-        String result ;
-        try {
-            result = new getFinishedCheckListFlag(context){
-                @Override
-                protected void onPostExecute(String s) {}
-            }.execute(unique_ik_number).get();
-        } catch (ExecutionException | InterruptedException e) {
-            result = "0";
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public static abstract class getFinishedCheckListFlag extends AsyncTask<String, Void, String> {
+    public static abstract class getLeaderDetails extends AsyncTask<Void, Void, List<prospectiveTGETable.prospectiveTGETableRecycler>> {
         Context mCtx;
-        TFMDatabase tfmDatabase;
-
-        getFinishedCheckListFlag(Context context) {
-            this.mCtx = context;
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try{
-                Log.d("answer_checkListFlag", Arrays.toString(strings));
-                tfmDatabase = TFMDatabase.getInstance(mCtx);
-                return tfmDatabase.getTrustGroupTable().getFinishedCheckList(strings[0]);
-            }catch (Exception e){
-                e.printStackTrace();
-                return "0";
-            }
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public static abstract class getLeaderDetails extends AsyncTask<Void, Void, List<prospectiveTGETable>> {
-        Context mCtx;
-        List<prospectiveTGETable> leaderModelList = new ArrayList<>();
+        List<prospectiveTGETable.prospectiveTGETableRecycler> leaderModelList = new ArrayList<>();
         TFMDatabase tfmDatabase;
 
         getLeaderDetails(Context context) {
@@ -241,7 +204,7 @@ public class LeaderModel {
         }
 
         @Override
-        protected List<prospectiveTGETable> doInBackground(Void... voids) {
+        protected List<prospectiveTGETable.prospectiveTGETableRecycler> doInBackground(Void... voids) {
             try{
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
                 leaderModelList = tfmDatabase.getProspectiveTGEDao().getLeaders();
@@ -253,29 +216,77 @@ public class LeaderModel {
         }
     }
 
-//    @SuppressLint("StaticFieldLeak")
-//    public static abstract class getLeaderDetails extends AsyncTask<String, Void, List<LeaderModel>> {
-//        Context mCtx;
-//        List<LeaderModel> leaderModelList = new ArrayList<>();
-//        TFMDatabase tfmDatabase;
-//
-//        getLeaderDetails(Context context) {
-//            this.mCtx = context;
-//        }
-//
-//        @Override
-//        protected List<LeaderModel> doInBackground(String... strings) {
-//            try{
-//                Log.d("answer", Arrays.toString(strings));
-//                tfmDatabase = TFMDatabase.getInstance(mCtx);
-//                leaderModelList = tfmDatabase.getTrustGroupTable().getTrustGroups(strings[0]);
-//                return leaderModelList;
-//            }catch (Exception e){
-//                e.printStackTrace();
-//                return null;
-//            }
-//        }
-//    }
+    @SuppressLint("StaticFieldLeak")
+    String getProspectiveTGETemplateResult(Context context, String unique_member_id) {
+        String result ;
+        try {
+            result = new getProspectiveTGETemplate(context){
+                @Override
+                protected void onPostExecute(String s) {}
+            }.execute(unique_member_id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            result = "FOUR";
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getProspectiveTGETemplate extends AsyncTask<String, Void, String> {
+        Context mCtx;
+        TFMDatabase tfmDatabase;
+
+        getProspectiveTGETemplate(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try{
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                return tfmDatabase.getProspectiveTGEDao().getLeaderTemplate(strings[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    String getProspectiveTGLTemplateResult(Context context, String unique_member_id) {
+        String result ;
+        try {
+            result = new getProspectiveTGLTemplate(context){
+                @Override
+                protected void onPostExecute(String s) {}
+            }.execute(unique_member_id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            result = "FOUR";
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getProspectiveTGLTemplate extends AsyncTask<String, Void, String> {
+        Context mCtx;
+        TFMDatabase tfmDatabase;
+
+        getProspectiveTGLTemplate(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try{
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                return tfmDatabase.getProspectiveTGLDao().getProspectiveTGLTemplateResult(strings[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
 
     @SuppressLint("StaticFieldLeak")
     int getMemberCountResult(Context context, String unique_ik_number) {

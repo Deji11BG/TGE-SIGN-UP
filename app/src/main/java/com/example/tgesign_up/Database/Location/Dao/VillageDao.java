@@ -31,6 +31,9 @@ public interface VillageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(VillageTable lmrDistData);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<VillageTable> lmrDistData);
+
     /*
      * update the object in database
      * @param data, object to be updated

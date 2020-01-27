@@ -155,5 +155,61 @@ public class prospectiveTGLTable {
         this.active_flag = active_flag;
     }
 
+    public static class prospectiveTGLTableRecycler{
+
+        private String ik_number;
+
+        private String member_id;
+
+        private String first_name;
+
+        private String last_name;
+
+        private String unique_member_id;
+
+        public prospectiveTGLTableRecycler() {
+        }
+
+        public String getUnique_member_id() {
+            return unique_member_id;
+        }
+
+        public void setUnique_member_id(String unique_member_id) {
+            this.unique_member_id = unique_member_id;
+        }
+
+        public String getIk_number() {
+            return ik_number;
+        }
+
+        public void setIk_number(String ik_number) {
+            this.ik_number = ik_number;
+        }
+
+        public String getMember_id() {
+            return member_id;
+        }
+
+        public void setMember_id(String member_id) {
+            this.member_id = member_id;
+        }
+
+        public String getFirst_name() {
+            return first_name;
+        }
+
+        public void setFirst_name(String first_name) {
+            this.first_name = first_name;
+        }
+
+        public String getLast_name() {
+            return last_name;
+        }
+
+        public void setLast_name(String last_name) {
+            this.last_name = last_name;
+        }
+    }
+
 }
 

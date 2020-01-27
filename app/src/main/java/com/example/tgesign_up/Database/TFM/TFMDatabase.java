@@ -14,6 +14,8 @@ import com.example.tgesign_up.Database.TFM.Dao.OldMembersDao;
 import com.example.tgesign_up.Database.TFM.Dao.TFMAppVariablesDao;
 import com.example.tgesign_up.Database.TFM.Dao.TFMTemplateTrackerTableDao;
 import com.example.tgesign_up.Database.TFM.Dao.TGEDao;
+import com.example.tgesign_up.Database.TFM.Dao.prospectiveTGEDao;
+import com.example.tgesign_up.Database.TFM.Dao.prospectiveTGLDao;
 import com.example.tgesign_up.Database.TFM.Table.CheckListTable;
 import com.example.tgesign_up.Database.TFM.Table.LastSyncTable;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
@@ -21,10 +23,13 @@ import com.example.tgesign_up.Database.TFM.Table.OldMembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
 import com.example.tgesign_up.Database.TFM.Table.TFMTemplateTrackerTable;
 import com.example.tgesign_up.Database.TFM.Table.TGE;
+import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
+import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
 
 
 @Database(entities = {MembersTable.class , OldMembersTable.class, TGE.class,
-        TFMAppVariables.class, CheckListTable.class, LastSyncTable.class, TFMTemplateTrackerTable.class},
+        TFMAppVariables.class, CheckListTable.class, LastSyncTable.class,
+        TFMTemplateTrackerTable.class, prospectiveTGETable.class, prospectiveTGLTable.class},
 
         version = TFMDBContractClass.TFM_DATABASE_VERSION, exportSchema = false)
 
@@ -32,7 +37,9 @@ public abstract  class TFMDatabase extends RoomDatabase {
 
     public abstract MembersDao getMembersTable();
     public abstract OldMembersDao getOldMembersTable();
-    public abstract TGEDao getTge();
+    public abstract TGEDao getTGEDao();
+    public abstract prospectiveTGEDao getProspectiveTGEDao();
+    public abstract prospectiveTGLDao getProspectiveTGLDao();
     public abstract TFMAppVariablesDao getTFMAppVariablesTable();
     public abstract CheckListTableDao getCheckListTableDao();
     public abstract LastSyncTableDao getLastSyncTableDao();

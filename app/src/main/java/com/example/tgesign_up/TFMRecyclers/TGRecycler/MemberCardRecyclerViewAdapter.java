@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
 import com.example.tgesign_up.FormMemberInformation;
 import com.example.tgesign_up.R;
-import com.example.tgesign_up.SharedPreferenceController;
 import com.example.tgesign_up.TGHomeMVP.TGHomePresenter;
 import com.example.tgesign_up.TGHomeMVP.TGModel;
 import com.example.tgesign_up.VerifyActivity;
@@ -159,13 +159,13 @@ public class MemberCardRecyclerViewAdapter extends RecyclerView.Adapter<MemberCa
     }
 
     @Override
-    public void displayDialogForOldMembers(String message, Context context, String unique_member_id) {
+    public void displayDialogForOldMembers(String message, final Context context, final String unique_member_id) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setMessage(message);
         builder1.setCancelable(false);
         builder1.setPositiveButton(context.getResources().getString(R.string.ok), (dialog, id) -> {
             dialog.cancel();
-            tgHomePresenter.roleToRegisterController(mCtx,"Member",
+            tgHomePresenter.roleToRegisterController(mCtx, "Member",
                     mCtx.getResources().getString(R.string.registration_action_old_1));
             tgHomePresenter.loadNextActivityFromRecyclerNewMember(context, unique_member_id);
         });

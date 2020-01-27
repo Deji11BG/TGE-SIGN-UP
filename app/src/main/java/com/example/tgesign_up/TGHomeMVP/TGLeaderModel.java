@@ -651,43 +651,6 @@ public class TGLeaderModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public String syncUpTGDataResult(Context context) {
-        String s = "0";
-        try {
-            List<TrustGroupTable> wordList = new syncUpTGData(context){
-            }.execute().get();
-            Gson gson = new Gson();
-            //Use Gson to serialize Array List to JSON
-            s = gson.toJson(wordList,wordList.getClass());
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return s;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public class syncUpTGData extends AsyncTask<String, Void, List<TrustGroupTable>> {
-
-        Context mCtx;
-        TFMDatabase tfmDatabase;
-
-        syncUpTGData(Context context) {
-            this.mCtx = context;
-        }
-
-        @Override
-        protected List<TrustGroupTable> doInBackground(String... strings) {
-            try{
-                tfmDatabase = TFMDatabase.getInstance(mCtx);
-                return tfmDatabase.getTrustGroupTable().getAllTGDataForSync();
-            }catch (Exception e){
-                e.printStackTrace();
-                return new ArrayList<>();
-            }
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
     public void saveMembersTableReturnResult(Context context, SyncingResponseTFM syncingResponse) {
 
         try {
@@ -735,52 +698,6 @@ public class TGLeaderModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void saveTGTableReturnResult(Context context, TrustGroupTable.SyncingResponse syncingResponse) {
-
-        try {
-            new saveTGTableReturn(context){
-            }.execute(syncingResponse).get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * This method saves into database the result of syncing up LMR data Mostly sync_flag and time
-     */
-    @SuppressLint("StaticFieldLeak")
-
-    public class saveTGTableReturn extends AsyncTask<TrustGroupTable.SyncingResponse, Void, Void> {
-
-
-        private final String TAG = saveMembersTableReturn.class.getSimpleName();
-
-        Context mCtx;
-        TFMDatabase tfmDatabase;
-
-        saveTGTableReturn(Context context) {
-            this.mCtx = context;
-        }
-
-        //updateSyncStatus
-
-        @Override
-        protected Void doInBackground(TrustGroupTable.SyncingResponse... params) {
-
-            TrustGroupTable.SyncingResponse member = params[0];
-
-            try {
-                tfmDatabase = TFMDatabase.getInstance(mCtx);
-                tfmDatabase.getTrustGroupTable().updateTGSyncStatus(member.getUnique_ik_number(),member.getSync_flag());
-            } catch (Exception e) {
-                Log.d(TAG, e+"");
-            }
-
-            return null;
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
     public int getTFMDataCountForSyncResult(Context context) {
         int result ;
         try {
@@ -809,42 +726,6 @@ public class TGLeaderModel {
             try{
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
                 return tfmDatabase.getMembersTable().getAllTFMDataCountForSync();
-            }catch (Exception e){
-                e.printStackTrace();
-                return 0;
-            }
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public int getTGDataCountForSyncResult(Context context) {
-        int result ;
-        try {
-            result = new getTGDataCountForSync(context){
-                @Override
-                protected void onPostExecute(Integer s) {}
-            }.execute().get();
-        } catch (ExecutionException | InterruptedException e) {
-            result = 0;
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public static abstract class getTGDataCountForSync extends AsyncTask<String, Void, Integer> {
-        Context mCtx;
-        TFMDatabase tfmDatabase;
-
-        getTGDataCountForSync(Context context) {
-            this.mCtx = context;
-        }
-
-        @Override
-        protected Integer doInBackground(String... strings) {
-            try{
-                tfmDatabase = TFMDatabase.getInstance(mCtx);
-                return tfmDatabase.getTrustGroupTable().getAllTGDataCountForSync();
             }catch (Exception e){
                 e.printStackTrace();
                 return 0;

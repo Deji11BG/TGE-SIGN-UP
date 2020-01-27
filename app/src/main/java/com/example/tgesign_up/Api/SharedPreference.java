@@ -63,6 +63,7 @@ public class SharedPreference {
     public static final String KEY_STAFF_SYNC_TIME = "staff_sync_time";
     public static final String KEY_UNIQUE_ID_FIELD_MAPPING = "unique_id_for_field_mapping";
     public static final String KEY_BUNDLED_TEMPLATE = "bundled_template";
+    public static final String KEY_ACTIVITY_RESULT = "verify_activity_result";
 
     public static final String KEY_ROLE = "role";
 
@@ -90,6 +91,14 @@ public class SharedPreference {
     }
 
     public SharedPreference() {
+    }
+
+    public void setKeyActivityResult(int verify_activity_result){
+        // Storing name in pref
+        editor.putInt(KEY_ACTIVITY_RESULT, verify_activity_result);
+
+        // commit changes
+        editor.commit();
     }
 
     public void setKeyMemberPictureLarge(String member_bitmap_large){
@@ -268,7 +277,9 @@ public class SharedPreference {
         editor.commit();
     }
 
-
+    public int getKeyActivityResult(){
+        return pref.getInt(KEY_ACTIVITY_RESULT,0);
+    }
 
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<>();

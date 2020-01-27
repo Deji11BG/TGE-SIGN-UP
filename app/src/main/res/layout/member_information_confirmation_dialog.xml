@@ -71,26 +71,6 @@
                 android:id="@+id/sex"
                 android:textColor="@color/view_black"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:drawablePadding="5dp"
-                android:text="@string/tfm_member_info_bottom_sheet_crop_type"
-                android:textSize="18sp"
-                android:id="@+id/crop_type"
-                android:textColor="@color/view_black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:drawablePadding="5dp"
-                android:text="@string/tfm_member_info_bottom_sheet_member_role"
-                android:textSize="18sp"
-                android:id="@+id/member_role"
-                android:textColor="@color/view_black"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -158,30 +138,6 @@
                 android:ellipsize="end"
                 android:textColor="@color/view_black"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/bottom_sheet_text_view_separation"
-                android:drawablePadding="5dp"
-                android:text="@string/tfm_member_info_crop_type"
-                android:textSize="18sp"
-                android:id="@+id/bottom_sheet_crop_type"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/view_black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/bottom_sheet_text_view_separation"
-                android:drawablePadding="5dp"
-                android:text="@string/tfm_member_info_member_role"
-                android:textSize="18sp"
-                android:id="@+id/bottom_sheet_member_role"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/view_black"/>
-
         </LinearLayout>
 
     </LinearLayout>
@@ -191,6 +147,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_marginTop="@dimen/default_gap"
         style="?android:attr/buttonBarStyle">
 
         <Button

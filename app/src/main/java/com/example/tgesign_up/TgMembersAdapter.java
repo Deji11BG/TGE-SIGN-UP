@@ -15,8 +15,10 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
+import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
 
 
 import java.util.ArrayList;
@@ -30,13 +32,13 @@ public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.Prod
 
     private Context mCtx;
     ArrayList<Map<String, String>> wordlist;
-    List<TgMembersModel> memberList;
-    private TgMembersModel member;
+    List<prospectiveTGLTable.prospectiveTGLTableRecycler> memberList;
+    private prospectiveTGLTable.prospectiveTGLTableRecycler member;
     SharedPreferenceController sharedPreferenceController;
 
 
 
-    public TgMembersAdapter(Context mCtx, List<TgMembersModel> memberList) {
+    public TgMembersAdapter(Context mCtx, List<prospectiveTGLTable.prospectiveTGLTableRecycler> memberList) {
         this.mCtx = mCtx;
         this.memberList = memberList;
     }
@@ -60,18 +62,21 @@ public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.Prod
         member = memberList.get(position);
         sharedPreferenceController=new SharedPreferenceController(mCtx);
 
-        holder.memberName.setText("Member Name:  "+ member.getMemberName());
-        holder.memberId.setText("Member ID:  "+member.getMemberId());
-        holder.memberVillage.setText("Member Village:  "+member.getMemberVillage());
+        holder.memberName.setText("Member Name:  "+ member.getFirst_name()+" "+ member.getLast_name());
+        holder.memberId.setText("Member ID:  "+member.getMember_id());
+        holder.memberVillage.setText("Member Village:  ");
 
-        holder.memberCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.memberCard.setOnClickListener(view -> {
 
-                sharedPreferenceController.saveUniqueMemberId(member.getUniqueMemberId());
-                Intent i = new  Intent(mCtx,VerifyActivity.class);
-                mCtx.startActivity(i);
-            }
+            SharedPreference sharedPreference = new SharedPreference(mCtx);
+            Intent intent = new Intent(mCtx, VerifyTemplate.class);
+            sharedPreference.setIKNumber(member.getIk_number());
+            sharedPreference.setUniqueMemberId(member.getUnique_member_id());
+            sharedPreference.setKeyRoleToRegisterFor("Member");
+            sharedPreference.setKeyRegistrationAction("new");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mCtx.startActivity(intent);
+
         });
 
     }
@@ -93,7 +98,7 @@ public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.Prod
 
 
 
-        public ProductViewHolder(View itemView) {
+        ProductViewHolder(View itemView) {
             super(itemView);
 
             memberName = itemView.findViewById(R.id.tv_member_name);

@@ -14,9 +14,6 @@ import com.example.tgesign_up.Database.TFM.Table.LastSyncTable;
 @Dao
 public interface LastSyncTableDao {
 
-    @Query("UPDATE " + TFMDBContractClass.TABLE_TRUST_GROUP_DATA + " SET sync_flag = :sync_flag WHERE unique_ik_number = :unique_ik_number")
-    void updateTGSyncStatus(String unique_ik_number, String sync_flag);
-
     /**
      * Insert the object in database
      * @param lastSyncTable, object to be inserted

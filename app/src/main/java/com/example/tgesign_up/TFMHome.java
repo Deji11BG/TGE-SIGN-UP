@@ -1,8 +1,11 @@
 package com.example.tgesign_up;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +25,8 @@ import com.example.tgesign_up.Home.TFMHomeInterface;
 import com.example.tgesign_up.Home.TFMHomePresenter;
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.LeaderCardRecyclerViewAdapter;
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.VerticalSpaceItemDecoration;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -64,7 +67,7 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
         ButterKnife.bind(TFMHome.this);
         tfmHomePresenter = new TFMHomePresenter(TFMHome.this);
         sharedPreference = new SharedPreference(TFMHome.this);
-        HashMap<String,String> user = sharedPreference.getUserDetails();
+//        HashMap<String,String> user = sharedPreference.getUserDetails();
         setSupportActionBar(toolbar_tfm);
         tfmHomePresenter.showFeature(toolbar_linear_layout);
         tfmHomePresenter.hideFeature(search_linear_layout);
@@ -76,7 +79,7 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
         recycler_view.setLayoutManager(layoutManager);
         VerticalSpaceItemDecoration verticalSpaceItemDecoration = new VerticalSpaceItemDecoration(smallPadding);
         recycler_view.addItemDecoration(verticalSpaceItemDecoration);
-        adapter = new LeaderCardRecyclerViewAdapter(tfmHomePresenter.getLeaderList(TFMHome.this,user.get(SharedPreference.KEY_STAFF_ID)),this);
+        adapter = new LeaderCardRecyclerViewAdapter(tfmHomePresenter.getLeaderList(TFMHome.this),this);
         tfmHomePresenter.textWatcher(search_edit_text, adapter);
         recycler_view.setAdapter(adapter);
 
@@ -97,6 +100,7 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Log.d("logging_id", String.valueOf(id));
 
         //noinspection SimplifiableIfStatement
 
@@ -137,8 +141,79 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
     }
 
     @Override
+    public void showDialogForFailedCapture(MaterialAlertDialogBuilder builder, String s, Context context) {
+        builder.setIcon(context.getResources().getDrawable(R.drawable.ic_warning))
+                .setTitle(context.getResources().getString(R.string.tfm_dialog_attention))
+                .setMessage(s)
+                .setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {
+                    //this is to dismiss the dialog
+                    dialog.dismiss();
+                }).setCancelable(false)
+                .show();
+    }
+
+    @Override
     public void onBackPressed(){
         tfmHomePresenter.loadPreviousActivity();
+    }
+
+    /**
+     * This method handles whatever happens after capture or authentication of template
+     * @param requestCode might be 419 or 519 either for edit or leader validation and registration respectively
+     * @param resultCode 0 or 1 depending on whether success or failure of actions from request code
+     * @param data Intent
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        SharedPreference sharedPreference = new SharedPreference(this);
+        if (requestCode == 419) {
+                if (data != null) {
+                    if (data.getIntExtra("RESULT", 0) == 1) {
+                        //old member passes authentication
+                        sharedPreference.setKeyPassAuthentication("1");
+                        loadCaptureActivityWithProgressDialog();
+                    }else{
+                        //old member fails authentication
+                        sharedPreference.setKeyPassAuthentication("0");
+                        loadCaptureActivityWithProgressDialog();
+                    }
+                }
+        }else if (requestCode == 519){
+                if (data != null) {
+                    if (data.getIntExtra("RESULT", 0) == 1) {
+                        //This is supposed to be used for new or old members...
+                        loadFormMemberInformation();
+                    }else if (data.getIntExtra("RESULT", 0) == 2){
+                        tfmHomePresenter.showDialogForFailedCapture(this.getResources().getString(R.string.tfm_face_not_found),TFMHome.this);
+                    }else{
+                        tfmHomePresenter.showDialogForFailedCapture(this.getResources().getString(R.string.tfm_face_already_registered),TFMHome.this);
+
+                    }
+                }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    void loadCaptureActivityWithProgressDialog(){
+        final Intent intent = new Intent(TFMHome.this, CaptureActivity.class);
+        final ProgressDialog pd1 = new ProgressDialog(TFMHome.this);
+        pd1.setMessage(this.getResources().getString(R.string.tfm_wait_for_recapture));
+        pd1.show();
+        new CountDownTimer(5000,1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+            @Override
+            public void onFinish() {
+                pd1.dismiss();
+                startActivityForResult(intent,519);
+            }
+        }.start();
+    }
+
+    void loadFormMemberInformation(){
+        Intent intent = new Intent(this, FormMemberInformation.class);
+        startActivity(intent);
     }
 
 

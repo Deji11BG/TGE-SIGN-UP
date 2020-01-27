@@ -31,5 +31,9 @@ public interface FormMemberLocationInterface {
     void setTextForEdit();
     void getMyLocationValuesFromID(Context context);
     void startActivityForResult();
+    void secretaryPresenceDialog(Context context);
+    void secretaryTGQuestion(Context context);
+    void startHomeActivity();
+    void startTGMembersActivity();
 
 }

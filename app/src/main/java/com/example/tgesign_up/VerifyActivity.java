@@ -7,11 +7,9 @@ import androidx.annotation.NonNull;
 
 import com.babbangona.bgfr.BGFRMode;
 import com.babbangona.bgfr.CustomLuxandActivity;
-import com.example.tgesign_up.Api.SharedPreference;
-import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationPresenter;
+import com.example.tgesign_up.Home.TFMHomePresenter;
 import com.example.tgesign_up.TGHomeMVP.TGHomePresenter;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 public class VerifyActivity extends CustomLuxandActivity{
@@ -55,33 +53,18 @@ public class VerifyActivity extends CustomLuxandActivity{
     @Override
     public void MyFlow() {
         TGHomePresenter tgHomePresenter = new TGHomePresenter();
+        TFMHomePresenter tfmHomePresenter = new TFMHomePresenter();
         String role_to_authenticate_for = getIntent().getStringExtra("role");
-        FormMemberLocationPresenter formMemberLocationPresenter = new FormMemberLocationPresenter();
-        SharedPreference sharedPreference = new SharedPreference(this);
-        HashMap<String, String> user = sharedPreference.getUserDetails();
         String template;
-        if (formMemberLocationPresenter.getRegistrationAction(this)){
+
+        if (Objects.requireNonNull(getIntent().getStringExtra("verification_stage")).equalsIgnoreCase("stage_1")){
             if (role_to_authenticate_for != null && role_to_authenticate_for.equalsIgnoreCase("Leader")) {
-                template = tgHomePresenter.getUniqueIKNumberLeaderTemplate(this);
+                template = tfmHomePresenter.getProspectiveTGETemplate(this);
             }else{
-                template = tgHomePresenter.returnTemplateFromSharedPreference(this);
+                template = tfmHomePresenter.getProspectiveTGLTemplate(this);
             }
         }else{
-            if (role_to_authenticate_for != null && role_to_authenticate_for.equalsIgnoreCase("Leader")) {
-                template = tgHomePresenter.getUniqueIKNumberLeaderTemplate(this);
-            }else{
-                if (Objects.requireNonNull(user.get(SharedPreference.KEY_REGISTRATION_ACTION))
-                        .equalsIgnoreCase(this.getResources().getString(R.string.registration_action_old_1))){
-                    template = tgHomePresenter.getOldMemberTemplate(this,
-                            tgHomePresenter.returnUniqueMemberIDFromSharedPreference(this));
-                }else if (Objects.requireNonNull(user.get(SharedPreference.KEY_REGISTRATION_ACTION))
-                        .equalsIgnoreCase(this.getResources().getString(R.string.registration_action_old_2))){
-                    template = tgHomePresenter.returnTemplateFromSharedPreference(this);
-                }else{
-                    template = tgHomePresenter.getMemberTemplate(this,
-                            tgHomePresenter.returnUniqueMemberIDFromSharedPreference(this));
-                }
-            }
+            template = tgHomePresenter.returnTemplateFromSharedPreference(this);
         }
         LoadTracker(template, BGFRMode.AUTHENTICATE);
     }
@@ -100,9 +83,10 @@ public class VerifyActivity extends CustomLuxandActivity{
 
     @Override
     public void Authenticated() {
+        StopTimer();
         //Handles what happens after authentication
         Intent intentMessage = new Intent();
-        intentMessage.putExtra("RESULT",1);
+        intentMessage.putExtra("RESULT", 1);
         this.setResult(Activity.RESULT_OK,intentMessage);
         this.finish();
     }

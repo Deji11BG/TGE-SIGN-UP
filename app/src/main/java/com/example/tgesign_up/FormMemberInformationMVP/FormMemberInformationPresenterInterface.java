@@ -11,7 +11,7 @@ public interface FormMemberInformationPresenterInterface {
     void checkIfTextViewEmpty(TextInputEditText textInputEditText, TextInputLayout textInputLayout, String error_message);
     void checkIfAutocompleteEmpty(AutoCompleteTextView autoCompleteTextView, TextInputLayout textInputLayout, String error_message);
     int validateMemberInfo(TextInputEditText first_name, TextInputEditText last_name, TextInputEditText phone_number,
-                           TextInputEditText age, AutoCompleteTextView sex, AutoCompleteTextView member_role, AutoCompleteTextView crop_type);
+                           TextInputEditText age, AutoCompleteTextView sex);
     int phoneNumberChecker(TextInputEditText textInputEditText);
     int ageChecker(TextInputEditText textInputEditText);
     void setTextViewError(TextInputLayout textInputLayout, String error_message);
@@ -21,7 +21,7 @@ public interface FormMemberInformationPresenterInterface {
     String getSpinnerContent(AutoCompleteTextView autoCompleteTextView);
     void moveToNextActivity();
     void saveDetailsToSharedPreference(TextInputEditText first_name, TextInputEditText last_name, TextInputEditText phone_number,
-                                       TextInputEditText age, AutoCompleteTextView sex, AutoCompleteTextView member_role, AutoCompleteTextView crop_type,
+                                       TextInputEditText age, AutoCompleteTextView sex,
                                        Context context);
     void loadPreviousActivity();
     void enableEditTextViews(boolean bool);
@@ -33,7 +33,7 @@ public interface FormMemberInformationPresenterInterface {
     String calculateAge(String date_of_birth);
     void controlEditTextAppearance(boolean bool);
     void saveDetailsToModelClass(TextInputEditText first_name, TextInputEditText last_name, TextInputEditText phone_number,
-                                 TextInputEditText age, AutoCompleteTextView sex, AutoCompleteTextView member_role, AutoCompleteTextView crop_type,
+                                 TextInputEditText age, AutoCompleteTextView sex,
                                  Context context);
     void textWatcher(TextInputEditText textInputEditText, String module, TextInputLayout textInputLayout, String error_message);
 }

@@ -5,21 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="com.example.tgesign_up.MainActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/layout1"
         android:background= "@color/text_color_white">
-   <ImageView
-       android:layout_width="200dp"
-       android:layout_height="200dp"
-       android:layout_gravity="center"
-       android:src="@drawable/company_logo_loc"/>
 
-
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@drawable/company_logo_loc"/>
 
     </LinearLayout>
 
@@ -29,9 +28,7 @@
         android:orientation="vertical"
         android:id="@+id/layout2"
         android:layout_marginTop="100dp"
-
         android:layout_below="@id/layout1">
-
 
         <TextView
             android:id="@+id/tv_page_title"
@@ -41,8 +38,7 @@
             android:text=" TGE SIGN-UP"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="30dp"
-            />
+            android:textSize="30dp" />
 
     </LinearLayout>
 
@@ -70,7 +66,7 @@
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:text="@string/mainactivity_next"
-        android:textColor="@color/absolute_black" />
+        android:textColor="@color/colorWhite" />
 
 
 

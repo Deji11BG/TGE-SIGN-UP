@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,7 @@ import android.text.Html;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tgesign_up.Api.GPSController;
 import com.example.tgesign_up.Api.SharedPreference;
+import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationModel;
 import com.example.tgesign_up.TFMRecyclers.TGRecycler.MemberCardRecyclerViewAdapter;
 import com.example.tgesign_up.TGHomeMVP.TGHomeInterface;
@@ -151,11 +154,19 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
         countModel = tgHomePresenter.getLeaderCount(TGHome.this,tgLeaderModel.getUnique_ik_number());
         tgHomePresenter.switchController(sw_leader,countModel.getCount());
 
-        toolbar_tg.setNavigationOnClickListener(view -> tgHomePresenter.loadPreviousActivity());
+        toolbar_tg.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tgHomePresenter.loadPreviousActivity();
+            }
+        });
 
-        sw_leader.setOnTouchListener((view, motionEvent) -> {
-            isTouched = true;
-            return false;
+        sw_leader.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                isTouched = true;
+                return false;
+            }
         });
 
         /*sheetBehavior = BottomSheetBehavior.from(leader_registration_confirmation_dialog);
@@ -296,7 +307,7 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
     public void setLeader_card(){
         SharedPreference sharedPreference = new SharedPreference(getApplicationContext());
         SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(getApplicationContext());
-        HashMap<String, String> user = sharedPreference.getUserDetails();
+        final HashMap<String, String> user = sharedPreference.getUserDetails();
         //creating a popup menu
         PopupMenu popup = new PopupMenu(this, leader_card);
         //inflating menu from xml resource
@@ -313,19 +324,22 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
         }
 
         //adding click listener
-        popup.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.map_field:
-                    //Launches field mapping
-                    tgHomePresenter.loadFieldMappingForLeader(this,tgHomePresenter.getLeaderUniqueID(this,user.get(SharedPreference.KEY_UNIQUE_IK_NUMBER)));
-                    return true;
-                case R.id.edit:
-                    //Edit
-                    tgHomePresenter.roleToRegisterController(this,"Leader","edit");
-                    tgHomePresenter.loadNextActivityForLeaderEdit(this,tgHomePresenter.getLeaderUniqueID(this,user.get(SharedPreference.KEY_UNIQUE_IK_NUMBER)));
-                    return true;
-                default:
-                    return false;
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.map_field:
+                        //Launches field mapping
+                        tgHomePresenter.loadFieldMappingForLeader(TGHome.this, tgHomePresenter.getLeaderUniqueID(TGHome.this, user.get(SharedPreference.KEY_UNIQUE_IK_NUMBER)));
+                        return true;
+                    case R.id.edit:
+                        //Edit
+                        tgHomePresenter.roleToRegisterController(TGHome.this, "Leader", "edit");
+                        tgHomePresenter.loadNextActivityForLeaderEdit(TGHome.this, tgHomePresenter.getLeaderUniqueID(TGHome.this, user.get(SharedPreference.KEY_UNIQUE_IK_NUMBER)));
+                        return true;
+                    default:
+                        return false;
+                }
             }
         });
         //displaying the popup
@@ -432,30 +446,39 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
     public void displaySnackBar(Context context, String message, View view) {
         //View parentLayout = findViewById(android.R.id.content);
         final Snackbar snackBar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
-        snackBar.setAction(context.getResources().getString(R.string.cancel), view1 -> {
-                    //cancel snackBar
-                    snackBar.dismiss();
-                })
+        snackBar.setAction(context.getResources().getString(R.string.cancel), new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+                //cancel snackBar
+                snackBar.dismiss();
+            }
+        })
                 .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
                 .show();
     }
 
     @Override
-    public void displayDialog(String message, Context context){
+    public void displayDialog(String message, final Context context){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setMessage(message);
         builder1.setCancelable(false);
-        builder1.setPositiveButton(context.getResources().getString(R.string.ok), (dialog, id) -> {
-            dialog.cancel();
-            //leader logic changed to
-            tgHomePresenter.roleToRegisterController(context,"Leader","new");
-            //showBottomSheet();
-            //tgHomePresenter.loadNextActivityForLeader();
-            loadFormMemberInformation();
+        builder1.setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                //leader logic changed to
+                tgHomePresenter.roleToRegisterController(context, "Leader", "new");
+                //showBottomSheet();
+                //tgHomePresenter.loadNextActivityForLeader();
+                TGHome.this.loadFormMemberInformation();
+            }
         });
-        builder1.setNeutralButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {
-            dialog.cancel();
-            tgHomePresenter.switchController(sw_leader,countModel.getCount());
+        builder1.setNeutralButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                tgHomePresenter.switchController(sw_leader, countModel.getCount());
+            }
         });
         AlertDialog alert11 = builder1.create();
         alert11.show();
@@ -484,14 +507,20 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
         builder.setIcon(context.getResources().getDrawable(R.drawable.ic_warning))
                 .setTitle(context.getResources().getString(R.string.tfm_dialog_attention))
                 .setMessage(s)
-                .setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {
-                    //this is to dismiss the dialog
-                    dialog.dismiss();
-                    loadVerificationActivity();
-                }).setNeutralButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {
-                    //this dismisses dialog
-                    dialog.dismiss();
-                }).setCancelable(false)
+                .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //this is to dismiss the dialog
+                        dialog.dismiss();
+                        TGHome.this.loadVerificationActivity();
+                    }
+                }).setNeutralButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //this dismisses dialog
+                dialog.dismiss();
+            }
+        }).setCancelable(false)
                 .show();
     }
 
@@ -508,9 +537,12 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
         builder.setIcon(context.getResources().getDrawable(R.drawable.ic_warning))
                 .setTitle(context.getResources().getString(R.string.tfm_dialog_attention))
                 .setMessage(s)
-                .setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {
-                    //this is to dismiss the dialog
-                    dialog.dismiss();
+                .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //this is to dismiss the dialog
+                        dialog.dismiss();
+                    }
                 }).setCancelable(false)
                 .show();
     }
@@ -542,27 +574,36 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
                 .setTitle(context.getResources().getString(R.string.tfm_dialog_attention))
                 .setMessage(s)
                 .setView(layout)
-                .setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {
-                    //this is to dismiss the dialog
-                    dialog.dismiss();
+                .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //this is to dismiss the dialog
+                        dialog.dismiss();
+                    }
                 }).setCancelable(false)
                 .show();
     }
 
     @Override
-    public void showDialogForMemberCapture(MaterialAlertDialogBuilder builder, String s, Context context) {
+    public void showDialogForMemberCapture(MaterialAlertDialogBuilder builder, String s, final Context context) {
         builder.setIcon(context.getResources().getDrawable(R.drawable.ic_warning))
                 .setTitle(context.getResources().getString(R.string.tfm_dialog_attention))
                 .setMessage(s)
-                .setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {
-                    //this is to dismiss the dialog
-                    dialog.dismiss();
-                    tgHomePresenter.roleToRegisterController(context,"Member","new");
-                    tgHomePresenter.loadNextActivity();
-                }).setNeutralButton(context.getResources().getString(R.string.cancel), (dialog, which) -> {
-                    //this dismisses dialog
-                    dialog.dismiss();
-                }).setCancelable(false)
+                .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //this is to dismiss the dialog
+                        dialog.dismiss();
+                        tgHomePresenter.roleToRegisterController(context, "Member", "new");
+                        tgHomePresenter.loadNextActivity();
+                    }
+                }).setNeutralButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //this dismisses dialog
+                dialog.dismiss();
+            }
+        }).setCancelable(false)
                 .show();
     }
 
@@ -662,8 +703,11 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
                 if (data.getIntExtra("RESULT", 0) == 1) {
                     //This is supposed to be used for new or old members...
                     loadFormMemberInformation();
+                }else if (data.getIntExtra("RESULT", 0) == 2){
+                    tgHomePresenter.showDialogForFailedCapture(this.getResources().getString(R.string.tfm_face_not_found),TGHome.this);
                 }else{
                     tgHomePresenter.showDialogForFailedCapture(this.getResources().getString(R.string.tfm_face_already_registered),TGHome.this);
+
                 }
             }
         }
@@ -674,7 +718,7 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
 
     void loadCaptureActivityWithProgressDialog(){
         final Intent intent = new Intent(TGHome.this, CaptureActivity.class);
-        ProgressDialog pd1 = new ProgressDialog(TGHome.this);
+        final ProgressDialog pd1 = new ProgressDialog(TGHome.this);
         pd1.setMessage(this.getResources().getString(R.string.tfm_wait_for_recapture));
         pd1.show();
         new CountDownTimer(5000,1000){
@@ -691,7 +735,7 @@ public class TGHome extends AppCompatActivity implements TGHomeInterface {
 
     void loadCaptureActivityForOldMembers(){
         final Intent intent = new Intent(TGHome.this, CaptureActivity.class);
-        ProgressDialog pd1 = new ProgressDialog(TGHome.this);
+        final ProgressDialog pd1 = new ProgressDialog(TGHome.this);
         pd1.setMessage(this.getResources().getString(R.string.tfm_wait_for_recapture));
         pd1.show();
         new CountDownTimer(5000,1000){

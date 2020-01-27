@@ -49,7 +49,7 @@ public interface OldMembersDao {
             "WHERE b.unique_member_id IS NULL AND a.unique_ik_number = :unique_ik_number AND a.role != 'Leader'  ")
     List<TGModel> getTrustGroupMembers(String unique_ik_number);
 
-    @Query("SELECT  first_name, middle_name,last_name, village_name, unique_member_id, member_id FROM  "+ TFMDBContractClass.TABLE_OLD_MEMBERS_DATA +" " +
+    @Query("SELECT  (first_name || ' ' || last_name) as memberName, village_name as memberVillage, unique_member_id as uniqueMemberId, member_id as memberId FROM  "+ TFMDBContractClass.TABLE_OLD_MEMBERS_DATA +" " +
             "WHERE unique_ik_number = :unique_ik_number AND role != 'Leader'  ")
     List<TgMembersModel> getMembers(String unique_ik_number);
 

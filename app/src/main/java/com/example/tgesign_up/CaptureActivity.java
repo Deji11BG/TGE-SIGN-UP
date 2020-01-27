@@ -44,6 +44,7 @@ public class CaptureActivity extends CustomLuxandActivity {
         */
         if (!getBGFR_FACEFOUND()){
             showErrorAndClose(this.getResources().getString(R.string.no_face_found));
+            intentResultValue(2);
         }
 
         else {
@@ -90,10 +91,7 @@ public class CaptureActivity extends CustomLuxandActivity {
         StopTimer();
 
         //dialog that shows template exist
-        Intent intentMessage = new Intent();
-        intentMessage.putExtra("RESULT",0);
-        this.setResult(Activity.RESULT_OK,intentMessage);
-        this.finish();
+        intentResultValue(0);
 
     }
 
@@ -114,10 +112,7 @@ public class CaptureActivity extends CustomLuxandActivity {
     public void save(String template, String imageBitmap, String bundledTemplate, String image_person_large){
         TGHomePresenter tgHomePresenter = new TGHomePresenter();
         tgHomePresenter.setTemplateToSharedPreference(this,template,imageBitmap,bundledTemplate,image_person_large);
-        Intent intentMessage = new Intent();
-        intentMessage.putExtra("RESULT",1);
-        this.setResult(Activity.RESULT_OK,intentMessage);
-        this.finish();
+        intentResultValue(1);
     }
 
     String getEncodedBitmap(Bitmap bitmap){
@@ -126,4 +121,12 @@ public class CaptureActivity extends CustomLuxandActivity {
         byte[] b = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(b, Base64.DEFAULT);
     }
+
+    void intentResultValue(int result){
+        Intent intentMessage = new Intent();
+        intentMessage.putExtra("RESULT",result);
+        this.setResult(Activity.RESULT_OK,intentMessage);
+        this.finish();
+    }
+
 }

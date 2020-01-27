@@ -1,11 +1,11 @@
 package com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +19,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tgesign_up.Api.SharedPreference;
-import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
-import com.example.tgesign_up.Home.LeaderModel;
+import com.example.tgesign_up.CaptureTemplate;
+import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
+import com.example.tgesign_up.FormMemberInformation;
 import com.example.tgesign_up.Home.TFMHomePresenter;
 import com.example.tgesign_up.R;
-import com.example.tgesign_up.TGHome;
+import com.example.tgesign_up.VerifyActivity;
+import com.example.tgesign_up.VerifyTemplate;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
 import java.util.List;
@@ -38,14 +41,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Adapter used to show a simple grid of products.
  */
 @SuppressWarnings("unchecked")
-public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCardRecyclerViewAdapter.LeaderCardViewHolder> implements Filterable {
+public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCardRecyclerViewAdapter.LeaderCardViewHolder> implements Filterable,LeaderCardRecyclerInterface {
 
-    private List<LeaderModel> leaderList;
-    private List<LeaderModel> mFilteredList;
+    private List<prospectiveTGETable.prospectiveTGETableRecycler> leaderList;
+    private List<prospectiveTGETable.prospectiveTGETableRecycler> mFilteredList;
     private TFMHomePresenter tfmHomePresenter;
     private Context mCtx;
 
-    public LeaderCardRecyclerViewAdapter(List<LeaderModel> leaderList, Context mCtx) {
+    public LeaderCardRecyclerViewAdapter(List<prospectiveTGETable.prospectiveTGETableRecycler> leaderList, Context mCtx) {
         this.leaderList = leaderList;
         this.mFilteredList = leaderList;
         this.mCtx = mCtx;
@@ -60,17 +63,13 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
 
     @Override
     public void onBindViewHolder(@NonNull LeaderCardViewHolder holder, int position) {
-        tfmHomePresenter = new TFMHomePresenter();
+        tfmHomePresenter = new TFMHomePresenter(LeaderCardRecyclerViewAdapter.this);
         if (mFilteredList != null && position < mFilteredList.size()) {
-            LeaderModel leaderModel = mFilteredList.get(position);
-            String full_name = holder.nameFormatter(leaderModel.getFirst_name(),leaderModel.getMiddle_name(),leaderModel.getLast_name());
+            prospectiveTGETable.prospectiveTGETableRecycler leaderModel = mFilteredList.get(position);
+            String full_name = holder.nameFormatter(leaderModel.getFirst_name(),leaderModel.getLast_name());
             holder.setTextController(holder.tv_leader_name, full_name);
-            holder.setTextController(holder.tv_leader_village, leaderModel.getVillage_name());
-            String temp_ik_number = holder.ikNumberManipulator(leaderModel.getIk_number(),leaderModel.getUnique_ik_number());
-            holder.setTextController(holder.tv_leader_ik_number, temp_ik_number);
+            holder.setTextController(holder.tv_leader_ik_number, leaderModel.getIk_number());
             holder.setLeader_image(holder.leader_image,leaderModel.getUnique_member_id());
-            holder.setProgress_bar(leaderModel.getUnique_ik_number(),holder.check_circle,
-                    Integer.parseInt(leaderModel.getSeason_id()),mCtx);
         }
     }
 
@@ -95,10 +94,49 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                mFilteredList = (List<LeaderModel>) results.values;
+                mFilteredList = (List<prospectiveTGETable.prospectiveTGETableRecycler>) results.values;
                 notifyDataSetChanged();
             }
         };
+    }
+
+    @Override
+    public void showDialogToVerifyTemplate(MaterialAlertDialogBuilder builder, String s, Context context,String ik_number, String unique_member_id) {
+        builder.setIcon(context.getResources().getDrawable(R.drawable.ic_warning))
+                .setTitle(context.getResources().getString(R.string.tfm_dialog_attention))
+                .setMessage(s)
+                .setPositiveButton(context.getResources().getString(R.string.ok), (dialog, which) -> {
+                    //this is to dismiss the dialog
+                    startFormMemberInformationActivity(ik_number,unique_member_id);
+                    dialog.dismiss();
+                }).setNeutralButton(context.getResources().getString(R.string.cancel),(dialog, which) -> {
+                    dialog.dismiss();
+                }).setCancelable(false)
+                .show();
+    }
+
+    private void startFormMemberInformationActivity(String ik_number, String unique_member_id){
+        SharedPreference sharedPreference = new SharedPreference(mCtx);
+        Intent intent = new Intent(mCtx, VerifyTemplate.class);
+        sharedPreference.setIKNumber(ik_number);
+        sharedPreference.setUniqueMemberId(unique_member_id);
+        sharedPreference.setKeyRoleToRegisterFor("Leader");
+        sharedPreference.setKeyRegistrationAction("new");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mCtx.startActivity(intent);
+    }
+
+    private void startVerifyActivity(String ik_number, String unique_member_id){
+        Intent intent = new Intent(mCtx, VerifyActivity.class);
+        SharedPreference sharedPreference = new SharedPreference(mCtx);
+        sharedPreference.setIKNumber(ik_number);
+        sharedPreference.setUniqueMemberId(unique_member_id);
+        sharedPreference.setKeyRoleToRegisterFor("Leader");
+        sharedPreference.setKeyRegistrationAction("new");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("role","Leader");
+        intent.putExtra("verification_stage","stage_1");
+        ((Activity) mCtx).startActivityForResult(intent,419);
     }
 
     class LeaderCardViewHolder extends RecyclerView.ViewHolder {
@@ -131,37 +169,12 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
 
         @OnClick(R.id.leader_card_container)
         void submit(){
-            //Toast.makeText(mCtx, "Position1 " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-            String finished_check_list_flag = tfmHomePresenter.getFinishedCheckListFlagResult(mCtx,
-                    mFilteredList.get(getAdapterPosition()).getUnique_ik_number());
-            String unique_ik_number = mFilteredList.get(getAdapterPosition()).getUnique_ik_number();
-
-            SharedPreference sharedPreference = new SharedPreference(mCtx);
-            sharedPreference.setUniqueIkNumber(unique_ik_number);
-            sharedPreference.setIKNumber(mFilteredList.get(getAdapterPosition()).getIk_number());
-
-            if (!finished_check_list_flag.equalsIgnoreCase("0")){
-                Intent intent = new Intent (mCtx, TGHome.class);
-                mCtx.startActivity(intent);
-            }else{
-                /*Intent intent = new Intent (mCtx, CheckList.class);
-                mCtx.startActivity(intent);*/
-            }
-
+            tfmHomePresenter.showDialogToVerifyTemplate("Click 'OK' to proceed to verify prospective TGE template",mCtx,mFilteredList.get(getAdapterPosition()).getIk_number(),
+                    mFilteredList.get(getAdapterPosition()).getUnique_member_id());
         }
 
         void setTextController(TextView textView, String text) {
             textView.setText(text);
-        }
-
-        String ikNumberManipulator(String required_ik_number, String temporary_ik_number){
-            String temp_ik_number;
-            if (required_ik_number == null || required_ik_number.equalsIgnoreCase("")){
-                temp_ik_number = temporary_ik_number;
-            }else{
-                temp_ik_number = required_ik_number;
-            }
-            return temp_ik_number;
         }
 
         void setLeader_image(ImageView iv_picture, String unique_id){
@@ -181,77 +194,12 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
             }else{
                 iv_picture.setImageResource(R.drawable.bg_logo);
             }
-
-            /*Bitmap mImageBitmap = null;
-            try {
-                mImageBitmap = MediaStore.Images.Media.getBitmap(iv_picture.getContext().getContentResolver(), Uri.parse(imageFile));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            iv_picture.setImageBitmap(mImageBitmap);*/
         }
 
-        String nameFormatter(String first_name, String middle_name, String last_name){
-            /*String formatted_name = "";
-            if (first_name != null && !first_name.equalsIgnoreCase("")){
-                if (middle_name != null && !middle_name.equalsIgnoreCase("")){
-                    if (last_name != null && !last_name.equalsIgnoreCase("")){
-                        formatted_name = first_name + " "+middle_name + " "+last_name;
-                    }
-                }else if (last_name != null && !last_name.equalsIgnoreCase("")){
-                    formatted_name = first_name +" "+last_name;
-                }else{
-                    formatted_name = first_name;
-                }
-            }*/
-            Log.d("middle_name",middle_name+"_what");
+        String nameFormatter(String first_name, String last_name){
+
             return first_name +" "+last_name;
         }
 
-        void setProgress_bar(String unique_ik_number, CircleImageView check_circle, int season_id, Context context){
-            int count_unique_id = tfmHomePresenter.getLeaderCountForMember(context,unique_ik_number);
-            TFMAppVariables tfmAppVariables = tfmHomePresenter.getTFMAppVariables(context,context.getResources().getString(R.string.variable_id));
-            if (count_unique_id <= 0){
-                check_circle.setCircleBackgroundColor(context.getResources().getColor(R.color.view_red));
-            }else{
-                String memberProgram = tfmHomePresenter.getMemberProgram(context,unique_ik_number);
-                int count_members = tfmHomePresenter.getMemberCount(context,unique_ik_number);
-                int ma_max,ma_min,kkg_max,kkg_min;
-                if (season_id >= 20){
-                    ma_max = Integer.parseInt(tfmAppVariables.getMa_max_new());
-                    kkg_max = Integer.parseInt(tfmAppVariables.getKkg_max_new());
-                    ma_min = Integer.parseInt(tfmAppVariables.getMa_min_new());
-                    kkg_min = Integer.parseInt(tfmAppVariables.getKkg_min_new());
-                }else{
-                    ma_max = Integer.parseInt(tfmAppVariables.getMa_max_old());
-                    kkg_max = Integer.parseInt(tfmAppVariables.getKkg_max_old());
-                    ma_min = Integer.parseInt(tfmAppVariables.getMa_min_old());
-                    kkg_min = Integer.parseInt(tfmAppVariables.getKkg_min_old());
-                }
-                if (memberProgram.equalsIgnoreCase("MA")){
-                    /*progress_bar.setProgress(count_members);
-                    progress_bar.setMax(ma_max);*/
-                    if (count_members >= ma_max){
-                        check_circle.setCircleBackgroundColor(context.getResources().getColor(R.color.view_green));
-                    }else if (count_members >= ma_min){
-                        check_circle.setCircleBackgroundColor(context.getResources().getColor(R.color.view_blue));
-                    }else{
-                        check_circle.setCircleBackgroundColor(context.getResources().getColor(R.color.view_red));
-                    }
-                }else{
-                    /*progress_bar.setProgress(count_members);
-                    progress_bar.setMax(kkg_max);*/
-                    if (count_members >= kkg_max){
-                        check_circle.setCircleBackgroundColor(context.getResources().getColor(R.color.view_green));
-                    }else if (count_members >= kkg_min){
-                        check_circle.setCircleBackgroundColor(context.getResources().getColor(R.color.view_blue));
-                    }else{
-                        check_circle.setCircleBackgroundColor(context.getResources().getColor(R.color.view_red));
-                    }
-                }
-            }
-
-
-        }
     }
 }

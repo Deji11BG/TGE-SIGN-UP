@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
+import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 public class TgMembers extends AppCompatActivity {
     SharedPreferenceController sharedPreferenceController;
-    List<TgMembersModel> membertList;
+    List<prospectiveTGLTable.prospectiveTGLTableRecycler> membertList;
     RecyclerView recyclerView;
     List dataResult;
     String ikNumber;
@@ -40,8 +41,8 @@ public class TgMembers extends AppCompatActivity {
         sharedPreferenceController= new SharedPreferenceController(getApplicationContext());
 
 
-        recyclerView = (RecyclerView) findViewById(R.id.recylcerViewMemberFields);
-        nextButton= (Button) findViewById(R.id.next);
+        recyclerView = findViewById(R.id.recyclerViewMemberFields);
+        nextButton= findViewById(R.id.next);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ikNumber= sharedPreferenceController.getIkNumber();
@@ -65,12 +66,12 @@ public class TgMembers extends AppCompatActivity {
 
     // function to retrieve lga data from preloaded data on state_info table
     @SuppressLint("StaticFieldLeak")
-    private List<TgMembersModel> getMemberDetails(Context context, String ikNumber) {
-        List<TgMembersModel> members = new ArrayList<>();
+    private List<prospectiveTGLTable.prospectiveTGLTableRecycler> getMemberDetails(Context context, String ikNumber) {
+        List<prospectiveTGLTable.prospectiveTGLTableRecycler> members = new ArrayList<>();
         try {
             members = new getMembers(context){
                 @Override
-                protected void onPostExecute(List<TgMembersModel> s) {}
+                protected void onPostExecute(List<prospectiveTGLTable.prospectiveTGLTableRecycler> s) {}
             }.execute(ikNumber).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -82,10 +83,8 @@ public class TgMembers extends AppCompatActivity {
 
     //getStateDetails
     @SuppressLint("StaticFieldLeak")
-    public static abstract class getMembers extends AsyncTask<String, Void, List<TgMembersModel> > {
+    public static abstract class getMembers extends AsyncTask<String, Void, List<prospectiveTGLTable.prospectiveTGLTableRecycler> > {
         Context mCtx;
-        List<TgMembersModel> members = new ArrayList<>();
-        List<TgMembersModel> tempMembers = new ArrayList<>();
         TFMDatabase tfmDatabase;
 
         getMembers(Context context) {
@@ -93,14 +92,12 @@ public class TgMembers extends AppCompatActivity {
         }
 
         @Override
-        protected List<TgMembersModel> doInBackground(String... strings) {
+        protected List<prospectiveTGLTable.prospectiveTGLTableRecycler> doInBackground(String... strings) {
             try{
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
                 Log.d("state00",strings[0]);
 
-                tempMembers = tfmDatabase.getOldMembersTable().getMembers(strings[0]);
-                members.addAll(tempMembers);
-                return members;
+                return tfmDatabase.getProspectiveTGLDao().getMembers(strings[0]);
             }catch (Exception e){
                 e.printStackTrace();
                 return null;

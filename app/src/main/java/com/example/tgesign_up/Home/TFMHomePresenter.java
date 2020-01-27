@@ -6,16 +6,22 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
+import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.LeaderCardRecyclerInterface;
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.LeaderCardRecyclerViewAdapter;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class TFMHomePresenter  implements TFMHomePresenterInterface {
     private TFMHomeInterface viewObject;
+    private LeaderCardRecyclerInterface leaderCardRecyclerInterface;
     private LeaderModel leaderModel;
 
     public TFMHomePresenter(TFMHomeInterface viewObject){
@@ -25,6 +31,11 @@ public class TFMHomePresenter  implements TFMHomePresenterInterface {
 
     public TFMHomePresenter(){
         leaderModel = new LeaderModel();
+    }
+
+    public TFMHomePresenter(LeaderCardRecyclerInterface leaderCardRecyclerInterface){
+        leaderModel = new LeaderModel();
+        this.leaderCardRecyclerInterface = leaderCardRecyclerInterface;
     }
 
     @Override
@@ -39,12 +50,12 @@ public class TFMHomePresenter  implements TFMHomePresenterInterface {
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public List<prospectiveTGETable> getLeaderList(Context context) {
-        List<prospectiveTGETable> leader_data = new ArrayList<>();
+    public List<prospectiveTGETable.prospectiveTGETableRecycler> getLeaderList(Context context) {
+        List<prospectiveTGETable.prospectiveTGETableRecycler> leader_data = new ArrayList<>();
         try {
             leader_data = new LeaderModel.getLeaderDetails(context){
                 @Override
-                protected void onPostExecute(List<prospectiveTGETable> s) {}
+                protected void onPostExecute(List<prospectiveTGETable.prospectiveTGETableRecycler> s) {}
             }.execute().get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -63,24 +74,22 @@ public class TFMHomePresenter  implements TFMHomePresenterInterface {
     }
 
     @Override
-    public List<prospectiveTGETable> getSearchParameters(CharSequence constraint, List<LeaderModel> total_leader_list) {
+    public List<prospectiveTGETable.prospectiveTGETableRecycler> getSearchParameters(CharSequence constraint, List<prospectiveTGETable.prospectiveTGETableRecycler> total_leader_list) {
         String charString = constraint.toString().trim();
 
-        List<LeaderModel> mFilteredList;
+        List<prospectiveTGETable.prospectiveTGETableRecycler> mFilteredList;
 
         if(charString.isEmpty()){
 
             mFilteredList = total_leader_list;
         }else{
-            List<LeaderModel> filteredList = new ArrayList<>();
+            List<prospectiveTGETable.prospectiveTGETableRecycler> filteredList = new ArrayList<>();
 
-            for(LeaderModel leaders : total_leader_list){
+            for(prospectiveTGETable.prospectiveTGETableRecycler leaders : total_leader_list){
 
-                if(leaders.getUnique_ik_number().toLowerCase().contains(charString.toLowerCase()) ||
-                        leaders.getIk_number().toLowerCase().contains(charString.toLowerCase()) ||
+                if(
                         leaders.getFirst_name().toLowerCase().contains(charString.toLowerCase()) ||
                         leaders.getLast_name().toLowerCase().contains(charString.toLowerCase()) ||
-                        leaders.getVillage_name().toLowerCase().contains(charString.toLowerCase()) ||
                         ((leaders.getFirst_name().toLowerCase())+" "+(leaders.getLast_name().toLowerCase())).contains(charString.toLowerCase())){
 
                     filteredList.add(leaders);
@@ -133,6 +142,32 @@ public class TFMHomePresenter  implements TFMHomePresenterInterface {
     @Override
     public String getMemberProgram(Context context, String unique_ik_number) {
         return leaderModel.getMemberProgramResult(context, unique_ik_number);
+    }
+
+    @Override
+    public void showDialogForFailedCapture(String s, Context context) {
+        MaterialAlertDialogBuilder builder = (new MaterialAlertDialogBuilder(context));
+        viewObject.showDialogForFailedCapture(builder,s,context);
+    }
+
+    @Override
+    public String getProspectiveTGETemplate(Context context) {
+        SharedPreference sharedPreference = new SharedPreference(context);
+        HashMap<String,String> user = sharedPreference.getUserDetails();
+        return leaderModel.getProspectiveTGETemplateResult(context,user.get(SharedPreference.KEY_UNIQUE_MEMBER_ID));
+    }
+
+    @Override
+    public String getProspectiveTGLTemplate(Context context) {
+        SharedPreference sharedPreference = new SharedPreference(context);
+        HashMap<String,String> user = sharedPreference.getUserDetails();
+        return leaderModel.getProspectiveTGLTemplateResult(context,user.get(SharedPreference.KEY_UNIQUE_MEMBER_ID));
+    }
+
+    @Override
+    public void showDialogToVerifyTemplate(String s, Context context, String ik_number, String unique_member_id) {
+        MaterialAlertDialogBuilder builder = (new MaterialAlertDialogBuilder(context));
+        leaderCardRecyclerInterface.showDialogToVerifyTemplate(builder,s,context,ik_number,unique_member_id);
     }
 
     private String stringOutputController(String input){

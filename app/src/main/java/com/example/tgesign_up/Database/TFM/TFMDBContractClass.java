@@ -7,7 +7,7 @@ package com.example.tgesign_up.Database.TFM;
 
 public class TFMDBContractClass {
 
-    public static final String TFM_DATABASE_NAME = "tfm";
+    public static final String TFM_DATABASE_NAME = "tge_sign_up.db";
     public static final int TFM_DATABASE_VERSION = 1;
 
 
