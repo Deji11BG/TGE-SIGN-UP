@@ -20,7 +20,6 @@ import java.util.List;
 @Dao
 public interface prospectiveTGLDao {
 
-
     @Query("SELECT * FROM " +
             TFMDBContractClass.TABLE_PROSPECTIVE_TGL +" WHERE sync_flag ='0'")
     List<prospectiveTGLTable> getUnsynced();
