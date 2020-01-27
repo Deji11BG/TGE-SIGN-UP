@@ -29,6 +29,9 @@ public interface scheduleDao {
             TFMDBContractClass.TABLE_SCHEDULE +" WHERE ward = :ward AND schedule_count <20")
     List<scheduleTable> getschedule(String ward);
 
+    @Query("UPDATE " + TFMDBContractClass.TABLE_SCHEDULE +" SET schedule_sync_flag =:schedule_flag WHERE ward = :ward AND slot_id=:slot_id")
+    void updateScheduleFlag(String schedule_flag, String ward,String slot_id);
+
     @Query("UPDATE " + TFMDBContractClass.TABLE_SCHEDULE +" SET schedule_count =:schedule_count WHERE ward = :ward AND slot_id=:slot_id")
     void updateScheduleCount(Integer schedule_count, String ward,String slot_id);
     /**

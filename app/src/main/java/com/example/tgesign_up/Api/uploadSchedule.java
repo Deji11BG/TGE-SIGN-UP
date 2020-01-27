@@ -170,10 +170,11 @@ public class uploadSchedule {
     }
 
 
-    private void startFieldMappingSync() {
+    private void syncupSchedule() {
 
-        TFMDatabase tfmDatabase;
+        final TFMDatabase tfmDatabase;
         tfmDatabase = TFMDatabase.getInstance(context);
+        final SharedPreferenceController sharedPreference;
 
         unsyncedFields = tfmDatabase.getscheduleTable().getUnsynced();
 
@@ -200,8 +201,11 @@ public class uploadSchedule {
                     if (syncingResponse != null) {
                         for(scheduleDefaultResponse h: syncingResponse){
                             Log.d("CHECK", "Field ID: " + h.getSchedule_flag() + " Sync Status: "  + " Last synced: " + h.getLast_synced());
-                            //fd.fieldsdao().updateSyncStatusRoom(h.getStatus(), h.getField_id());
                             SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
+
+                            String ward=sharedPreferenceController.getWard();
+                            String slot_id=sharedPreferenceController.getSlotId();
+                            tfmDatabase.getscheduleTable().updateScheduleFlag(h.getSchedule_flag(),ward,slot_id);
                             //sharedPreferenceController.setFMflagsandDescriptions("1","sync success");
                             //sharedPreferenceController.setLastSyncTimefm(h.getLast_synced());
 

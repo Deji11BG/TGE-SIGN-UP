@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.tgesign_up.Api.uploadSchedule;
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
 import com.example.tgesign_up.R;
 import com.example.tgesign_up.TGHomeMVP.schedulemodel;
@@ -145,6 +146,9 @@ public class schedulerecycler extends RecyclerView.Adapter<schedulerecycler.View
                                     scheduleAsynctask.updateScheduleCount x = new scheduleAsynctask.updateScheduleCount(mContext) {
 
                                     };
+                                    //uploadSchedule uploadTFMData = new uploadSchedule(this);
+                                    //uploadTFMData.saveScheduleData();
+                                    //saveToScheduleTable();
 
                                     //mContext.startActivity(intent);
 
@@ -169,7 +173,12 @@ public class schedulerecycler extends RecyclerView.Adapter<schedulerecycler.View
 
         }
     }
-
+//    private void saveToScheduleTable() {
+//        uploadSchedule uploadTFMData = new uploadSchedule(mContext);
+//        uploadTFMData.saveScheduleData();
+//        //count = uploadTFMData.countTFMData() + uploadTFMData.countTGData();
+//        //Log.d("tfm_counter", String.valueOf(count));
+//    }
 
 }
 
