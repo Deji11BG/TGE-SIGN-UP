@@ -170,65 +170,65 @@ public class uploadSchedule {
     }
 
 
-    private void syncupSchedule() {
-
-        final TFMDatabase tfmDatabase;
-        tfmDatabase = TFMDatabase.getInstance(context);
-        final SharedPreferenceController sharedPreference;
-
-        unsyncedFields = tfmDatabase.getscheduleTable().getUnsynced();
-
-        //access the count through the integer unsyncedFM
-
-        //sync start
-        if (unsyncedFields.isEmpty()) {
-            //Toast.makeText(StartSync.this, "Field Mapping Table up to date", Toast.LENGTH_LONG).show();
-        } else {
-            apiInterface = ApiClient.getApiClient().create(scheduleApiInterface.class);
-
-            //ApiInterface service = ApiClient.getInstance().create(scheduleApiInterface.class);
-
-            Call<List<scheduleDefaultResponse>> call = apiInterface.syncUpSchedule(new Gson().toJson(unsyncedFields));
-            //Call<List<schedulemodel>> call = apiInterface.syncDownSchedule(ward);
-
-            Log.d("CHECK", new Gson().toJson(unsyncedFields));
-
-            call.enqueue(new Callback<List<scheduleDefaultResponse>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<scheduleDefaultResponse>> call, @NonNull Response<List<scheduleDefaultResponse>> response) {
-                    List<scheduleDefaultResponse> syncingResponse = response.body();
-
-                    if (syncingResponse != null) {
-                        for(scheduleDefaultResponse h: syncingResponse){
-                            Log.d("CHECK", "Field ID: " + h.getSchedule_flag() + " Sync Status: "  + " Last synced: " + h.getLast_synced());
-                            SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
-
-                            String ward=sharedPreferenceController.getWard();
-                            String slot_id=sharedPreferenceController.getSlotId();
-                            tfmDatabase.getscheduleTable().updateScheduleFlag(h.getSchedule_flag(),ward,slot_id);
-                            //sharedPreferenceController.setFMflagsandDescriptions("1","sync success");
-                            //sharedPreferenceController.setLastSyncTimefm(h.getLast_synced());
-
-                        }
-                    }
-                    else{
-                        SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
-                        //sharedPreferenceController.setFMflagsandDescriptions("0","sync failure");
-                    }
-                    //Toast.makeText(StartSync.this, "Field's Table Successfully Uploaded", Toast.LENGTH_LONG).show();
-
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<scheduleDefaultResponse>> call, @NonNull Throwable t) {
-                    Toast.makeText(context, "Failed : " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
-                    //sharedPreferenceController.setFMflagsandDescriptions("0","sync failure");
-
-                }
-            });
-
-        }
-    }
+//    private void syncupSchedule() {
+//
+//        final TFMDatabase tfmDatabase;
+//        tfmDatabase = TFMDatabase.getInstance(context);
+//        final SharedPreferenceController sharedPreference;
+//
+//        unsyncedFields = tfmDatabase.getscheduleTable().getUnsynced();
+//
+//        //access the count through the integer unsyncedFM
+//
+//        //sync start
+//        if (unsyncedFields.isEmpty()) {
+//            //Toast.makeText(StartSync.this, "Field Mapping Table up to date", Toast.LENGTH_LONG).show();
+//        } else {
+//            apiInterface = ApiClient.getApiClient().create(scheduleApiInterface.class);
+//
+//            //ApiInterface service = ApiClient.getInstance().create(scheduleApiInterface.class);
+//
+//            Call<List<scheduleDefaultResponse>> call = apiInterface.syncUpSchedule(new Gson().toJson(unsyncedFields));
+//            //Call<List<schedulemodel>> call = apiInterface.syncDownSchedule(ward);
+//
+//            Log.d("CHECK", new Gson().toJson(unsyncedFields));
+//
+//            call.enqueue(new Callback<List<scheduleDefaultResponse>>() {
+//                @Override
+//                public void onResponse(@NonNull Call<List<scheduleDefaultResponse>> call, @NonNull Response<List<scheduleDefaultResponse>> response) {
+//                    List<scheduleDefaultResponse> syncingResponse = response.body();
+//
+//                    if (syncingResponse != null) {
+//                        for(scheduleDefaultResponse h: syncingResponse){
+//                            Log.d("CHECK", "Field ID: " + h.getSchedule_flag() + " Sync Status: "  + " Last synced: " + h.getLast_synced());
+//                            SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
+//
+//                            String ward=sharedPreferenceController.getWard();
+//                            String slot_id=sharedPreferenceController.getSlotId();
+//                            tfmDatabase.getscheduleTable().updateScheduleFlag(h.getSchedule_flag(),ward,slot_id);
+//                            //sharedPreferenceController.setFMflagsandDescriptions("1","sync success");
+//                            //sharedPreferenceController.setLastSyncTimefm(h.getLast_synced());
+//
+//                        }
+//                    }
+//                    else{
+//                        SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
+//                        //sharedPreferenceController.setFMflagsandDescriptions("0","sync failure");
+//                    }
+//                    //Toast.makeText(StartSync.this, "Field's Table Successfully Uploaded", Toast.LENGTH_LONG).show();
+//
+//                }
+//
+//                @Override
+//                public void onFailure(@NonNull Call<List<scheduleDefaultResponse>> call, @NonNull Throwable t) {
+//                    Toast.makeText(context, "Failed : " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//                    SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
+//                    //sharedPreferenceController.setFMflagsandDescriptions("0","sync failure");
+//
+//                }
+//            });
+//
+//        }
+//    }
 
 }

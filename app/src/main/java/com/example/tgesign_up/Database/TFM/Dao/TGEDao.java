@@ -20,7 +20,8 @@ public interface TGEDao {
     @Query("SELECT * FROM " +
             TFMDBContractClass.TABLE_NEW_TGE +" WHERE sync_flag ='0'")
     List<TGE> getUnsynced();
-
+    @Query("UPDATE " + TFMDBContractClass.TABLE_NEW_TGE +" SET slot_id =:slot_id WHERE unique_member_id = :unique_member_id")
+    void updateSlotID(String unique_member_id,String slot_id);
     /**
      * Insert the object in database
      * @param prospectiveTGE, object to be inserted

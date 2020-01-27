@@ -13,13 +13,16 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.Api.uploadSchedule;
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
+import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.R;
 import com.example.tgesign_up.TGHomeMVP.schedulemodel;
 import com.example.tgesign_up.scheduleAsynctask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +36,9 @@ public class schedulerecycler extends RecyclerView.Adapter<schedulerecycler.View
     private String lastname1;
     private String number1;
     private Context mContext;
+    TFMDatabase tfmDatabase;
+    SharedPreference sharedPreference;
+
 
     //private List<modelclass3>number_list;
     schedulemodel model;
@@ -138,14 +144,22 @@ public class schedulerecycler extends RecyclerView.Adapter<schedulerecycler.View
                                     //intent.putExtra("field_id",field_id);
                                     SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(mContext);
                                     sharedPreferenceController.scheduleInfo(slotID,firstDay,secondDay,firstTime,secondTime);
+                                    sharedPreference = new SharedPreference(mContext);
+
+                                    //String slotID=sharedPreferenceController.getSlotId();
+                                    //Log.d("countii",slotID.toString());
                                     String count=sharedPreferenceController.getScheduleCount();
                                     Integer countInt=Integer.valueOf(count)+1;
                                     sharedPreferenceController.schedulecount(String.valueOf(countInt));
                                     Log.d("selectresult",slotID+firstDay+" "+first_time+" "+second_time+count);
-                                    @SuppressLint("StaticFieldLeak")
-                                    scheduleAsynctask.updateScheduleCount x = new scheduleAsynctask.updateScheduleCount(mContext) {
+                                    HashMap<String,String> user = sharedPreference.getUserDetails();
+                                    String unique_memberID = user.get(SharedPreference.KEY_UNIQUE_MEMBER_ID);
+                                    tfmDatabase = TFMDatabase.getInstance(mContext);
+                                    Log.d("unuquuu",unique_memberID);
+                                    tfmDatabase.getTGEDao().updateSlotID(unique_memberID,sharedPreferenceController.getSlotId());
 
-                                    };
+                                    //tf.fieldsdao().updateSyncStatusRoom(h.getStatus(), h.getField_id());
+
                                     //uploadSchedule uploadTFMData = new uploadSchedule(this);
                                     //uploadTFMData.saveScheduleData();
                                     //saveToScheduleTable();
@@ -155,7 +169,7 @@ public class schedulerecycler extends RecyclerView.Adapter<schedulerecycler.View
                                 }
                             })
 
-                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            .setNeutralButton(R.string.no, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                 }

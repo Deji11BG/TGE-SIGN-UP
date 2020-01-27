@@ -125,7 +125,7 @@ public class ScheduleInfo extends AppCompatActivity {
         try {
 
             memberList2 = x.execute().get();
-
+            Log.d("wardme",memberList2.toString());
             memberList3 = new ArrayList<>();
             Map<String,String > map = null;
 
@@ -139,6 +139,7 @@ public class ScheduleInfo extends AppCompatActivity {
                 map.put("second_time",X.second_time);
                 map.put("schedule_flag",X.schedule_flag);
                 ward.setText(X.ward);
+                Log.d("wardme",X.first_day);
 
                 map.put("schedule_count", String.valueOf(X.schedule_count));
                 sharedPreferenceController.schedulecount(String.valueOf(X.schedule_count));

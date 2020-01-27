@@ -16,8 +16,8 @@ import retrofit2.http.Query;
 
 public interface scheduleApiInterface {
     @FormUrlEncoded
-    @POST("uploadSignUpWardSchedule")
-    Call<List<scheduleDefaultResponse>> syncUpSchedule(@Field("wordlist") String sync_up_data);
+//    @POST("uploadSignUpWardSchedule")
+//    Call<List<scheduleDefaultResponse>> syncUpSchedule(@Field("wordlist") String sync_up_data);
 
     @GET("downloadSignUpWardSchedule")
     Call<List<schedulemodel>> syncDownSchedule(String ward);
