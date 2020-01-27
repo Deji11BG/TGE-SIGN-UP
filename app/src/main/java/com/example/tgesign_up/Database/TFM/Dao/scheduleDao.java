@@ -46,19 +46,19 @@ public interface scheduleDao {
      * @param schedule, object to be updated
      */
     @Update
-    void update(scheduleDao schedule);
+    void update(scheduleTable schedule);
 
     /**
      * delete the object from database
      * @param schedule, object to be deleted
      */
     @Delete
-    void delete(scheduleDao schedule);
+    void delete(scheduleTable schedule);
 
     /**
      * delete list of objects from database
      * @param data, array of objects to be deleted
      */
     @Delete
-    void delete(scheduleDao... data);      // data... is varargs, here data is an array
+    void delete(scheduleTable... data);      // data... is varargs, here data is an array
 }

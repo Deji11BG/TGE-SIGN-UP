@@ -72,9 +72,7 @@ public class ScheduleInfo extends AppCompatActivity {
 
     //SessionManagement sessionManagement;
     private RecyclerView recyclerView;
-    SharedPreferences member;
-    SharedPreferences prefs2;
-    SharedPreferences.Editor memEdit;
+
 
     //General Session Management
     SharedPreferenceController sharedPreferenceController;
@@ -93,7 +91,7 @@ public class ScheduleInfo extends AppCompatActivity {
         setContentView(R.layout.loc_activity_schedule_info);
 
         sharedPreferenceController = new SharedPreferenceController(getApplicationContext());
-        memEdit = member.edit();
+//        memEdit = member.edit();
         //OnlineDBHelper db = new OnlineDBHelper(this);
         //spinner_lga = findViewById(R.id.spinner_lga);
         ward=findViewById(R.id.wardschedule);
