@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
+import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.Database.DBContractClass;
 import com.example.tgesign_up.Database.Location.LocationDatabase;
 import com.example.tgesign_up.Database.Location.Table.LgaTable;
@@ -26,6 +28,7 @@ import com.example.tgesign_up.Database.Location.Table.WardTable;
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
+import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,6 +56,10 @@ public class MainActivity extends AppCompatActivity{
         ButterKnife.bind(MainActivity.this);
 
         checkDBStatus();
+
+        SharedPreference sharedPreference = new SharedPreference(this);
+        sharedPreference.setKeyPhoneImei(getIMEI());
+
     }
 
     /**
@@ -62,6 +69,11 @@ public class MainActivity extends AppCompatActivity{
 
     @SuppressLint("StaticFieldLeak")
     public void checkDBStatus(){
+
+        final ProgressDialog pd1 = new ProgressDialog(MainActivity.this);
+        pd1.setMessage(this.getResources().getString(R.string.tfm_preparing_phone_record));
+        pd1.show();
+        pd1.setCancelable(false);
 
         // this method checks the value of the flag in shared preference whether 1 or 0
         int controller = getRecordFlag();
@@ -73,11 +85,6 @@ public class MainActivity extends AppCompatActivity{
             int tableStatus = getRoomDBCount();
 
             if(tableStatus == 0){
-
-                final ProgressDialog pd1 = new ProgressDialog(MainActivity.this);
-                pd1.setMessage(this.getResources().getString(R.string.tfm_wait_for_recapture));
-                pd1.show();
-                pd1.setCancelable(false);
 
                 //function call to the method that reads state data from asset
                 stateTableInsertResult();
@@ -104,7 +111,11 @@ public class MainActivity extends AppCompatActivity{
                     }
                 }.start();
 
+            }else{
+                pd1.dismiss();
             }
+        }else {
+            pd1.dismiss();
         }
 
     }
@@ -514,223 +525,76 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    public void setRecordFlag(){
-        SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(getApplicationContext());
-        sharedPreferenceController.setImportFlag("1");
-
-    }
-
-    /*@SuppressLint("StaticFieldLeak")
-    public void checkDBStatus(){
+    /*public ArrayList<prospectiveTGETable> importProspectiveTGLTable(){
 
 
-        // this method checks the value of the flag in shared preference whether 1 or 0
-        int controller = getRecordFlag();
-
-        // In the event that the above method returns 0, this method checks the size of the state table on the location DB and
-        // in the event that that is empty it goes ahead to call the methods that populates the
-        //database
-        if(controller == 0){
-            int tablesataus = getRoomDBCount();
-
-            if(tablesataus == 0){
-
-                //function call to the method that reads lga data from asset
-                //importStateData();
-
-                try {
-
-                    //function call to the async task method that preloads into the database
-                    String x = new dbInsert(getApplicationContext()){}
-                    .execute(importStateData()).get();
-                    Log.d("abc",x);
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }else return;
-
-    }
-
-    public void  setRecordFlag(){
-        LocSharedPreferenceController locSharedPreferenceController = new LocSharedPreferenceController(getApplicationContext());
-        locSharedPreferenceController.setImportFlag("1");
-
-    }
-
-    public int getRecordFlag(){
-        LocSharedPreferenceController locSharedPreferenceController = new LocSharedPreferenceController(getApplicationContext());
-        int flag = Integer.valueOf(locSharedPreferenceController.getImportFlag()) ;
-        return flag;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public int getRoomDBCount(){
-        String dbResponse = "";
-        try {
-            dbResponse  =  new dbCheck(getApplicationContext()){
-
-            }.execute().get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        int tableSize = Integer.valueOf(dbResponse);
-        return tableSize;
-    }
-
-
-
-    public ArrayList<StateTable> importStateData(){
-
-        ArrayList<StateTable> importData = new ArrayList<>(); //List to hold model class objects
+        ArrayList<prospectiveTGLTable> inventoryTS = new ArrayList<>(); //List to hold model class objects
         String[] content = null; //placeholder String array
         try{
             //opens CSV fle in asset folder
-            InputStream inputStream = getAssets().open("location.csv");
+            InputStream inputStream = getAssets().open("prospective_tgl.csv");
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String line = "";
             //read from CSV file by line and read into object. Also adds into the list.
             while ((line = br.readLine()) != null){
                 content = line.split(",");
                 //To escape out the header row
-                if (content[0].equals("ward_id" +
-                        "")){
+                if (content[0].equalsIgnoreCase("unique_member_id") || content.length < 2){
 
                 }else{
                     //maps CSV row to model class and adds to list
-                    final StateTable data = new StateTable(
+                    final prospectiveTGLTable inv = new prospectiveTGETable(
                             content[0],
                             content[1],
                             content[2],
                             content[3],
                             content[4],
                             content[5],
-                            content[6],
-                            content[7]);
-                    importData.add(data);
+                            content[6]);
+                    inventoryTS.add(inv);
                 }
             }
 
         } catch (IOException e){
             e.printStackTrace();
         }
-        setRecordFlag(); //Set import Flag
-        return importData; //return List
 
-    }
+        *//**
+         * This is the function call to update the record flag to 1
+         * *//*
+        setRecordFlag();
+        return inventoryTS; //return List
 
-    @SuppressLint("StaticFieldLeak")
-    public static class dbCheck extends AsyncTask<String, String, String> {
-
-        Context c1;
-
-        public dbCheck(Context c){
-            this.c1 = c;
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            Room.databaseBuilder(c1,
-                    LocationDatabase.class, "locaion_database").build();
-            LocationDatabase dbSize = LocationDatabase.getInstance(c1);
-            String  tableSize = String.valueOf(dbSize.getStateInfo().getTableSize());
-            return tableSize;
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public static class dbInsert extends AsyncTask<ArrayList<StateTable>, String, String> {
-
-        Context c1;
-
-        dbInsert(Context c){
-            this.c1 = c;
-
-        }
-
-        @SafeVarargs
-        @Override
-        protected final String doInBackground(ArrayList<StateTable>... arrayLists) {
-            Room.databaseBuilder(c1,
-                    LocationDatabase.class, "location_database").build();
-            LocationDatabase locationDatabase = LocationDatabase.getInstance(c1);
-
-            locationDatabase.getStateInfo().insert(arrayLists[0]);
-
-            return "";
-        }
     }*/
+
+    public void setRecordFlag(){
+        SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(getApplicationContext());
+        sharedPreferenceController.setImportFlag("1");
+
+    }
 
     @OnClick(R.id.bt_open)
     public void buttonClick(View view){
         moveToTFMHomeActivity();
     }
 
-
-    /*public void onClick(View v) {
-
-        //do something
-        moveToTFMHomeActivity();
-
-        if (permissionGranted()) {
-            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            boolean gps_enabled = false;
-            boolean network_enabled = false;
-
-            try {
-                gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            } catch (Exception ex) {
-            }
-
-            try {
-                network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            } catch (Exception ex) {
-            }
-
-            if (!gps_enabled && !network_enabled) {
-                // notify user
-                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setMessage("Enable location");
-                dialog.setPositiveButton("Turn on location", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(myIntent);
-
-                    }
-                });
-                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-
-                    }
-                });
-                dialog.show();
-            }
-
-            if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                //Assign Not Applicable to fields that doesn't require columns
-
-
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setComponent(new ComponentName("com.babbangona.accesscontrol", "com.babbangona.accesscontrol.MainActivity"));
-                new Intent(getApplicationContext(), LocationInfo.class);
-                startActivity(intent);
-            }
-        }
-        else {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-    }*/
-
     void moveToTFMHomeActivity(){
         Intent intent = new Intent(getApplicationContext(),TFMHome.class);
         startActivity(intent);
     }
 
-    public boolean permissionGranted() {
-        return (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    @SuppressLint("HardwareIds")
+    String getIMEI(){
+        TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission. READ_PHONE_STATE)== PackageManager.PERMISSION_GRANTED){
+            if (tm != null) {
+                return tm.getDeviceId();
+            }else{
+                return "";
+            }
+        } else{
+            return "";
+        }
     }
 
 }

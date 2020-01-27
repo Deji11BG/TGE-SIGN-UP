@@ -63,7 +63,7 @@ public class SharedPreference {
     public static final String KEY_STAFF_SYNC_TIME = "staff_sync_time";
     public static final String KEY_UNIQUE_ID_FIELD_MAPPING = "unique_id_for_field_mapping";
     public static final String KEY_BUNDLED_TEMPLATE = "bundled_template";
-    public static final String KEY_ACTIVITY_RESULT = "verify_activity_result";
+    public static final String KEY_PHONE_IMEI = "imei";
 
     public static final String KEY_ROLE = "role";
 
@@ -93,9 +93,9 @@ public class SharedPreference {
     public SharedPreference() {
     }
 
-    public void setKeyActivityResult(int verify_activity_result){
+    public void setKeyPhoneImei(String verify_activity_result){
         // Storing name in pref
-        editor.putInt(KEY_ACTIVITY_RESULT, verify_activity_result);
+        editor.putString(KEY_PHONE_IMEI, verify_activity_result);
 
         // commit changes
         editor.commit();
@@ -277,8 +277,8 @@ public class SharedPreference {
         editor.commit();
     }
 
-    public int getKeyActivityResult(){
-        return pref.getInt(KEY_ACTIVITY_RESULT,0);
+    public String getKeyActivityResult(){
+        return pref.getString(KEY_PHONE_IMEI,"Nothing_yet");
     }
 
     public HashMap<String, String> getUserDetails(){

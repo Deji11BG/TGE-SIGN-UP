@@ -21,7 +21,7 @@ import java.util.List;
 public interface prospectiveTGLDao {
 
     @Query("SELECT * FROM " +
-            TFMDBContractClass.TABLE_PROSPECTIVE_TGL +" WHERE sync_flag ='0'")
+            TFMDBContractClass.TABLE_PROSPECTIVE_TGL +" ")
     List<prospectiveTGLTable> getUnsynced();
 
     @Query("SELECT first_name,last_name,ik_number,member_id,unique_member_id FROM " +

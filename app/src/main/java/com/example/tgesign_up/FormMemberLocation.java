@@ -1,10 +1,14 @@
 package com.example.tgesign_up;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.tgesign_up.Api.GPSController;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationInterface;
@@ -432,7 +437,8 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
                             memberLocationPresenter.getTextFromSpinner(actState),
                             memberLocationPresenter.getTextFromSpinner(actLga),
                             memberLocationPresenter.getTextFromSpinner(actWard),
-                            memberLocationPresenter.getTextFromSpinner(actVillage), parentLayout,memberLocationPresenter.getRegistrationAction(this));
+                            memberLocationPresenter.getTextFromSpinner(actVillage),
+                            parentLayout,memberLocationPresenter.getRegistrationAction(this));
                     //memberLocationPresenter.moveToNextActivity();
                     memberLocationPresenter.secretaryPresenceDialog(this);
                 }

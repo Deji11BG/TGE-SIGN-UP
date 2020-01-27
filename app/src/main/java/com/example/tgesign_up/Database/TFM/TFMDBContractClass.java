@@ -54,7 +54,10 @@ public class TFMDBContractClass {
     public static final String COL_PASS_VERIFICATION            = "pass_verification";
     public static final String COL_LONGITUDE                    = "longitude";
     public static final String COL_LATITUDE                     = "latitude";
-    public static final String ACTIVE_FLAG                     = "active_flag";
+    public static final String ACTIVE_FLAG                      = "active_flag";
+    public static final String COL_APP_VERSION                  = "app_version";
+    public static final String COL_IMEI                         = "imei";
+    public static final String COL_SLOT_ID                      = "slot_id";
 
 
     /**

@@ -26,44 +26,28 @@ public class prospectiveTGLTable {
     @ColumnInfo(name = TFMDBContractClass.COL_FIRST_NAME)//
     private String first_name;
 
-    @ColumnInfo(name = TFMDBContractClass.COL_MIDDLE_NAME)
-    private String middle_name;
-
     @ColumnInfo(name = TFMDBContractClass.COL_LAST_NAME)//
     private String last_name;
 
     @ColumnInfo(name = TFMDBContractClass.COL_TEMPLATE)//
     private String template;
 
-    @ColumnInfo(name = TFMDBContractClass.COL_ROLE)//
-    private String role;
-    @ColumnInfo(name = TFMDBContractClass.COL_REG_DATE)//
-    private String regdate;
-
-    @ColumnInfo(name = TFMDBContractClass.COL_SYNC_FLAG)//
-    private String sync_flag;
-
     @ColumnInfo(name = TFMDBContractClass.ACTIVE_FLAG)//
     private String active_flag;
 
-    public prospectiveTGLTable(@NonNull String unique_member_id, String unique_ik_number, String ik_number,
-                               String member_id, String first_name, String middle_name, String last_name,
-                               String role, String template, String regdate,String active_flag,String sync_flag) {
-        this.unique_member_id = unique_member_id;
-        this.member_id = member_id;
-        this.first_name = first_name;
-        this.middle_name = middle_name;
-        this.last_name = last_name;
-        this.ik_number=ik_number;
-        this.role = role;
-        this.template = template;
-        this.regdate = regdate;
-        this.active_flag=active_flag;
-        this.sync_flag=sync_flag;
-    }
-
     public prospectiveTGLTable(){
 
+    }
+
+    public prospectiveTGLTable(@NonNull String unique_member_id, String ik_number, String member_id,
+                               String first_name, String last_name, String template, String active_flag) {
+        this.unique_member_id = unique_member_id;
+        this.ik_number = ik_number;
+        this.member_id = member_id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.template = template;
+        this.active_flag = active_flag;
     }
 
     @NonNull
@@ -99,14 +83,6 @@ public class prospectiveTGLTable {
         this.first_name = first_name;
     }
 
-    public String getMiddle_name() {
-        return middle_name;
-    }
-
-    public void setMiddle_name(String middle_name) {
-        this.middle_name = middle_name;
-    }
-
     public String getLast_name() {
         return last_name;
     }
@@ -115,36 +91,12 @@ public class prospectiveTGLTable {
         this.last_name = last_name;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getTemplate() {
         return template;
     }
 
     public void setTemplate(String template) {
         this.template = template;
-    }
-
-    public String getRegdate() {
-        return regdate;
-    }
-
-    public void setRegdate(String regdate) {
-        this.regdate = regdate;
-    }
-
-    public String getSync_flag() {
-        return sync_flag;
-    }
-
-    public void setSync_flag(String regdate) {
-        this.sync_flag = sync_flag;
     }
 
     public String getActive_flag() {
