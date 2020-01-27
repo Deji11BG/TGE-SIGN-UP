@@ -15,9 +15,9 @@ import retrofit2.http.Query;
 
 public interface scheduleApiInterface {
     @FormUrlEncoded
-    @POST("tgesignup_schedule_syncup.php")
+    @POST("uploadSignUpWardSchedule")
     Call<List<scheduleTable>> syncUpSchedule(@Field("wordlist") String sync_up_data);
 
-    @GET("downloadSignUpWardSchedule.php")
+    @GET("downloadSignUpWardSchedule")
     Call<List<schedulemodel>> syncDownSchedule(String ward);
 }

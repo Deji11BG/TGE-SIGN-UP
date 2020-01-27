@@ -351,6 +351,8 @@ public class ScheduleInfo extends AppCompatActivity {
                 map.put("first_time",X.first_time);
                 map.put("second_day",X.second_day);
                 map.put("second_time",X.second_time);
+                map.put("schedule_flag",X.schedule_flag);
+                ward.setText(X.ward);
 
                 map.put("schedule_count", String.valueOf(X.schedule_count));
                 sharedPreferenceController.schedulecount(String.valueOf(X.schedule_count));
@@ -383,7 +385,9 @@ public class ScheduleInfo extends AppCompatActivity {
                         jsonObject.getString("first_time"),
                         jsonObject.getString("second_day"),
                         jsonObject.getString("second_time"),
-                        jsonObject.getString("schedule_count")
+
+                        jsonObject.getString("schedule_flag"),
+                        jsonObject.getInt("schedule_count")
                         //jsonObject.getString("phone_number")
 
 
