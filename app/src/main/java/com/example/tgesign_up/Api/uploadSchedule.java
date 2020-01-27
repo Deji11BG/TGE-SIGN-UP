@@ -12,6 +12,7 @@ import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceControl
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.scheduleTable;
 import com.example.tgesign_up.ScheduleInfo;
+import com.example.tgesign_up.TGHomeMVP.schedulemodel;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,45 +44,62 @@ public class uploadSchedule {
     private TFMDatabase tfmDatabase;
     private List<SyncingResponseTFM> syncingResponseTFM = new ArrayList<>();
     private List<scheduleTable> membersTableList = new ArrayList<>();
+    private List<schedulemodel> oldMembersDownloadModelList = new ArrayList<>();
 
 
 
 
 
+    private void saveToScheduleTable(schedulemodel member){
+        scheduleTable oldMembersListData = new scheduleTable();
+
+        oldMembersListData.setWard(member.getWard());
+        oldMembersListData.setFirst_day(member.getFirst_day());
+        oldMembersListData.setFirst_time(member.getFirst_time());
+        oldMembersListData.setSecond_day(member.getSecond_day());
+        oldMembersListData.setSecond_time(member.getSecond_time());
+        oldMembersListData.setSlot_id(member.getSlot_id());
+        oldMembersListData.setSchedule_count(member.getSchedulecount());
+        oldMembersListData.setSchedule_flag(member.getSchedule_flag());
 
 
+        saveScheduleData task = new saveScheduleData();
+        task.execute(oldMembersListData);
 
-    private void getScheduleRecords(final String staff_id) {
+    }
+
+
+    private void getScheduleRecords() {
 
         SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
         //String last_synced = sharedPreferenceController.getTfmOutputSyncTime();
 
         apiInterface = ApiClient.getApiClient().create(scheduleApiInterface.class);
-        Call<List<scheduleTable>> call = apiInterface.syncDownSchedule();
+        Call<List<schedulemodel>> call = apiInterface.syncDownSchedule();
 
-        call.enqueue(new Callback<List<scheduleTable>>() {
+        call.enqueue(new Callback<List<schedulemodel>>() {
             @SuppressWarnings("unchecked")
             @Override
-            public void onResponse(@NonNull Call<List<scheduleTable>> call, @NonNull Response<List<scheduleTable>> response) {
+            public void onResponse(@NonNull Call<List<schedulemodel>> call, @NonNull Response<List<schedulemodel>> response) {
                 //Log.d("tobiRes", ""+ Objects.requireNonNull(response.body()).toString());
                 if (response.isSuccessful()) {
-                    membersTableList = response.body();
+                    oldMembersDownloadModelList = response.body();
 
-                    Log.d("Retrofit_response1", Objects.requireNonNull(membersTableList).toString());
-                    String memberSize = String.valueOf(membersTableList != null ? membersTableList.size() : 0);
+                    Log.d("Retrofit_response1", Objects.requireNonNull(oldMembersDownloadModelList).toString());
+                    String memberSize = String.valueOf(oldMembersDownloadModelList != null ? oldMembersDownloadModelList.size() : 0);
                     Log.d("listSize", memberSize);
 
-                    if (membersTableList == null){
+                    if (oldMembersDownloadModelList == null){
                         //sharedPreferenceController.setTFMOutputFlagsAndDescriptions("1","Download null",sharedPreferenceController.getTfmOutputSyncTime());
-                    }else if(membersTableList.size() == 0){
+                    }else if(oldMembersDownloadModelList.size() == 0){
                        // sharedPreferenceController.setTFMOutputFlagsAndDescriptions("1","Download empty",sharedPreferenceController.getTfmOutputSyncTime());
                     }else {
                         //sharedPreferenceController.setTFMOutputFlagsAndDescriptions("1","Download Successful",membersTableList.get(0).getLast_sync_time());
-                        saveScheduleData task = new saveScheduleData();
-                        task.execute(membersTableList);
-                        for (int i = 0; i < membersTableList.size(); i++) {
-                            scheduleTable member = membersTableList.get(i);
-                            //saveOutputRecordPictures(member);
+//                        saveToOldMembersTable(); task = new saveScheduleData();
+//                        task.execute(membersTableList);
+                        for (int i = 0; i < oldMembersDownloadModelList.size(); i++) {
+                            schedulemodel member = oldMembersDownloadModelList.get(i);
+                            saveToScheduleTable(member);
                         }
                     }
 
@@ -109,7 +127,7 @@ public class uploadSchedule {
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<scheduleTable>> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<List<schedulemodel>> call, @NotNull Throwable t) {
                 Log.d("tobi", t.toString());
                 //sharedPreferenceController.setTFMOutputFlagsAndDescriptions("0","Download failed",sharedPreferenceController.getTfmOutputSyncTime());
 
@@ -120,7 +138,7 @@ public class uploadSchedule {
 
 
     @SuppressLint("StaticFieldLeak")
-    public class saveScheduleData extends AsyncTask<List<scheduleTable>, Void, Void> {
+    public class saveScheduleData extends AsyncTask<scheduleTable, Void, Void> {
 
 
         private final String TAG = saveScheduleData.class.getSimpleName();
@@ -132,9 +150,9 @@ public class uploadSchedule {
 
         @SafeVarargs
         @Override
-        protected final Void doInBackground(List<scheduleTable>... params) {
+        protected final Void doInBackground(scheduleTable... params) {
 
-            List<scheduleTable> membersTableList = params[0];
+            scheduleTable membersTableList = params[0];
 
             try {
                 tfmDatabase = TFMDatabase.getInstance(context);
@@ -146,12 +164,6 @@ public class uploadSchedule {
             return null;
         }
     }
-
-
-
-
-
-
 
 
 
