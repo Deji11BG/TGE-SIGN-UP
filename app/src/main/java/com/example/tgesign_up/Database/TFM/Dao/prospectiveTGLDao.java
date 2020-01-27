@@ -42,6 +42,9 @@ public interface prospectiveTGLDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(prospectiveTGLTable prospectiveTGL);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<prospectiveTGLTable> prospectiveTGL);
+
     /**
      * update the object in database
      * @param prospectiveTGL, object to be updated

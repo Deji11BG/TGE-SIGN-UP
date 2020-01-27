@@ -1,8 +1,7 @@
-package com.example.tgesign_up;
+package com.example.tgesign_up.TGPage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,10 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.tgesign_up.R;
 
 import java.util.ArrayList;
 import java.util.List;

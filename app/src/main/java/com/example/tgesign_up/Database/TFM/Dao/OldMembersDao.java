@@ -13,7 +13,7 @@ import com.example.tgesign_up.Database.TFM.Table.OldMembersTable;
 import com.example.tgesign_up.FormMemberInformationMVP.FormMemberInformationModel;
 import com.example.tgesign_up.TGHomeMVP.TGLeaderModel;
 import com.example.tgesign_up.TGHomeMVP.TGModel;
-import com.example.tgesign_up.TgMembersModel;
+import com.example.tgesign_up.TGPage.TgMembersModel;
 
 import java.util.List;
 

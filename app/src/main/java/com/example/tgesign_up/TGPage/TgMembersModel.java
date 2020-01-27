@@ -1,4 +1,4 @@
-package com.example.tgesign_up;
+package com.example.tgesign_up.TGPage;
 
 public class TgMembersModel {
 

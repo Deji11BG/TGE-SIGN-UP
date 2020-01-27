@@ -1,12 +1,9 @@
-package com.example.tgesign_up;
+package com.example.tgesign_up.TGPage;
 
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +13,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tgesign_up.Api.SharedPreference;
-import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
+import com.example.tgesign_up.R;
+import com.example.tgesign_up.VerifyTemplate;
 
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.ProductViewHolder> {
@@ -36,21 +35,18 @@ public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.Prod
     private prospectiveTGLTable.prospectiveTGLTableRecycler member;
     SharedPreferenceController sharedPreferenceController;
 
-
-
-    public TgMembersAdapter(Context mCtx, List<prospectiveTGLTable.prospectiveTGLTableRecycler> memberList) {
+    TgMembersAdapter(Context mCtx, List<prospectiveTGLTable.prospectiveTGLTableRecycler> memberList) {
         this.mCtx = mCtx;
         this.memberList = memberList;
     }
 
 
+    @NotNull
     @Override
-    public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProductViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.tg_members_recycler, null);
-
-
         return new ProductViewHolder(view);
 
     }

@@ -101,6 +101,9 @@ public class MainActivity extends AppCompatActivity{
                 //function call to the method that reads prospective TGE data from asset
                 prospectiveTGEInsertResult();
 
+                //function call to the method that reads prospective TGL data from asset
+                prospectiveTGLInsertResult();
+
                 new CountDownTimer(10000,1000){
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -345,6 +348,42 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    @SuppressWarnings("unchecked")
+    void prospectiveTGLInsertResult(){
+        try {
+
+            //function call to the async task method that preload into the database
+            @SuppressLint("StaticFieldLeak")
+            String x = new prospectiveTGLInsert(getApplicationContext()){}
+                    .execute(importProspectiveTGLTable()).get();
+            Log.d("abc",x);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static class prospectiveTGLInsert extends AsyncTask<ArrayList<prospectiveTGLTable>, String, String> {
+
+        Context c1;
+
+        prospectiveTGLInsert(Context c){
+            this.c1 = c;
+        }
+
+        @SafeVarargs
+        @Override
+        protected final String doInBackground(ArrayList<prospectiveTGLTable>... arrayLists) {
+            Room.databaseBuilder(c1,
+                    TFMDatabase.class, "tfm").build();
+            TFMDatabase tfmDatabase = TFMDatabase.getInstance(c1);
+
+            tfmDatabase.getProspectiveTGLDao().insert(arrayLists[0]);
+
+            return "";
+        }
+    }
+
     public ArrayList<StateTable> importStateData(){
 
         ArrayList<StateTable> inventoryTS = new ArrayList<>(); //List to hold model class objects
@@ -525,25 +564,25 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    /*public ArrayList<prospectiveTGETable> importProspectiveTGLTable(){
+    public ArrayList<prospectiveTGLTable> importProspectiveTGLTable() {
 
 
         ArrayList<prospectiveTGLTable> inventoryTS = new ArrayList<>(); //List to hold model class objects
         String[] content = null; //placeholder String array
-        try{
+        try {
             //opens CSV fle in asset folder
             InputStream inputStream = getAssets().open("prospective_tgl.csv");
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String line = "";
             //read from CSV file by line and read into object. Also adds into the list.
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 content = line.split(",");
                 //To escape out the header row
-                if (content[0].equalsIgnoreCase("unique_member_id") || content.length < 2){
+                if (content[0].equalsIgnoreCase("unique_member_id") || content.length < 2) {
 
-                }else{
+                } else {
                     //maps CSV row to model class and adds to list
-                    final prospectiveTGLTable inv = new prospectiveTGETable(
+                    final prospectiveTGLTable inv = new prospectiveTGLTable(
                             content[0],
                             content[1],
                             content[2],
@@ -555,17 +594,13 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
 
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        *//**
-         * This is the function call to update the record flag to 1
-         * *//*
         setRecordFlag();
         return inventoryTS; //return List
-
-    }*/
+    }
 
     public void setRecordFlag(){
         SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(getApplicationContext());
