@@ -15,7 +15,6 @@ import com.example.tgesign_up.Database.TFM.Table.CheckListTable;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
 import com.example.tgesign_up.Database.TFM.Table.OldMembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
-import com.example.tgesign_up.Database.TFM.Table.TrustGroupTable;
 import com.example.tgesign_up.Home.OldMembersDownloadModel;
 import com.example.tgesign_up.TGHomeMVP.TGLeaderModel;
 import com.google.gson.Gson;
@@ -61,17 +60,10 @@ public class UploadTFMData {
         if (countTFMData() > 0){
             syncUpTFMData();
         }
-        if (countTGData() > 0){
-            syncUpTGData();
-        }
         getInputRecords(staff_id);
         getCheckListRecord();
         getTFMAppVariables();
         getOutputRecords(staff_id);
-    }
-
-    public int countTGData(){
-        return tgLeaderModel.getTGDataCountForSyncResult(context);
     }
 
     public int countTFMData(){
@@ -138,71 +130,6 @@ public class UploadTFMData {
             @Override
             public void onFailure(@NonNull Call<List<SyncingResponseTFM>> call, @NonNull Throwable t) {
                 Log.d("TobiNewTFM", t.toString());
-            }
-        });
-    }
-
-    /**
-     * This method calls SyncUp so as to push the composed List from it online
-     */
-    private void syncUpTGData() {
-
-        SharedPreference sharedPreference = new SharedPreference(context);
-        HashMap<String, String> user = sharedPreference.getUserDetails();
-
-        String composed_tg_json = tgLeaderModel.syncUpTGDataResult(context);
-        Log.d("composed_tg_json",composed_tg_json);
-        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<TrustGroupTable.SyncingResponse>> call = apiInterface.syncUpTGTable(composed_tg_json,user.get(SharedPreference.KEY_STAFF_ID));
-        call.enqueue(new Callback<List<TrustGroupTable.SyncingResponse>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<TrustGroupTable.SyncingResponse>> call, @NonNull Response<List<TrustGroupTable.SyncingResponse>> response) {
-                Log.d("RETROFIT_TG", "onResponse: " + response.body());
-                if (response.isSuccessful()) {
-
-                    List<TrustGroupTable.SyncingResponse> syncingResponse = response.body();
-
-                    Log.d("syncingResponseTG", Objects.requireNonNull(syncingResponse).toString());
-                    for (int i = 0; i < syncingResponse.size(); i++) {
-                        TrustGroupTable.SyncingResponse member = syncingResponse.get(i);
-                        tgLeaderModel.saveTGTableReturnResult(context,member);
-
-                        Log.d("iValue:", String.valueOf(i));
-
-                    }
-                } else {
-                    Log.i("tobi_tg", "onResponse ERROR: " + response.body());
-                    int sc = response.code();
-                    switch (sc) {
-                        case 400:
-                            Log.e("Error 400", "Bad Request");
-                            break;
-                        case 401:
-                            Log.e("Error 401", "Bad Request");
-                            break;
-                        case 403:
-                            Log.e("Error 403", "Bad Request");
-                            break;
-                        case 404:
-                            Log.e("Error 404", "Not Found");
-                            break;
-                        case 500:
-                            Log.e("Error 500", "Bad Request");
-                            break;
-                        case 501:
-                            Log.e("Error 501", "Bad Request");
-                            break;
-                        default:
-                            Log.e("Error", "Generic Error " + response.code());
-                            break;
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<TrustGroupTable.SyncingResponse>> call, @NonNull Throwable t) {
-                Log.d("TobiNewTG", t.toString());
             }
         });
     }
@@ -469,7 +396,6 @@ public class UploadTFMData {
 
     private void saveToOldMembersTable(OldMembersDownloadModel member){
         OldMembersTable oldMembersListData = new OldMembersTable();
-        TrustGroupTable trustGroupListData = new TrustGroupTable();
 
         oldMembersListData.setUnique_member_id(member.getUnique_member_id());
         oldMembersListData.setUnique_ik_number(member.getUnique_ik_number());
@@ -490,12 +416,6 @@ public class UploadTFMData {
         oldMembersListData.setSeason_id(member.getSeason_id());
         oldMembersListData.setCrop_type(member.getCrop_type());
 
-        trustGroupListData.setUnique_ik_number(member.getUnique_ik_number());
-        trustGroupListData.setIk_number(member.getIk_number());
-        trustGroupListData.setLevel(member.getLevel());
-        trustGroupListData.setStaff_id(member.getStaff_id());
-        trustGroupListData.setFinished_checklist(member.getFinished_checklist());
-
         SaveTFMInputData task = new SaveTFMInputData();
         task.execute(oldMembersListData);
 
@@ -504,9 +424,6 @@ public class UploadTFMData {
             GetImages getImages = new GetImages(member.getPicture_url(),member.getPicture_name());
             getImages.execute();
         }
-
-        SaveTrustGroupInputData saveTrustGroupInputData = new SaveTrustGroupInputData();
-        saveTrustGroupInputData.execute(trustGroupListData);
     }
 
     /**
@@ -722,7 +639,7 @@ public class UploadTFMData {
     public class saveCheckListTable extends AsyncTask<List<CheckListTable>, Void, Void> {
 
 
-        private final String TAG = TrustGroupTable.class.getSimpleName();
+        private final String TAG = saveCheckListTable.class.getSimpleName();
 
         @Override
         protected void onPreExecute() {
@@ -754,7 +671,7 @@ public class UploadTFMData {
     public class saveTFMAppVariables extends AsyncTask<List<TFMAppVariables>, Void, Void> {
 
 
-        private final String TAG = TrustGroupTable.class.getSimpleName();
+        private final String TAG = saveTFMAppVariables.class.getSimpleName();
 
         @Override
         protected void onPreExecute() {
@@ -770,37 +687,6 @@ public class UploadTFMData {
             try {
                 tfmDatabase = TFMDatabase.getInstance(context);
                 tfmDatabase.getTFMAppVariablesTable().insert(tfmAppVariables);
-            } catch (Exception e) {
-                Log.d(TAG, Objects.requireNonNull(e.getMessage()));
-            }
-
-            return null;
-        }
-    }
-
-    /**
-     * This AsyncTask carries out saving to database the downloaded data by calling a database helper method
-     * This background thread is required as the volume of data is pretty much high
-     */
-    @SuppressLint("StaticFieldLeak")
-    public class SaveTrustGroupInputData extends AsyncTask<TrustGroupTable, Void, Void> {
-
-
-        private final String TAG = TrustGroupTable.class.getSimpleName();
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(TrustGroupTable... params) {
-
-            TrustGroupTable trustGroupTable = params[0];
-
-            try {
-                tfmDatabase = TFMDatabase.getInstance(context);
-                tfmDatabase.getTrustGroupTable().insert(trustGroupTable);
             } catch (Exception e) {
                 Log.d(TAG, Objects.requireNonNull(e.getMessage()));
             }

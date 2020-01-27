@@ -50,11 +50,11 @@ public class FormMemberInformationPresenter implements FormMemberInformationPres
         SharedPreference sharedPreference = new SharedPreference(context);
         HashMap<String, String> user = sharedPreference.getUserDetails();
         String unique_ik_number = user.get(SharedPreference.KEY_UNIQUE_IK_NUMBER);
-        if (command.equalsIgnoreCase(context.getResources().getString(R.string.tfm_member_info_sex))){
+        if (command.equalsIgnoreCase("Sex")){
             spinnerList = formMemberInformationModel.getSexList(context);
-        }else if (command.equalsIgnoreCase(context.getResources().getString(R.string.tfm_member_info_crop_type))){
+        }else if (command.equalsIgnoreCase("Crop Type")){
             spinnerList = formMemberInformationModel.getCropList(context);
-        }else if (command.equalsIgnoreCase(context.getResources().getString(R.string.tfm_member_info_member_role))){
+        }else if (command.equalsIgnoreCase("Member Role")){
             spinnerList = formMemberInformationModel.getRoleList(context,unique_ik_number);
         }else{
             spinnerList = formMemberInformationModel.getRoleList(context,unique_ik_number);
@@ -85,8 +85,7 @@ public class FormMemberInformationPresenter implements FormMemberInformationPres
 
     @Override
     public int validateMemberInfo(TextInputEditText first_name, TextInputEditText last_name, TextInputEditText phone_number,
-                                  TextInputEditText age, AutoCompleteTextView sex, AutoCompleteTextView member_role,
-                                  AutoCompleteTextView crop_type){
+                                  TextInputEditText age, AutoCompleteTextView sex){
 
         // Checks if the first_name field is empty
         if(Objects.requireNonNull(first_name.getText()).toString().matches("")) {
@@ -111,17 +110,6 @@ public class FormMemberInformationPresenter implements FormMemberInformationPres
         // Checks if the sex field is empty
         else if(sex.getText().toString().matches("")) {
             return 0;
-        }
-
-        // Checks if the member role field is empty
-        else if(member_role.getText().toString().matches("")) {
-            return 0;
-        }
-
-        // Checks if the crop type field is empty
-        else if(crop_type.getText().toString().matches("")) {
-            return 0;
-
         }
 
         //Save all data to shared preferences if all the checks are passed
@@ -237,8 +225,7 @@ public class FormMemberInformationPresenter implements FormMemberInformationPres
 
     @Override
     public void saveDetailsToSharedPreference(TextInputEditText first_name, TextInputEditText last_name, TextInputEditText phone_number,
-                                              TextInputEditText age, AutoCompleteTextView sex, AutoCompleteTextView member_role,
-                                              AutoCompleteTextView crop_type,
+                                              TextInputEditText age, AutoCompleteTextView sex,
                                               Context context) {
         SharedPreference sharedPreference = new SharedPreference(context);
         sharedPreference.setKeyFirstName(getViewContentText(first_name));
@@ -246,8 +233,6 @@ public class FormMemberInformationPresenter implements FormMemberInformationPres
         sharedPreference.setKeyPhoneNumber(getViewContentText(phone_number));
         sharedPreference.setKeyAge(getViewContentText(age));
         sharedPreference.setKeySex(getSpinnerContent(sex));
-        sharedPreference.setKeyMemberRole(getSpinnerContent(member_role));
-        sharedPreference.setKeyCropType(getSpinnerContent(crop_type));
         sharedPreference.setKeyMemberBirthday(calculateBirthDate(Integer.valueOf(getViewContentText(age))));
     }
 
@@ -340,8 +325,7 @@ public class FormMemberInformationPresenter implements FormMemberInformationPres
 
     @Override
     public void saveDetailsToModelClass(TextInputEditText first_name, TextInputEditText last_name, TextInputEditText phone_number,
-                                        TextInputEditText age, AutoCompleteTextView sex, AutoCompleteTextView member_role,
-                                        AutoCompleteTextView crop_type, Context context) {
+                                        TextInputEditText age, AutoCompleteTextView sex,  Context context) {
         SharedPreference sharedPreference = new SharedPreference(context);
         HashMap<String, String> user = sharedPreference.getUserDetails();
         String unique_ik_number = user.get(SharedPreference.KEY_UNIQUE_IK_NUMBER);
@@ -352,8 +336,6 @@ public class FormMemberInformationPresenter implements FormMemberInformationPres
         formMemberInformationModel.setPhone_number(getViewContentText(phone_number));
         formMemberInformationModel.setDate_of_birth(calculateBirthDate(Integer.valueOf(getViewContentText(age))));
         formMemberInformationModel.setSex(getSpinnerContent(sex));
-        formMemberInformationModel.setRole(getSpinnerContent(member_role));
-        formMemberInformationModel.setCrop_type(getSpinnerContent(crop_type));
         formMemberInformationModel.setUnique_ik_number(unique_ik_number);
         formMemberInformationModel.setIk_number(ik_number);
 

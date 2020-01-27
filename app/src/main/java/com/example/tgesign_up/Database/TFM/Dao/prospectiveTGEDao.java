@@ -20,9 +20,14 @@ import java.util.List;
 public interface prospectiveTGEDao {
 
 
-    @Query("SELECT * FROM " +
-            TFMDBContractClass.TABLE_PROSPECTIVE_TGE +" WHERE sync_flag ='0'")
-    List<prospectiveTGETable> getUnsynced();
+    @Query("SELECT first_name,last_name,ik_number,member_id,unique_member_id FROM " + TFMDBContractClass.TABLE_PROSPECTIVE_TGE +"")
+    List<prospectiveTGETable.prospectiveTGETableRecycler> getLeaders();
+
+    @Query("SELECT template FROM " + TFMDBContractClass.TABLE_PROSPECTIVE_TGE +" WHERE unique_member_id = :unique_member_id")
+    String getLeaderTemplate(String unique_member_id);
+
+    @Query("SELECT first_name,last_name FROM " + TFMDBContractClass.TABLE_PROSPECTIVE_TGE +" WHERE unique_member_id = :unique_member_id")
+    FormMemberInformationModel.memberKeyDetails getProspectiveTGEDetails(String unique_member_id);
 
     /**
      * Insert the object in database
@@ -30,6 +35,9 @@ public interface prospectiveTGEDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(prospectiveTGETable prospectiveTGE);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<prospectiveTGETable> prospectiveTGE);
 
     /**
      * update the object in database

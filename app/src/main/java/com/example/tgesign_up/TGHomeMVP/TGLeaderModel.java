@@ -10,12 +10,11 @@ import android.util.Log;
 import androidx.room.Room;
 
 import com.example.tgesign_up.Api.SyncingResponseTFM;
+import com.example.tgesign_up.Database.Location.LocationDatabase;
 import com.example.tgesign_up.Database.TFM.TFMDBContractClass;
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMTemplateTrackerTable;
-import com.example.tgesign_up.Database.TFM.Table.TrustGroupTable;
-import com.example.tgesign_up.LocationDatabase;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -32,6 +31,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class TGLeaderModel {
@@ -490,20 +490,21 @@ public class TGLeaderModel {
     }
 
 
-
-
-    String saveToSdCard(Bitmap bitmap, String filename) {
+    String saveToSdCard(Bitmap bitmap, String filename, String child_name, Context context) {
 
         String stored = null;
+        String picture_holder;
 
-            /*File sdcard = Environment.getExternalStorageDirectory() ;
-            File folder = new File(sdcard.getAbsoluteFile(), "TGL_TFMPictures/.nomedia");//the dot makes this directory hidden to the user
-            folder.mkdir();*/
+        if (child_name.equalsIgnoreCase("small")){
+            picture_holder = "TFMPictures";
+        }else{
+            picture_holder = "TFMPicturesLarge";
+        }
 
         File ChkImgDirectory;
         String storageState = Environment.getExternalStorageState();
         if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-            ChkImgDirectory = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(), "TFMPictures");
+            ChkImgDirectory = new File(Objects.requireNonNull(context.getExternalFilesDir(null)).getAbsoluteFile(), picture_holder);
 
             File file, file3;
             File file1 = new File(ChkImgDirectory.getAbsoluteFile(), filename + ".jpg");
@@ -650,43 +651,6 @@ public class TGLeaderModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public String syncUpTGDataResult(Context context) {
-        String s = "0";
-        try {
-            List<TrustGroupTable> wordList = new syncUpTGData(context){
-            }.execute().get();
-            Gson gson = new Gson();
-            //Use Gson to serialize Array List to JSON
-            s = gson.toJson(wordList,wordList.getClass());
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return s;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public class syncUpTGData extends AsyncTask<String, Void, List<TrustGroupTable>> {
-
-        Context mCtx;
-        TFMDatabase tfmDatabase;
-
-        syncUpTGData(Context context) {
-            this.mCtx = context;
-        }
-
-        @Override
-        protected List<TrustGroupTable> doInBackground(String... strings) {
-            try{
-                tfmDatabase = TFMDatabase.getInstance(mCtx);
-                return tfmDatabase.getTrustGroupTable().getAllTGDataForSync();
-            }catch (Exception e){
-                e.printStackTrace();
-                return new ArrayList<>();
-            }
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
     public void saveMembersTableReturnResult(Context context, SyncingResponseTFM syncingResponse) {
 
         try {
@@ -734,52 +698,6 @@ public class TGLeaderModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void saveTGTableReturnResult(Context context, TrustGroupTable.SyncingResponse syncingResponse) {
-
-        try {
-            new saveTGTableReturn(context){
-            }.execute(syncingResponse).get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * This method saves into database the result of syncing up LMR data Mostly sync_flag and time
-     */
-    @SuppressLint("StaticFieldLeak")
-
-    public class saveTGTableReturn extends AsyncTask<TrustGroupTable.SyncingResponse, Void, Void> {
-
-
-        private final String TAG = saveMembersTableReturn.class.getSimpleName();
-
-        Context mCtx;
-        TFMDatabase tfmDatabase;
-
-        saveTGTableReturn(Context context) {
-            this.mCtx = context;
-        }
-
-        //updateSyncStatus
-
-        @Override
-        protected Void doInBackground(TrustGroupTable.SyncingResponse... params) {
-
-            TrustGroupTable.SyncingResponse member = params[0];
-
-            try {
-                tfmDatabase = TFMDatabase.getInstance(mCtx);
-                tfmDatabase.getTrustGroupTable().updateTGSyncStatus(member.getUnique_ik_number(),member.getSync_flag());
-            } catch (Exception e) {
-                Log.d(TAG, e+"");
-            }
-
-            return null;
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
     public int getTFMDataCountForSyncResult(Context context) {
         int result ;
         try {
@@ -808,42 +726,6 @@ public class TGLeaderModel {
             try{
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
                 return tfmDatabase.getMembersTable().getAllTFMDataCountForSync();
-            }catch (Exception e){
-                e.printStackTrace();
-                return 0;
-            }
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public int getTGDataCountForSyncResult(Context context) {
-        int result ;
-        try {
-            result = new getTGDataCountForSync(context){
-                @Override
-                protected void onPostExecute(Integer s) {}
-            }.execute().get();
-        } catch (ExecutionException | InterruptedException e) {
-            result = 0;
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public static abstract class getTGDataCountForSync extends AsyncTask<String, Void, Integer> {
-        Context mCtx;
-        TFMDatabase tfmDatabase;
-
-        getTGDataCountForSync(Context context) {
-            this.mCtx = context;
-        }
-
-        @Override
-        protected Integer doInBackground(String... strings) {
-            try{
-                tfmDatabase = TFMDatabase.getInstance(mCtx);
-                return tfmDatabase.getTrustGroupTable().getAllTGDataCountForSync();
             }catch (Exception e){
                 e.printStackTrace();
                 return 0;
@@ -928,6 +810,80 @@ public class TGLeaderModel {
 
         }
 
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static String getLgaIDFromWardIDResult(Context context, String ward_id) {
+        String result ;
+        try {
+            result = new getLgaIDFromWardID(context){
+                @Override
+                protected void onPostExecute(String s) {}
+            }.execute(ward_id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            result = "0";
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getLgaIDFromWardID extends AsyncTask<String, Void, String> {
+        Context mCtx;
+        LocationDatabase locationDatabase;
+
+        getLgaIDFromWardID(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try{
+                Log.d("get_lga_id_from_ward_id", Arrays.toString(strings));
+                locationDatabase = LocationDatabase.getInstance(mCtx);
+                return locationDatabase.getWard().getLgaId(strings[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+                return "";
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    static String getStateIDFromLgaIDResult(Context context, String lga_id) {
+        String result ;
+        try {
+            result = new getStateIDFromLgaID(context){
+                @Override
+                protected void onPostExecute(String s) {}
+            }.execute(lga_id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            result = "0";
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getStateIDFromLgaID extends AsyncTask<String, Void, String> {
+        Context mCtx;
+        LocationDatabase locationDatabase;
+
+        getStateIDFromLgaID(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try{
+                Log.d("state_id_from_lga_id", Arrays.toString(strings));
+                locationDatabase = LocationDatabase.getInstance(mCtx);
+                return locationDatabase.getLga().getStateId(strings[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+                return "";
+            }
+        }
     }
 
     public static class CountModel{

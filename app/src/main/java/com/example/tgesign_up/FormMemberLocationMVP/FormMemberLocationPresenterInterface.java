@@ -3,6 +3,7 @@ package com.example.tgesign_up.FormMemberLocationMVP;
 import android.content.Context;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -17,7 +18,7 @@ public interface FormMemberLocationPresenterInterface {
     int validateMemberInfo(AutoCompleteTextView state, AutoCompleteTextView lga, AutoCompleteTextView ward, AutoCompleteTextView village);
     void checkIfAutocompleteEmpty(AutoCompleteTextView autoCompleteTextView, TextInputLayout textInputLayout, String error_message);
     void collateAllResult(Context context, String state, String lga, String ward, String village,
-                          String other_crops, String not_listed_crops, View view, boolean bool);
+                           View view, boolean bool);
     String getViewContentText(TextInputEditText textInputEditText);
     void displayDialog(Context context, AutoCompleteTextView state, AutoCompleteTextView lga, AutoCompleteTextView ward,
                        AutoCompleteTextView village, AutoCompleteTextView other_bg_crops, TextInputEditText other_crops_not_listed);
@@ -39,4 +40,8 @@ public interface FormMemberLocationPresenterInterface {
     void setTextForEdit();
     void getMyLocationValuesFromID(Context context);
     void startActivityForResult();
+    void secretaryPresenceDialog(Context context);
+    void secretaryTGQuestion(Context context);
+    void startHomeActivity();
+    void startTGMembersActivity();
 }

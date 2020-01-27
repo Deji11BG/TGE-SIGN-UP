@@ -26,6 +26,7 @@
     </LinearLayout>
 
     <!-- Adding bottom sheet after main content -->
-    <include layout="@layout/leader_registration_confirmation_dialog" />
+    <!--
+    <include layout="@layout/leader_registration_confirmation_dialog" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

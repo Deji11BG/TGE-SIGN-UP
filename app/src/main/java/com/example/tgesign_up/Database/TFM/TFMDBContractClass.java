@@ -7,7 +7,7 @@ package com.example.tgesign_up.Database.TFM;
 
 public class TFMDBContractClass {
 
-    public static final String TFM_DATABASE_NAME = "tfm";
+    public static final String TFM_DATABASE_NAME = "tge_sign_up.db";
     public static final int TFM_DATABASE_VERSION = 1;
 
 
@@ -18,6 +18,7 @@ public class TFMDBContractClass {
     public static final String TFM_APP_VARIABLES                = "tfm_app_variables";
     public static final String TABLE_CHECK_LIST                 = "check_list";
     public static final String TABLE_LAST_SYNC                  = "last_sync_table";
+    public static final String TABLE_NEW_TGE                    = "new_tge";
     public static final String TABLE_TFM_TEMPLATE_TRACKER       = "tfm_template_tracker";
     public static final String TABLE_PROSPECTIVE_TGE   = "prospectiveTGE";
     public static final String TABLE_PROSPECTIVE_TGL   = "prospectiveTGL";
@@ -53,7 +54,10 @@ public class TFMDBContractClass {
     public static final String COL_PASS_VERIFICATION            = "pass_verification";
     public static final String COL_LONGITUDE                    = "longitude";
     public static final String COL_LATITUDE                     = "latitude";
-    public static final String ACTIVE_FLAG                     = "active_flag";
+    public static final String ACTIVE_FLAG                      = "active_flag";
+    public static final String COL_APP_VERSION                  = "app_version";
+    public static final String COL_IMEI                         = "imei";
+    public static final String COL_SLOT_ID                      = "slot_id";
 
 
     /**

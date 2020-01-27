@@ -145,7 +145,7 @@
 
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <!--<com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ExposedDropdownMenu"
@@ -160,9 +160,9 @@
                     android:editable="false"
                     android:id="@+id/actMemberRole"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>-->
 
-            <com.google.android.material.textfield.TextInputLayout
+            <!--<com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ExposedDropdownMenu"
@@ -177,30 +177,31 @@
                     android:editable="false"
                     android:id="@+id/actCropType"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>-->
 
-            <com.google.android.material.checkbox.MaterialCheckBox
+            <!--<com.google.android.material.checkbox.MaterialCheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/same_location_check_box"
                 android:paddingStart="@dimen/tfm_text_view_padding"
                 android:paddingEnd="@dimen/tfm_text_view_padding"
-                android:text="@string/tfm_member_info_same_location"/>
+                android:text="@string/tfm_member_info_same_location"/>-->
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="@dimen/tfm_text_view_padding"
-                style="?android:attr/buttonBarStyle">
+                android:orientation="vertical"
+
+                android:layout_gravity="bottom|center">
+
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnNext"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_marginTop="150dp"
+                    android:layout_width="300dp"
+                    android:layout_height="70dp"
                     android:background="@color/view_blue"
+
                     android:text="@string/next" />
 
             </LinearLayout>

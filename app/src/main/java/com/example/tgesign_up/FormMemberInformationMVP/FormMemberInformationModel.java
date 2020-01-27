@@ -288,12 +288,12 @@ public class FormMemberInformationModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public FormMemberInformationModel getMemberDetails(Context context, String unique_member_id) {
-        FormMemberInformationModel member_details = new FormMemberInformationModel();
+    public FormMemberInformationModel.memberKeyDetails getProspectiveTGLDetailsResult(Context context, String unique_member_id) {
+        FormMemberInformationModel.memberKeyDetails member_details = new FormMemberInformationModel.memberKeyDetails();
         try {
-            member_details = new getMemberDetails(context){
+            member_details = new getProspectiveTGLDetails(context){
                 @Override
-                protected void onPostExecute(FormMemberInformationModel s) {}
+                protected void onPostExecute(FormMemberInformationModel.memberKeyDetails s) {}
             }.execute(unique_member_id).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -302,21 +302,54 @@ public class FormMemberInformationModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public static abstract class getMemberDetails extends AsyncTask<String, Void, FormMemberInformationModel> {
+    public static abstract class getProspectiveTGLDetails extends AsyncTask<String, Void, FormMemberInformationModel.memberKeyDetails> {
         Context mCtx;
-        FormMemberInformationModel member_details = new FormMemberInformationModel();
         TFMDatabase tfmDatabase;
 
-        getMemberDetails(Context context) {
+        getProspectiveTGLDetails(Context context) {
             this.mCtx = context;
         }
 
         @Override
-        protected FormMemberInformationModel doInBackground(String... strings) {
+        protected FormMemberInformationModel.memberKeyDetails doInBackground(String... strings) {
             try{
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
-                member_details = tfmDatabase.getMembersTable().getMemberDetails(strings[0]);
-                return member_details;
+                return tfmDatabase.getProspectiveTGLDao().getProspectiveTGLDetails(strings[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public FormMemberInformationModel.memberKeyDetails getProspectiveTGEDetailsResult(Context context, String unique_member_id) {
+        FormMemberInformationModel.memberKeyDetails member_details = new FormMemberInformationModel.memberKeyDetails();
+        try {
+            member_details = new getProspectiveTGEDetails(context){
+                @Override
+                protected void onPostExecute(FormMemberInformationModel.memberKeyDetails s) {}
+            }.execute(unique_member_id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return member_details;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getProspectiveTGEDetails extends AsyncTask<String, Void, FormMemberInformationModel.memberKeyDetails> {
+        Context mCtx;
+        TFMDatabase tfmDatabase;
+
+        getProspectiveTGEDetails(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected FormMemberInformationModel.memberKeyDetails doInBackground(String... strings) {
+            try{
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                return tfmDatabase.getProspectiveTGEDao().getProspectiveTGEDetails(strings[0]);
             }catch (Exception e){
                 e.printStackTrace();
                 return null;
@@ -795,6 +828,32 @@ public class FormMemberInformationModel {
 
         public void setCount(int count) {
             this.count = count;
+        }
+    }
+
+    public static class memberKeyDetails{
+
+        private String first_name;
+
+        private String last_name;
+
+        public memberKeyDetails() {
+        }
+
+        public String getFirst_name() {
+            return first_name;
+        }
+
+        public void setFirst_name(String first_name) {
+            this.first_name = first_name;
+        }
+
+        public String getLast_name() {
+            return last_name;
+        }
+
+        public void setLast_name(String last_name) {
+            this.last_name = last_name;
         }
     }
 

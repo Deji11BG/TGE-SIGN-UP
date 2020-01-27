@@ -21,8 +21,19 @@ import java.util.List;
 public interface prospectiveTGLDao {
 
     @Query("SELECT * FROM " +
-            TFMDBContractClass.TABLE_PROSPECTIVE_TGL +" WHERE sync_flag ='0'")
+            TFMDBContractClass.TABLE_PROSPECTIVE_TGL +" ")
     List<prospectiveTGLTable> getUnsynced();
+
+    @Query("SELECT first_name,last_name,ik_number,member_id,unique_member_id FROM " +
+            TFMDBContractClass.TABLE_PROSPECTIVE_TGE +" WHERE ik_number = :ik_number")
+    List<prospectiveTGLTable.prospectiveTGLTableRecycler> getMembers(String ik_number);
+
+    @Query("SELECT template FROM " +
+            TFMDBContractClass.TABLE_PROSPECTIVE_TGL +" WHERE unique_member_id = :unique_member_id")
+    String getProspectiveTGLTemplateResult(String unique_member_id);
+
+    @Query("SELECT first_name,last_name FROM " + TFMDBContractClass.TABLE_PROSPECTIVE_TGL +" WHERE unique_member_id = :unique_member_id")
+    FormMemberInformationModel.memberKeyDetails getProspectiveTGLDetails(String unique_member_id);
 
     /**
      * Insert the object in database
@@ -30,6 +41,9 @@ public interface prospectiveTGLDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(prospectiveTGLTable prospectiveTGL);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<prospectiveTGLTable> prospectiveTGL);
 
     /**
      * update the object in database

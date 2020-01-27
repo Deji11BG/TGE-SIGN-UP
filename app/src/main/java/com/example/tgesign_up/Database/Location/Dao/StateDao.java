@@ -37,6 +37,10 @@ public interface StateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(StateTable lmrDistData);
 
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<StateTable> lmrDistData);
+
     /*
      * update the object in database
      * @param data, object to be updated

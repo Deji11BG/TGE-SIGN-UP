@@ -12,7 +12,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,17 +19,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.tgesign_up.Api.GPSController;
-import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationInterface;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationModel;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationPresenter;
+import com.example.tgesign_up.TGPage.TgMembers;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.HashMap;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -68,12 +68,6 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
 
     @BindView(R.id.btnAddMember)
     MaterialButton btnAddMember;
-
-    @BindView(R.id.actOtherCrops)
-    AutoCompleteTextView actOtherCrops;
-
-    @BindView(R.id.edtOtherCropsNotListed)
-    TextInputEditText edtOtherCropsNotListed;
 
     @BindView(R.id.member_location_confirmation_dialog)
     LinearLayout member_location_confirmation_dialog;
@@ -118,41 +112,10 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
         memberLocationPresenter = new FormMemberLocationPresenter(FormMemberLocation.this);
         memberLocationModel = new FormMemberLocationModel();
-        SharedPreference sharedPreference = new SharedPreference(this);
-        HashMap<String, String> user = sharedPreference.getUserDetails();
 
-        if (memberLocationPresenter.getRegistrationRole(this)){
-            if (!memberLocationPresenter.getRegistrationAction(this)){
-                memberLocationPresenter.enableEditTextViewsForEdit(false);
-                memberLocationPresenter.getMyLocationValuesFromID(this);
-                memberLocationPresenter.setTextForEdit();
-            }else{
-                memberLocationPresenter.fillStateSpinner(actState,FormMemberLocation.this,
-                        memberLocationPresenter.getRegistrationAction(this));
-            }
-        }else{
-            if (memberLocationPresenter.getRegistrationAction(this)){
-                memberLocationPresenter.enableEditTextViewsForMembers(false);
-                memberLocationPresenter.getLocationValuesFromID(this);
-                memberLocationPresenter.setTextsForMembers();
-            }else{
-                if (Objects.requireNonNull(user.get(SharedPreference.KEY_REGISTRATION_ACTION)).
-                        equalsIgnoreCase(this.getResources().getString(R.string.registration_action_old_1))){
-                    memberLocationPresenter.enableEditTextViewsForMembers(false);
-                    memberLocationPresenter.getLocationValuesFromID(this);
-                    memberLocationPresenter.setTextsForMembers();
-                    sharedPreference.setKeyRegistrationAction(this.getResources().getString(R.string.registration_action_old_2));
-                }else{
-                    memberLocationPresenter.enableEditTextViewsForEdit(true);
-                    memberLocationPresenter.getMyLocationValuesFromID(this);
-                    memberLocationPresenter.setTextForEdit();
-                }
 
-            }
-            memberLocationPresenter.fillWardSpinner(actWard,FormMemberLocation.this,
-                    memberLocationModel.getLga(), memberLocationPresenter.getRegistrationAction(this));
-            memberLocationPresenter.fillVillageSpinner(actVillage,FormMemberLocation.this,memberLocationModel.getWard());
-        }
+        memberLocationPresenter.fillStateSpinner(actState,FormMemberLocation.this,
+                memberLocationPresenter.getRegistrationAction(this));
 
         toolbar_tg.setNavigationOnClickListener(view -> memberLocationPresenter.loadPreviousActivity());
 
@@ -190,8 +153,6 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
         bottom_sheet_lga.setText(Objects.requireNonNull(actLga.getText()).toString());
         bottom_sheet_ward.setText(Objects.requireNonNull(actWard.getText()).toString());
         bottom_sheet_village.setText(Objects.requireNonNull(actVillage.getText()).toString());
-        bottom_sheet_other_crops.setText(Objects.requireNonNull(actOtherCrops.getText()).toString());
-        bottom_sheet_other_crops_not_listed.setText(Objects.requireNonNull(edtOtherCropsNotListed.getText()).toString());
     }
 
     void showBottomSheet(){
@@ -221,27 +182,13 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        //int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_help) {
-            try {
-                startActivity(new Intent(FormMemberLocation.this, ViewActivityIssues.class)
-                        .putExtra("activity_id", "tfm_4")
-                        .putExtra("app_id", "tfm")
-                        .putExtra("staff_id", "T-10000000000000AA")//get this guy from shared prefs
-                        .putExtra("user_location", ""));
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(FormMemberLocation.this, "Activity not found", Toast.LENGTH_LONG).show();
-            }
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -252,25 +199,25 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
     }
 
     @Override
-    public void setToStateModel(AutoCompleteTextView autoCompleteTextView, boolean bool) {
+    public void setToStateModel(AutoCompleteTextView autoCompleteTextView, final boolean bool) {
         autoCompleteTextView.setOnItemClickListener((parent, view, position, rowId) -> {
             memberLocationPresenter.clearSpinnerText(actLga);
             memberLocationPresenter.clearSpinnerText(actWard);
             memberLocationPresenter.clearSpinnerText(actVillage);
-            String state_selection = (String)parent.getItemAtPosition(position);
+            String state_selection = (String) parent.getItemAtPosition(position);
             memberLocationModel.setState(state_selection);
-            memberLocationPresenter.fillLgaSpinner(actLga,FormMemberLocation.this,memberLocationModel.getState(), bool);
+            memberLocationPresenter.fillLgaSpinner(actLga, FormMemberLocation.this, memberLocationModel.getState(), bool);
         });
     }
 
     @Override
-    public void setToLGAModel(AutoCompleteTextView autoCompleteTextView, boolean bool) {
+    public void setToLGAModel(AutoCompleteTextView autoCompleteTextView, final boolean bool) {
         autoCompleteTextView.setOnItemClickListener((parent, view, position, rowId) -> {
             memberLocationPresenter.clearSpinnerText(actWard);
             memberLocationPresenter.clearSpinnerText(actVillage);
-            String lga_selection = (String)parent.getItemAtPosition(position);
+            String lga_selection = (String) parent.getItemAtPosition(position);
             memberLocationModel.setLga(lga_selection);
-            memberLocationPresenter.fillWardSpinner(actWard,FormMemberLocation.this,memberLocationModel.getLga(), bool);
+            memberLocationPresenter.fillWardSpinner(actWard, FormMemberLocation.this, memberLocationModel.getLga(), bool);
         });
     }
 
@@ -278,9 +225,9 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
     public void setToWardModel(AutoCompleteTextView autoCompleteTextView, boolean bool) {
         autoCompleteTextView.setOnItemClickListener((parent, view, position, rowId) -> {
             memberLocationPresenter.clearSpinnerText(actVillage);
-            String ward_selection = (String)parent.getItemAtPosition(position);
+            String ward_selection = (String) parent.getItemAtPosition(position);
             memberLocationModel.setWard(ward_selection);
-            memberLocationPresenter.fillVillageSpinner(actVillage,FormMemberLocation.this,memberLocationModel.getWard());
+            memberLocationPresenter.fillVillageSpinner(actVillage, FormMemberLocation.this, memberLocationModel.getWard());
         });
 
     }
@@ -288,7 +235,7 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
     @Override
     public void setToVillageModel(AutoCompleteTextView autoCompleteTextView) {
         autoCompleteTextView.setOnItemClickListener((parent, view, position, rowId) -> {
-            String village_selection = (String)parent.getItemAtPosition(position);
+            String village_selection = (String) parent.getItemAtPosition(position);
             memberLocationModel.setVillage_name(village_selection);
         });
     }
@@ -386,8 +333,6 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
         memberLocationPresenter.setTextOfAutoCompleteTextViews(actLga, memberLocationModel.getLga());
         memberLocationPresenter.setTextOfAutoCompleteTextViews(actWard, memberLocationModel.getWard());
         memberLocationPresenter.setTextOfAutoCompleteTextViews(actVillage, memberLocationModel.getVillage_name());
-        memberLocationPresenter.setTextOfAutoCompleteTextViews(actOtherCrops, memberLocationModel.getOther_crops());
-        memberLocationPresenter.setTextOfEditTextViews(edtOtherCropsNotListed, memberLocationModel.getOther_not_listed_crops());
     }
 
     @Override
@@ -401,8 +346,59 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
     @Override
     public void startActivityForResult() {
         Intent intent = new Intent(this, VerifyActivity.class);
-        intent.putExtra("role","Member");
+        intent.putExtra("role","Leader");
+        intent.putExtra("verification_stage","stage_2");
         startActivityForResult(intent,419);
+    }
+
+    @Override
+    public void secretaryPresenceDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setTitle(context.getResources().getString(R.string.tfm_dialog_attention));
+        builder.setMessage("Is your secretary present?")
+                .setPositiveButton(context.getResources().getString(R.string.yes), (dialog, id) -> {
+                    //This is to start authentication activity
+                    memberLocationPresenter.secretaryTGQuestion(context);
+                    dialog.cancel();
+                })
+                .setNeutralButton(context.getResources().getString(R.string.no), (dialog, id) -> {
+                    //memberLocationPresenter.startActivityForResult();
+                    memberLocationPresenter.startHomeActivity();
+                    dialog.cancel();
+                })
+                .show();
+    }
+
+    @Override
+    public void secretaryTGQuestion(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setTitle(context.getResources().getString(R.string.tfm_dialog_attention));
+        builder.setMessage("Does your secretary want to create a Supa TG?")
+                .setPositiveButton(context.getResources().getString(R.string.yes), (dialog, id) -> {
+                    //This is to start authentication activity
+                    memberLocationPresenter.startTGMembersActivity();
+                    dialog.cancel();
+                })
+                .setNeutralButton(context.getResources().getString(R.string.no), (dialog, id) -> {
+                    //memberLocationPresenter.startActivityForResult();
+                    memberLocationPresenter.startHomeActivity();
+                    dialog.cancel();
+                })
+                .show();
+    }
+
+    @Override
+    public void startHomeActivity() {
+        Intent intent = new Intent(getApplicationContext(), TFMHome.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startTGMembersActivity() {
+        Intent intent = new Intent(getApplicationContext(), TgMembers.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.btnAddMember)
@@ -428,20 +424,18 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         View parentLayout = findViewById(android.R.id.content);
-        SharedPreference sharedPreference = new SharedPreference(getApplicationContext());
         if (requestCode == 419) {
             if (data != null) {
                 if (data.getIntExtra("RESULT", 0) == 1) {
                     //my code
-                    sharedPreference.setKeyPassAuthentication("1");
                     memberLocationPresenter.collateAllResult(this,
                             memberLocationPresenter.getTextFromSpinner(actState),
                             memberLocationPresenter.getTextFromSpinner(actLga),
                             memberLocationPresenter.getTextFromSpinner(actWard),
                             memberLocationPresenter.getTextFromSpinner(actVillage),
-                            memberLocationPresenter.getTextFromSpinner(actOtherCrops),
-                            memberLocationPresenter.getViewContentText(edtOtherCropsNotListed), parentLayout,memberLocationPresenter.getRegistrationAction(this));
-                    memberLocationPresenter.moveToNextActivity();
+                            parentLayout,memberLocationPresenter.getRegistrationAction(this));
+                    //memberLocationPresenter.moveToNextActivity();
+                    memberLocationPresenter.secretaryPresenceDialog(this);
                 }
             }
         }

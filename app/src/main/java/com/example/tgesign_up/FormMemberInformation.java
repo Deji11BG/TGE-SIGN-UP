@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,9 +26,10 @@ import com.example.tgesign_up.FormMemberInformationMVP.FormMemberInformationMode
 import com.example.tgesign_up.FormMemberInformationMVP.FormMemberInformationPresenter;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -69,18 +70,6 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
     @BindView(R.id.edlSex)
     TextInputLayout edlSex;
 
-    @BindView(R.id.actMemberRole)
-    AutoCompleteTextView actMemberRole;
-
-    @BindView(R.id.edlMemberRole)
-    TextInputLayout edlMemberRole;
-
-    @BindView(R.id.actCropType)
-    AutoCompleteTextView actCropType;
-
-    @BindView(R.id.edlCropType)
-    TextInputLayout edlCropType;
-
     @BindView(R.id.btnNext)
     MaterialButton btnNext;
 
@@ -105,23 +94,15 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
     @BindView(R.id.bottom_sheet_sex)
     TextView bottom_sheet_sex;
 
-    @BindView(R.id.bottom_sheet_member_role)
-    TextView bottom_sheet_member_role;
-
-    @BindView(R.id.bottom_sheet_crop_type)
-    TextView bottom_sheet_crop_type;
-
     @BindView(R.id.btnCancel)
     Button btnCancel;
 
     @BindView(R.id.btnConfirm)
     Button btnConfirm;
 
-    @BindView(R.id.same_location_check_box)
-    MaterialCheckBox same_location_check_box;
-
     FormMemberInformationPresenter memberInformationPresenter;
     FormMemberInformationModel memberInformationModel;
+    FormMemberInformationModel.memberKeyDetails memberKeyDetails;
 
     private BottomSheetBehavior sheetBehavior;
 
@@ -136,18 +117,24 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
         GPSController.initialiseLocationListener(this);
         memberInformationPresenter = new FormMemberInformationPresenter(FormMemberInformation.this);
         memberInformationModel = new FormMemberInformationModel();
+        memberKeyDetails = new FormMemberInformationModel.memberKeyDetails();
 
-        memberInformationPresenter.enableEditTextViews(memberInformationPresenter.getRegistrationAction(this));
+        memberInformationPresenter.enableEditTextViews(false);
 
         SharedPreference sharedPreference = new SharedPreference(this);
         HashMap<String, String> user = sharedPreference.getUserDetails();
 
-        if (Objects.requireNonNull(user.get(SharedPreference.KEY_REGISTRATION_ACTION))
-                .equalsIgnoreCase(this.getResources().getString(R.string.registration_action_old_1))){
-            memberInformationModel = memberInformationModel.getOldMemberDetailsResult(this,user.get(SharedPreference.KEY_UNIQUE_MEMBER_ID));
+        if (Objects.requireNonNull(user.get(SharedPreference.KEY_ROLE_TO_REGISTER_FOR))
+                .equalsIgnoreCase("Leader")){
+            memberKeyDetails = memberInformationModel.getProspectiveTGEDetailsResult(this,user.get(SharedPreference.KEY_UNIQUE_MEMBER_ID));
         }else{
-            memberInformationModel = memberInformationModel.getMemberDetails(this,user.get(SharedPreference.KEY_UNIQUE_MEMBER_ID));
+            memberKeyDetails = memberInformationModel.getProspectiveTGLDetailsResult(this,user.get(SharedPreference.KEY_UNIQUE_MEMBER_ID));
         }
+
+        memberInformationModel.setFirst_name(memberKeyDetails.getFirst_name());
+        memberInformationModel.setLast_name(memberKeyDetails.getLast_name());
+
+        memberInformationPresenter.setTextOfEditTextViews(true);
 
         memberInformationPresenter.controlEditTextAppearance(memberInformationPresenter.getRegistrationAction(this));
 
@@ -191,8 +178,6 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
         bottom_sheet_phone_number.setText(Objects.requireNonNull(edtPhoneNumber.getText()).toString());
         bottom_sheet_age.setText(Objects.requireNonNull(edtAge.getText()).toString());
         bottom_sheet_sex.setText(Objects.requireNonNull(actSex.getText()).toString());
-        bottom_sheet_member_role.setText(Objects.requireNonNull(actMemberRole.getText()).toString());
-        bottom_sheet_crop_type.setText(Objects.requireNonNull(actCropType.getText()).toString());
     }
 
     void showBottomSheet(){
@@ -210,16 +195,7 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
 
     @OnClick(R.id.btnConfirm)
     public  void setBtnConfirm(View view){
-        if (!same_location_check_box.isChecked()){
-            memberInformationPresenter.saveDetailsToSharedPreference(edtFirstName,edtLastName,edtPhoneNumber,edtAge,actSex,
-                    actMemberRole,actCropType,FormMemberInformation.this);
-            memberInformationPresenter.moveToNextActivity();
-        }else{
-            Intent intent = new Intent(this, VerifyActivity.class);
-            intent.putExtra("role","Member");
-            startActivityForResult(intent,419);
-        }
-
+        memberInformationPresenter.moveToNextActivity();
     }
 
     @Override
@@ -231,11 +207,11 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        //int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_help) {
@@ -280,8 +256,8 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
         builder.setTitle("Member Information");
         builder.setMessage("(!) Ensure that the details are correct before you proceed")
                 .setPositiveButton("Ok", (dialog, id) -> {
-                    memberInformationPresenter.saveDetailsToSharedPreference(edtFirstName,edtLastName,edtPhoneNumber,edtAge,actSex,
-                            actMemberRole,actCropType,FormMemberInformation.this);
+                    memberInformationPresenter.saveDetailsToSharedPreference(edtFirstName, edtLastName, edtPhoneNumber, edtAge, actSex,
+                             FormMemberInformation.this);
                     memberInformationPresenter.moveToNextActivity();
                 })
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
@@ -304,25 +280,13 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
     public void enableEditTextViews(boolean bool) {
         edtFirstName.setEnabled(bool);
         edtLastName.setEnabled(bool);
-        edtAge.setEnabled(bool);
-        actCropType.setEnabled(bool);
-        if (bool){
-            same_location_check_box.setVisibility(View.VISIBLE);
-        }else{
-            same_location_check_box.setVisibility(View.GONE);
-        }
     }
 
     @Override
     public void setTextOfEditTextViews(boolean bool) {
-        if (!bool){
+        if (bool){
             memberInformationPresenter.setTextOfEditTextViews(edtFirstName,memberInformationModel.getFirst_name());
             memberInformationPresenter.setTextOfEditTextViews(edtLastName,memberInformationModel.getLast_name());
-            memberInformationPresenter.setTextOfEditTextViews(edtPhoneNumber,memberInformationModel.getPhone_number());
-            memberInformationPresenter.setTextOfEditTextViews(edtAge,memberInformationModel.getAge());
-            memberInformationPresenter.setTextOfAutoCompleteTextViews(actSex,memberInformationModel.getSex());
-            memberInformationPresenter.setTextOfAutoCompleteTextViews(actMemberRole,memberInformationModel.getRole());
-            memberInformationPresenter.setTextOfAutoCompleteTextViews(actCropType,memberInformationModel.getCrop_type());
         }
     }
 
@@ -338,19 +302,16 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
 
     @Override
     public void controlEditTextAppearance(boolean bool) {
-        if (!bool){
-            memberInformationModel.setAge(memberInformationPresenter.calculateAge(memberInformationModel.getDate_of_birth()));
-            memberInformationPresenter.setTextOfEditTextViews(memberInformationPresenter.getRegistrationAction(this));
+        if (bool){
+            memberInformationPresenter.fillThisSpinner(actSex,FormMemberInformation.this,"Sex");
         }else{
-            memberInformationPresenter.fillThisSpinner(actSex,FormMemberInformation.this,this.getResources().getString(R.string.tfm_member_info_sex));
-            memberInformationPresenter.fillThisSpinner(actMemberRole,FormMemberInformation.this,this.getResources().getString(R.string.tfm_member_info_member_role));
-            memberInformationPresenter.fillThisSpinner(actCropType,FormMemberInformation.this,this.getResources().getString(R.string.tfm_member_info_crop_type));
+            memberInformationPresenter.fillThisSpinner(actSex,FormMemberInformation.this,"Sex");
         }
     }
 
     @OnClick(R.id.btnNext)
     public  void next(View view){
-        if (memberInformationPresenter.validateMemberInfo(edtFirstName,edtLastName,edtPhoneNumber,edtAge,actSex,actMemberRole,actCropType) == 0){
+        if (memberInformationPresenter.validateMemberInfo(edtFirstName,edtLastName,edtPhoneNumber,edtAge,actSex) == 0){
             editorChecker();
         }else if (memberInformationPresenter.phoneNumberChecker(edtPhoneNumber) == 0){
             memberInformationPresenter.setTextViewError(edlPhoneNumber, this.getResources().getString(R.string.tfm_error_wrong_phone_number));
@@ -370,8 +331,6 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
         memberInformationPresenter.checkIfTextViewEmpty(edtPhoneNumber,edlPhoneNumber,this.getResources().getString(R.string.tfm_error_empty_phone_number));
         memberInformationPresenter.checkIfTextViewEmpty(edtAge,edlAge,this.getResources().getString(R.string.tfm_error_empty_age));
         memberInformationPresenter.checkIfAutocompleteEmpty(actSex,edlSex,this.getResources().getString(R.string.tfm_error_sex));
-        memberInformationPresenter.checkIfAutocompleteEmpty(actCropType,edlCropType,this.getResources().getString(R.string.tfm_error_crop_type));
-        memberInformationPresenter.checkIfAutocompleteEmpty(actMemberRole,edlMemberRole,this.getResources().getString(R.string.tfm_error_member_role));
     }
 
 
@@ -390,7 +349,7 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
                     //my code
                     sharedPreference.setKeyPassAuthentication("1");
                     memberInformationPresenter.saveDetailsToModelClass(edtFirstName,edtLastName,edtPhoneNumber,edtAge,actSex,
-                            actMemberRole,actCropType,FormMemberInformation.this);
+                            FormMemberInformation.this);
                     memberInformationPresenter.loadPreviousActivity();
                 }
             }

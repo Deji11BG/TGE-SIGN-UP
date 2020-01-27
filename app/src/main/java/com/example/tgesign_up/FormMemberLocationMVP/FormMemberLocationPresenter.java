@@ -277,6 +277,26 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
     }
 
     @Override
+    public void secretaryPresenceDialog(Context context) {
+        viewObject.secretaryPresenceDialog(context);
+    }
+
+    @Override
+    public void secretaryTGQuestion(Context context) {
+        viewObject.secretaryTGQuestion(context);
+    }
+
+    @Override
+    public void startHomeActivity() {
+        viewObject.startHomeActivity();
+    }
+
+    @Override
+    public void startTGMembersActivity() {
+        viewObject.startTGMembersActivity();
+    }
+
+    @Override
     public FormMemberLocationModel getMyLocation(Context context) {
         SharedPreference sharedPreference = new SharedPreference(context);
         HashMap<String, String> user = sharedPreference.getUserDetails();
@@ -289,8 +309,7 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
     }
 
     @Override
-    public void collateAllResult(Context context, String state, String lga, String ward, String village,
-                                 String other_crops, String not_listed_crops, View view, boolean bool){
+    public void collateAllResult(Context context, String state, String lga, String ward, String village, View view, boolean bool){
         GPSController.checkPermission(context);
         GPSController.initialiseLocationListener(context);
         SharedPreference sharedPreference = new SharedPreference(context);
@@ -326,8 +345,6 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
         membersTable.setLga_id(formMemberLocationModel.getLga_id(context,lga));
         membersTable.setWard_id(formMemberLocationModel.getWard_id(context,ward));
         membersTable.setVillage_name(village);
-        membersTable.setOther_crops(other_crops);
-        membersTable.setOther_not_listed_crops(not_listed_crops);
         membersTable.setRegdate(formMemberLocationModel.reg_date_generator());
         membersTable.setPass_verification(pass_authentication_flag);
         membersTable.setIk_number(ik_number);
@@ -408,7 +425,7 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
 
     }
 
-    public String getMemberTemplate(Context context, String unique_member_id) {
+    private String getMemberTemplate(Context context, String unique_member_id) {
         return formMemberLocationModel.getTemplateResult(context, unique_member_id);
     }
 

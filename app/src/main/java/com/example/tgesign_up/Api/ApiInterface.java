@@ -3,7 +3,6 @@ package com.example.tgesign_up.Api;
 import com.example.tgesign_up.Database.TFM.Table.CheckListTable;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
-import com.example.tgesign_up.Database.TFM.Table.TrustGroupTable;
 import com.example.tgesign_up.Home.OldMembersDownloadModel;
 
 import java.util.List;
@@ -40,11 +39,11 @@ public interface ApiInterface {
     @POST("tfm_data_sync_up.php")
     Call<List<SyncingResponseTFM>> syncUpTFMTable(@Field("members_table_data") String members_table_data, @Query("staff_id") String staff_id);
 
-    @FormUrlEncoded
+    /*@FormUrlEncoded
     @POST("trust_group_data_sync_up.php")
-    Call<List<TrustGroupTable.SyncingResponse>> syncUpTGTable(@Field("tg_table_data") String tg_table_data, @Query("staff_id") String staff_id);
+    Call<List<SyncingResponse>> syncUpTGTable(@Field("tg_table_data") String tg_table_data, @Query("staff_id") String staff_id);
 
-    /*@Multipart
+    @Multipart
     @POST("file_upload.php")
     Call <ServerResponse> uploadFile(@Part MultipartBody.Part file, @Part("file") RequestBody name);*/
 

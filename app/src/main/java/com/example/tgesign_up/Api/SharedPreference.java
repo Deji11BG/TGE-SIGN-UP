@@ -56,12 +56,14 @@ public class SharedPreference {
     public static final String KEY_ROLE_TO_REGISTER_FOR = "role_to_register_for";
     public static final String KEY_REGISTRATION_ACTION = "registration_action";
     public static final String KEY_MEMBER_PICTURE = "member_bitmap";
+    public static final String KEY_MEMBER_PICTURE_LARGE = "member_bitmap_large";
     public static final String KEY_MEMBER_PROGRAM = "member_program";
     public static final String KEY_PASS_AUTHENTICATION = "pass_authentication";
     public static final String KEY_CHECKLIST_ARRAY = "check_list_array";
     public static final String KEY_STAFF_SYNC_TIME = "staff_sync_time";
     public static final String KEY_UNIQUE_ID_FIELD_MAPPING = "unique_id_for_field_mapping";
     public static final String KEY_BUNDLED_TEMPLATE = "bundled_template";
+    public static final String KEY_PHONE_IMEI = "imei";
 
     public static final String KEY_ROLE = "role";
 
@@ -89,6 +91,22 @@ public class SharedPreference {
     }
 
     public SharedPreference() {
+    }
+
+    public void setKeyPhoneImei(String verify_activity_result){
+        // Storing name in pref
+        editor.putString(KEY_PHONE_IMEI, verify_activity_result);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public void setKeyMemberPictureLarge(String member_bitmap_large){
+        // Storing name in pref
+        editor.putString(KEY_MEMBER_PICTURE_LARGE, member_bitmap_large);
+
+        // commit changes
+        editor.commit();
     }
 
     public void setKeyBundledTemplate(String bundled_template){
@@ -259,7 +277,9 @@ public class SharedPreference {
         editor.commit();
     }
 
-
+    public String getKeyActivityResult(){
+        return pref.getString(KEY_PHONE_IMEI,"Nothing_yet");
+    }
 
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<>();
@@ -299,6 +319,7 @@ public class SharedPreference {
         user.put(KEY_GPS_TIME,pref.getString(KEY_GPS_TIME,"0000-00-00 00:00:00"));
         user.put(KEY_ROLE_TO_REGISTER_FOR,pref.getString(KEY_ROLE_TO_REGISTER_FOR,"Member"));
         user.put(KEY_MEMBER_PICTURE,pref.getString(KEY_MEMBER_PICTURE,"Member"));
+        user.put(KEY_MEMBER_PICTURE_LARGE,pref.getString(KEY_MEMBER_PICTURE_LARGE,"Member_large"));
         user.put(KEY_MEMBER_PROGRAM,pref.getString(KEY_MEMBER_PROGRAM,"Dami"));
         user.put(KEY_PASS_AUTHENTICATION,pref.getString(KEY_PASS_AUTHENTICATION,"0"));
         user.put(KEY_STAFF_SYNC_TIME,pref.getString(KEY_STAFF_SYNC_TIME,""));

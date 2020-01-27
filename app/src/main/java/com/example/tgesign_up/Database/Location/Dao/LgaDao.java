@@ -39,6 +39,9 @@ public interface LgaDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(LgaTable lmrDistData);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(List<LgaTable> lmrDistData);
+
     /*
      * update the object in database
      * @param data, object to be updated
