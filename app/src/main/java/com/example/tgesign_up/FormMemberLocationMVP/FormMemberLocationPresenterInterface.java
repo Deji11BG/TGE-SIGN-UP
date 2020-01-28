@@ -44,4 +44,6 @@ public interface FormMemberLocationPresenterInterface {
     void secretaryTGQuestion(Context context);
     void startHomeActivity();
     void startTGMembersActivity();
-}
+    int validateMemberInfo(AutoCompleteTextView state, AutoCompleteTextView lga, AutoCompleteTextView ward);
+
+    }

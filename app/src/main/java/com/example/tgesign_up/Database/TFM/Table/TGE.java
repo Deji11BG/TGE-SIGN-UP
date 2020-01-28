@@ -18,6 +18,9 @@ public class TGE {
     @NonNull
     private String unique_member_id;
 
+    @ColumnInfo(name = TFMDBContractClass.COL_TGE_ID)
+    private String tge_id;
+
     @ColumnInfo(name = TFMDBContractClass.COL_STAFF_ID)
     private String staff_id;
 
@@ -43,10 +46,11 @@ public class TGE {
 
     }
 
-    public TGE(@NonNull String unique_member_id, String staff_id, String first_name,
-               String last_name, String sync_flag, String app_version,
-               String imei, String slot_id) {
+    public TGE(@NonNull String unique_member_id, String tge_id, String staff_id,
+               String first_name, String last_name, String sync_flag,
+               String app_version, String imei, String slot_id) {
         this.unique_member_id = unique_member_id;
+        this.tge_id = tge_id;
         this.staff_id = staff_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -63,6 +67,14 @@ public class TGE {
 
     public void setUnique_member_id(@NonNull String unique_member_id) {
         this.unique_member_id = unique_member_id;
+    }
+
+    public String getTge_id() {
+        return tge_id;
+    }
+
+    public void setTge_id(String tge_id) {
+        this.tge_id = tge_id;
     }
 
     public String getStaff_id() {

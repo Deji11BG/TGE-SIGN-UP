@@ -29,6 +29,8 @@
     <string name="tfm_activity_name">Home</string>
     <string name="tfm_help">Help</string>
     <string name="search_here">Search…</string>
+    <string name="select_ward">Select Ward</string>
+    <string name="text_ward_selected">Training ward goes here</string>
     <string name="tfm_checklist_question">Each question goes here</string>
 
     <!--String values for CheckList-->
@@ -96,6 +98,7 @@
     <string name="tfm_member_info_age">Age</string>
     <string name="tfm_member_info_phone_number">Phone Number</string>
     <string name="tfm_member_info_sex">Sex</string>
+    <string name="tfm_filter_hub">Leader Hub</string>
     <string name="tfm_member_info_member_role">Member Role</string>
     <string name="tfm_member_info_crop_type">Crop Type</string>
     <string name="tfm_member_info_same_location">Member Location Same as Leader\'s Location</string>
@@ -109,6 +112,7 @@
     <string name="tfm_error_empty_age">Please enter age</string>
     <string name="tfm_error_wrong_age">Wrong age range</string>
     <string name="tfm_error_sex">Please select sex</string>
+    <string name="tfm_error_hub">Please select hub</string>
     <string name="tfm_error_crop_type">Please select crop type</string>
     <string name="tfm_error_member_role">Please select member role</string>
 
@@ -140,10 +144,12 @@
     <string name="tfm_member_loc_state">State</string>
     <string name="tfm_member_loc_lga">LGA</string>
     <string name="tfm_member_loc_ward">Ward</string>
+    <string name="tfm_training_ward">Training ward</string>
     <string name="tfm_member_loc_village">Village/Town</string>
     <string name="tfm_member_other_crops">Other Crops</string>
     <string name="tfm_member_other_crops_not_listed">Other Crops Not Listed</string>
     <string name="add_member">Add Member</string>
+    <string name="select_training_ward">Select Ward</string>
     <string name="error_message_state">Please select state</string>
     <string name="error_message_lga">Please select LGA</string>
     <string name="error_message_ward">Please select member ward</string>
@@ -151,6 +157,7 @@
 
     <!-- Bottom sheet -->
     <string name="tfm_member_loc_bottom_sheet_state">State:</string>
+    <string name="tfm_training_ward_sheet">Training Ward:</string>
     <string name="tfm_member_loc_bottom_sheet_lga">LGA:</string>
     <string name="tfm_member_loc_bottom_sheet_ward">Ward:</string>
     <string name="tfm_member_loc_bottom_sheet_village">Village/Town:</string>
@@ -394,7 +401,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!--    <string name="bottom_sheet_lga">LGA:</string>-->
-
 
 
 </resources>

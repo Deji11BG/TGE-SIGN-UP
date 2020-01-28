@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.LeaderCardRecyclerVie
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.VerticalSpaceItemDecoration;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -56,6 +58,12 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
     @BindView(R.id.recycler_view)
     RecyclerView recycler_view;
 
+    @BindView(R.id.bt_ward_selector)
+    Button bt_ward_selector;
+
+    @BindView(R.id.tv_ward_selected)
+    TextView tv_ward_selected;
+
     TFMHomePresenter tfmHomePresenter;
     LeaderCardRecyclerViewAdapter adapter;
     SharedPreference sharedPreference;
@@ -72,6 +80,8 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
         tfmHomePresenter.showFeature(toolbar_linear_layout);
         tfmHomePresenter.hideFeature(search_linear_layout);
 
+        tfmHomePresenter.buttonColor(bt_ward_selector);
+        tfmHomePresenter.setTextViewText(tv_ward_selected,TFMHome.this);
 
         recycler_view.setHasFixedSize(true);
         int smallPadding = getResources().getDimensionPixelSize(R.dimen.tfm_home_linear_spacing_small);
@@ -102,6 +112,11 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
         int id = item.getItemId();
         Log.d("logging_id", String.valueOf(id));
 
+        if (id == R.id.action_help) {
+            //sync action goes here
+            return true;
+        }
+
         //noinspection SimplifiableIfStatement
 
         return super.onOptionsItemSelected(item);
@@ -123,6 +138,11 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
         search_edit_text.setText(null);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(imm).hideSoftInputFromWindow(et_search.getWindowToken(), 0);
+    }
+
+    @OnClick(R.id.bt_ward_selector)
+    public void setBt_ward_selector(View view){
+        startActivity(new Intent(TFMHome.this, TrainingWardLocation.class));
     }
 
     @Override
@@ -150,6 +170,23 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
                     dialog.dismiss();
                 }).setCancelable(false)
                 .show();
+    }
+
+    @Override
+    public void setColor(Button button) {
+        SharedPreference sharedPreference = new SharedPreference(this);
+        HashMap<String,String> user = sharedPreference.getUserDetails();
+        if (!Objects.requireNonNull(user.get(SharedPreference.KEY_TRAINING_WARD)).equalsIgnoreCase("Nothing Selected")){
+            button.setBackgroundColor(this.getResources().getColor(R.color.green));
+        }else{
+            button.setBackgroundColor(this.getResources().getColor(R.color.colorRed));
+        }
+    }
+
+    @Override
+    public void setTextViewText(TextView textView, String text) {
+        String word = "Selected ward: "+ text;
+        textView.setText(word);
     }
 
     @Override

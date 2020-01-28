@@ -23,7 +23,7 @@ public class SharedPreference {
     int PRIVATE_MODE = 0;
 
     // Sharedpref file name
-    private static final String PREF_NAME = "MKT_TFM_Pref";
+    private static final String PREF_NAME = "TGE_Pref";
 
     // Email address (make variable public to access from outside)
     public static final String KEY_STAFF_NAME  = "staffname";
@@ -64,6 +64,9 @@ public class SharedPreference {
     public static final String KEY_UNIQUE_ID_FIELD_MAPPING = "unique_id_for_field_mapping";
     public static final String KEY_BUNDLED_TEMPLATE = "bundled_template";
     public static final String KEY_PHONE_IMEI = "imei";
+    public static final String KEY_QR_IK_NUMBER = "qr_ik_number";
+    public static final String KEY_TRAINING_WARD = "training_ward";
+    public static final String KEY_FILTER_HUB = "filter_hub";
 
     public static final String KEY_ROLE = "role";
 
@@ -93,9 +96,33 @@ public class SharedPreference {
     public SharedPreference() {
     }
 
+    public void setKeyFilterHub(String filter_hub){
+        // Storing name in pref
+        editor.putString(KEY_FILTER_HUB, filter_hub);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public void setKeyTrainingWard(String training_ward){
+        // Storing name in pref
+        editor.putString(KEY_TRAINING_WARD, training_ward);
+
+        // commit changes
+        editor.commit();
+    }
+
     public void setKeyPhoneImei(String verify_activity_result){
         // Storing name in pref
         editor.putString(KEY_PHONE_IMEI, verify_activity_result);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public void setKeyQrIkNumber(String qr_ik_number){
+        // Storing name in pref
+        editor.putString(KEY_QR_IK_NUMBER, qr_ik_number);
 
         // commit changes
         editor.commit();
@@ -325,6 +352,9 @@ public class SharedPreference {
         user.put(KEY_STAFF_SYNC_TIME,pref.getString(KEY_STAFF_SYNC_TIME,""));
         user.put(KEY_UNIQUE_ID_FIELD_MAPPING,pref.getString(KEY_UNIQUE_ID_FIELD_MAPPING,"T-10000000000000AA_20191127113805_m"));
         user.put(KEY_BUNDLED_TEMPLATE,pref.getString(KEY_BUNDLED_TEMPLATE,"FOUR"));
+        user.put(KEY_QR_IK_NUMBER,pref.getString(KEY_QR_IK_NUMBER,"IKXXXXXXXX"));
+        user.put(KEY_TRAINING_WARD,pref.getString(KEY_TRAINING_WARD,"Nothing Selected"));
+        user.put(KEY_FILTER_HUB,pref.getString(KEY_FILTER_HUB,"Lekki"));
 
         // return user
         return user;

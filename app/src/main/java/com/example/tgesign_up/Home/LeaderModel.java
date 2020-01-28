@@ -194,7 +194,7 @@ public class LeaderModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public static abstract class getLeaderDetails extends AsyncTask<Void, Void, List<prospectiveTGETable.prospectiveTGETableRecycler>> {
+    public static abstract class getLeaderDetails extends AsyncTask<String, Void, List<prospectiveTGETable.prospectiveTGETableRecycler>> {
         Context mCtx;
         List<prospectiveTGETable.prospectiveTGETableRecycler> leaderModelList = new ArrayList<>();
         TFMDatabase tfmDatabase;
@@ -204,10 +204,10 @@ public class LeaderModel {
         }
 
         @Override
-        protected List<prospectiveTGETable.prospectiveTGETableRecycler> doInBackground(Void... voids) {
+        protected List<prospectiveTGETable.prospectiveTGETableRecycler> doInBackground(String... strings) {
             try{
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
-                leaderModelList = tfmDatabase.getProspectiveTGEDao().getLeaders();
+                leaderModelList = tfmDatabase.getProspectiveTGEDao().getLeaders(strings[0]);
                 return leaderModelList;
             }catch (Exception e){
                 e.printStackTrace();
@@ -245,6 +245,42 @@ public class LeaderModel {
             try{
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
                 return tfmDatabase.getProspectiveTGEDao().getLeaderTemplate(strings[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public List<String> getAllHubsResult(Context context) {
+        List<String> result ;
+        try {
+            result = new getAllHubs(context){
+                @Override
+                protected void onPostExecute(List<String> s) {}
+            }.execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            result = null;
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getAllHubs extends AsyncTask<Void, Void, List<String>> {
+        Context mCtx;
+        TFMDatabase tfmDatabase;
+
+        getAllHubs(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected List<String> doInBackground(Void... voids) {
+            try{
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                return tfmDatabase.getProspectiveTGEDao().getWards();
             }catch (Exception e){
                 e.printStackTrace();
                 return null;

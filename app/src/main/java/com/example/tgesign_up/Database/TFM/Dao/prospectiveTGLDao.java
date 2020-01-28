@@ -25,7 +25,7 @@ public interface prospectiveTGLDao {
     List<prospectiveTGLTable> getUnsynced();
 
     @Query("SELECT first_name,last_name,ik_number,member_id,unique_member_id FROM " +
-            TFMDBContractClass.TABLE_PROSPECTIVE_TGE +" WHERE ik_number = :ik_number")
+            TFMDBContractClass.TABLE_PROSPECTIVE_TGL +" WHERE ik_number = :ik_number")
     List<prospectiveTGLTable.prospectiveTGLTableRecycler> getMembers(String ik_number);
 
     @Query("SELECT template FROM " +

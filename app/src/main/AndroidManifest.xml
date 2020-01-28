@@ -20,6 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SelectHub"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,13 +49,17 @@
         <activity
             android:name=".CaptureTemplate"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".CaptureActivity" />
-        <activity
-            android:name=".VerifyActivity" />
+        <activity android:name=".CaptureActivity" />
+        <activity android:name=".VerifyActivity" />
         <activity
             android:name=".ScheduleInfo"
-            android:theme="@style/AppTheme.NoActionBar" />/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".QRScanner"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TrainingWardLocation"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -99,14 +99,20 @@ public class MembersTable {
     @ColumnInfo(name = TFMDBContractClass.COL_LONGITUDE)
     private String longitude;
 
+    @ColumnInfo(name = TFMDBContractClass.TGE_ID)
+    private String tge_id;
+
+    @ColumnInfo(name = TFMDBContractClass.COL_IMEI)
+    private String imei;
+
     public MembersTable(@NonNull String unique_member_id, String unique_ik_number, String ik_number,
                         int member_id, String first_name, String middle_name, String last_name,
                         String phone_number, String date_of_birth, String sex, String crop_type,
-                        String state_id, String lga_id, String ward_id, String village_name,
-                        String role, String template, String regdate, String sync_flag,
-                        String deactivate_flag, String delete_flag, String staff_id, String other_crops,
-                        String other_not_listed_crops, String member_program, String pass_verification,
-                        String latitude, String longitude) {
+                        String state_id, String lga_id, String ward_id, String village_name, String role,
+                        String template, String regdate, String sync_flag, String deactivate_flag,
+                        String delete_flag, String staff_id, String other_crops, String other_not_listed_crops,
+                        String member_program, String pass_verification, String latitude, String longitude,
+                        String tge_id, String imei) {
         this.unique_member_id = unique_member_id;
         this.unique_ik_number = unique_ik_number;
         this.ik_number = ik_number;
@@ -135,10 +141,28 @@ public class MembersTable {
         this.pass_verification = pass_verification;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.tge_id = tge_id;
+        this.imei = imei;
     }
 
     public MembersTable(){
 
+    }
+
+    public String getImei() {
+        return imei;
+    }
+
+    public void setImei(String imei) {
+        this.imei = imei;
+    }
+
+    public String getTge_id() {
+        return tge_id;
+    }
+
+    public void setTge_id(String tge_id) {
+        this.tge_id = tge_id;
     }
 
     public String getLatitude() {

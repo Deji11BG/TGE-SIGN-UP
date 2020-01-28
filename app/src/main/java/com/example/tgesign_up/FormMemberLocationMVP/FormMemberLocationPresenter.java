@@ -14,9 +14,10 @@ import android.widget.TextView;
 
 import com.example.tgesign_up.Api.GPSController;
 import com.example.tgesign_up.Api.SharedPreference;
+import com.example.tgesign_up.BuildConfig;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMTemplateTrackerTable;
-import com.example.tgesign_up.R;
+import com.example.tgesign_up.Database.TFM.Table.TGE;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -28,11 +29,13 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
     private FormMemberLocationInterface viewObject;
     private FormMemberLocationModel formMemberLocationModel;
     private MembersTable membersTable;
+    private TGE tge;
 
     public FormMemberLocationPresenter(FormMemberLocationInterface viewObject){
         this.viewObject = viewObject;
         formMemberLocationModel = new FormMemberLocationModel();
         membersTable = new MembersTable();
+        tge = new TGE();
     }
 
     public FormMemberLocationPresenter(){
@@ -297,6 +300,29 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
     }
 
     @Override
+    public int validateMemberInfo(AutoCompleteTextView state, AutoCompleteTextView lga, AutoCompleteTextView ward) {
+        // Checks if the state field is empty
+        if(Objects.requireNonNull(state.getText()).toString().matches("")) {
+            return 0;
+        }
+
+        // Checks if the lga field is empty
+        else if(Objects.requireNonNull(lga.getText()).toString().matches("")) {
+            return 0;
+        }
+
+        // Checks if the ward field is empty
+        else if(Objects.requireNonNull(ward.getText()).toString().matches("")) {
+            return 0;
+        }
+
+        //all checks are passed
+        else{
+            return 1;
+        }
+    }
+
+    @Override
     public FormMemberLocationModel getMyLocation(Context context) {
         SharedPreference sharedPreference = new SharedPreference(context);
         HashMap<String, String> user = sharedPreference.getUserDetails();
@@ -317,6 +343,7 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
         HashMap<String, String> user = sharedPreference.getUserDetails();
         String bundled_template = user.get(SharedPreference.KEY_BUNDLED_TEMPLATE);
         String unique_member_id = user.get(SharedPreference.KEY_UNIQUE_MEMBER_ID);
+        String qr_ik_number = user.get(SharedPreference.KEY_QR_IK_NUMBER);
         String staff_id = user.get(SharedPreference.KEY_STAFF_ID);
         String first_name = user.get(SharedPreference.KEY_FIRST_NAME);
         String last_name = user.get(SharedPreference.KEY_LAST_NAME);
@@ -329,13 +356,13 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
         String unique_ik_number = user.get(SharedPreference.KEY_UNIQUE_IK_NUMBER);
         String ik_number = user.get(SharedPreference.KEY_IK_NUMBER);
         String member_picture_byte_array = user.get(SharedPreference.KEY_MEMBER_PICTURE);
+        String member_picture_byte_array_large = user.get(SharedPreference.KEY_MEMBER_PICTURE_LARGE);
         String pass_authentication_flag = user.get(SharedPreference.KEY_PASS_AUTHENTICATION);
         String member_program = formMemberLocationModel.getMemberProgramResult(context,unique_ik_number);
-        String saveResult, savePicture, bundleSaveResult;
+        String saveResult, savePicture, bundleSaveResult, saveResult1 = "",savePictureLarge;
         membersTable.setStaff_id(staff_id);
         membersTable.setFirst_name(first_name);
         membersTable.setLast_name(last_name);
-        membersTable.setUnique_ik_number(unique_ik_number);
         membersTable.setPhone_number(phone_number);
         membersTable.setDate_of_birth(birth_day);
         membersTable.setSex(sex);
@@ -347,90 +374,81 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
         membersTable.setVillage_name(village);
         membersTable.setRegdate(formMemberLocationModel.reg_date_generator());
         membersTable.setPass_verification(pass_authentication_flag);
-        membersTable.setIk_number(ik_number);
         membersTable.setMember_program(member_program);
+        membersTable.setMember_id(1);
         membersTable.setDelete_flag("0");
         membersTable.setDeactivate_flag("0");
         membersTable.setSync_flag("0");
         membersTable.setLatitude(user.get(SharedPreference.KEY_LATITUDE));
         membersTable.setLongitude(user.get(SharedPreference.KEY_LONGITUDE));
+        membersTable.setImei(user.get(SharedPreference.KEY_PHONE_IMEI));
+
+        tge.setFirst_name(first_name);
+        tge.setLast_name(last_name);
+        tge.setStaff_id(staff_id);
+        tge.setApp_version(BuildConfig.VERSION_NAME);
+        tge.setTge_id(ik_number);
+        if (unique_member_id != null) {
+            tge.setUnique_member_id(unique_member_id);
+        }
+        tge.setSync_flag("0");
+        tge.setImei(user.get(SharedPreference.KEY_PHONE_IMEI));
+
 
         tfmTemplateTrackerTable.setTemplate_id("1");
         tfmTemplateTrackerTable.setTemplate_tracker(bundled_template);
 
-        if (bool){
-            final String unique_member_id_generated = formMemberLocationModel.unique_id_generator(staff_id);
-            membersTable.setTemplate(template);
-            membersTable.setUnique_member_id(unique_member_id_generated);
-            membersTable.setMember_id(formMemberLocationModel.getNewID(context,unique_ik_number));
-            byte[] imageAsBytes = new byte[0];
-            if (member_picture_byte_array != null) {
-                imageAsBytes = Base64.decode(member_picture_byte_array.getBytes(), Base64.DEFAULT);
-            }
-            Bitmap image_bitmap = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-            savePicture = formMemberLocationModel.saveToSdCard(image_bitmap, unique_member_id_generated);
-            saveResult = formMemberLocationModel.getSaveDataResult(context,membersTable);
-            if (savePicture == null){
-                Log.d("image_save_result","Null result");
-            }else if (savePicture.equalsIgnoreCase("fileExists")){
-                Log.d("image_save_result","Image did not save");
-            }else if (savePicture.equalsIgnoreCase("success")){
-                Log.d("image_save_result","Image saved");
-            }else{
-                Log.d("image_save_result","This means hell");
-            }
-        }else{
-            if (unique_member_id != null) {
+        if (unique_member_id != null) {
                 membersTable.setUnique_member_id(unique_member_id);
-            }
-            if (Objects.requireNonNull(user.get(SharedPreference.KEY_REGISTRATION_ACTION)).
-                    equalsIgnoreCase(context.getResources().getString(R.string.registration_action_old_2))){
-                membersTable.setMember_id(formMemberLocationModel.getNewID(context,unique_ik_number));
-                membersTable.setTemplate(template);
-                byte[] imageAsBytes = new byte[0];
-                if (member_picture_byte_array != null) {
-                    imageAsBytes = Base64.decode(member_picture_byte_array.getBytes(), Base64.DEFAULT);
-                }
-                Bitmap image_bitmap = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-                savePicture = formMemberLocationModel.saveToSdCard(image_bitmap, unique_member_id);
-                saveResult = formMemberLocationModel.getSaveDataResult(context,membersTable);
-                if (savePicture == null){
-                    Log.d("image_save_result","Null result");
-                }else if (savePicture.equalsIgnoreCase("fileExists")){
-                    Log.d("image_save_result","Image did not save");
-                }else if (savePicture.equalsIgnoreCase("success")){
-                    Log.d("image_save_result","Image saved");
-                }else{
-                    Log.d("image_save_result","This means hell");
-                }
-            }else{
-                membersTable.setTemplate(getMemberTemplate(context,unique_member_id));
-                membersTable.setMember_id(getMemberID(context,unique_member_id));
-                saveResult = formMemberLocationModel.getUpdateDataResult(context,membersTable);
-            }
         }
-
-        String message;
-
-        if (saveResult.matches("1")){
-            message = "Member details saved";
-            viewObject.displaySnackBar(view,message);
-            bundleSaveResult = formMemberLocationModel.saveTrackerPileResult(context,tfmTemplateTrackerTable);
-            Log.d("save_tracker_result", bundleSaveResult);
+        if (Objects.requireNonNull(user.get(SharedPreference.KEY_ROLE_TO_REGISTER_FOR)).
+                    equalsIgnoreCase("Leader")){
+            membersTable.setUnique_ik_number(ik_number);
+            membersTable.setIk_number(formMemberLocationModel.new_ik_number_generator(ik_number));
+            membersTable.setTge_id(formMemberLocationModel.new_ik_number_generator(ik_number));
+            saveResult = formMemberLocationModel.getSaveDataResult(context,membersTable);
+            saveResult1 = formMemberLocationModel.getSaveNewTGDataResult(context,tge);
         }else{
-            message = "Member details did not save";
-            viewObject.displaySnackBar(view,message);
+            membersTable.setUnique_ik_number(qr_ik_number);
+            membersTable.setIk_number(qr_ik_number);
+            membersTable.setTge_id(qr_ik_number);
+            saveResult = formMemberLocationModel.getSaveDataResult(context,membersTable);
+        }
+
+        Log.d("result_save",saveResult);
+        Log.d("result_save1",saveResult1);
+
+        membersTable.setMember_id(formMemberLocationModel.getNewID(context,unique_ik_number));
+        membersTable.setTemplate(template);
+
+        Bitmap image_bitmap = getBitmap(member_picture_byte_array);
+        Bitmap image_bitmap_large = getBitmap(member_picture_byte_array_large);
+        savePicture = formMemberLocationModel.saveToSdCard(image_bitmap, unique_member_id,"small",context);
+        savePictureLarge = formMemberLocationModel.saveToSdCard(image_bitmap_large, unique_member_id,"large",context);
+
+
+        bundleSaveResult = formMemberLocationModel.saveTrackerPileResult(context,tfmTemplateTrackerTable);
+        Log.d("save_tracker_result", bundleSaveResult+""+savePictureLarge);
+
+        if (savePicture == null){
+            Log.d("image_save_result","Null result");
+        }else if (savePicture.equalsIgnoreCase("fileExists")){
+            Log.d("image_save_result","Image did not save");
+        }else if (savePicture.equalsIgnoreCase("success")){
+            Log.d("image_save_result","Image saved");
+        }else{
+            Log.d("image_save_result","This means hell");
         }
 
 
     }
 
-    private String getMemberTemplate(Context context, String unique_member_id) {
-        return formMemberLocationModel.getTemplateResult(context, unique_member_id);
-    }
-
-    private int getMemberID(Context context, String unique_member_id) {
-        return formMemberLocationModel.getMemberIDResult(context, unique_member_id);
+    private Bitmap getBitmap(String member_picture_byte_array){
+        byte[] imageAsBytes = new byte[0];
+        if (member_picture_byte_array != null) {
+            imageAsBytes = Base64.decode(member_picture_byte_array.getBytes(), Base64.DEFAULT);
+        }
+        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
     }
 
 }

@@ -1,65 +1,49 @@
 package com.example.tgesign_up;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Calendar;
+import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
 public class QRScanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
-
-    private ZXingScannerView zXingScannerView;
-    String Response;
-    String module;
-
+    private ZXingScannerView scanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        zXingScannerView = new ZXingScannerView(this);
-        setContentView(zXingScannerView);
-
-
+        scanner = new ZXingScannerView(this);
+        setContentView(scanner);
+        setTitle(getResources().getString(R.string.scan_referral_code));
     }
 
     @Override
     public void onResume(){
         super.onResume();
-
-        zXingScannerView.setResultHandler(this);
-        zXingScannerView.startCamera();
+        scanner.setResultHandler(this);
+        setTitle(getResources().getString(R.string.scan_referral_code));
+        scanner.startCamera();
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        zXingScannerView.stopCamera();
+        scanner.stopCamera();
     }
 
-    @SuppressLint("StaticFieldLeak")
     @Override
-    public void handleResult(final com.google.zxing.Result result) {
-        String cleanedData[] = result.getText().split("\\*");
-        String data[] = cleanedData[0].split(",");
-        LocSharedPreferenceController locSharedPreferenceController = new LocSharedPreferenceController(getApplicationContext());
-
-
-
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        if(String.valueOf(year).equalsIgnoreCase(data[1])){
-            locSharedPreferenceController.saveQrIkNumber(data[0]);
-        }
-
-        Intent intent =  new Intent(getApplicationContext(),FormMemberInformation.class);
-
-
-        startActivity(intent);
-
+    public void handleResult(final Result result){
+        String[] cleanedData = result.getText().split("\\*");   //gets the scanned data without the * after
+        String data = cleanedData[0];
+        Intent intentMessage = new Intent();
+        intentMessage.putExtra("RESULT",data);
+        setResult(Activity.RESULT_OK,intentMessage);
+        finish();
     }
 
 }
