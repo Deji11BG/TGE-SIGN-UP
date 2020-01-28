@@ -72,7 +72,7 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
             String full_name = holder.nameFormatter(leaderModel.getFirst_name(),leaderModel.getLast_name());
             holder.setTextController(holder.tv_leader_name, full_name);
             holder.setTextController(holder.tv_leader_ik_number, leaderModel.getIk_number());
-            holder.setLeader_image(holder.leader_image,leaderModel.getUnique_member_id());
+//            holder.setLeader_image(holder.leader_image,leaderModel.getUnique_member_id());
         }
     }
 
@@ -144,8 +144,8 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
 
     class LeaderCardViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.leader_image)
-        ImageView leader_image;
+        /*@BindView(R.id.leader_image)
+        ImageView leader_image;*/
 
         @BindView(R.id.tv_leader_name)
         TextView tv_leader_name;
@@ -162,8 +162,8 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
         /*@BindView(R.id.progress_bar)
         ProgressBar progress_bar;*/
 
-        @BindView(R.id.check_circle)
-        CircleImageView check_circle;
+        /*@BindView(R.id.check_circle)
+        CircleImageView check_circle;*/
 
         LeaderCardViewHolder(@NonNull View itemView) {
             super(itemView);

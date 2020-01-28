@@ -2,7 +2,7 @@
 
 <resources>
 
-    <string name="app_name">TGE SIGN UP APP</string>
+    <string name="app_name">MSB SIGN UP APP</string>
     <string name="landing_text"><u>MKT App</u></string>
     <string name="wrong_date_title">Wrong Date/Time</string>
     <string name="wrong_date_msg">Wrong date/time detected. Kindly correct phone date in order to use this application.</string>
@@ -53,6 +53,8 @@
     <string name="leader_member_none">none</string>
     <string name="add_new_member">Add New Member</string>
     <string name="tfm_face_already_registered">Face already registered</string>
+    <string name="tfm_wrong_qr_scanned">Wrong QR Scanned</string>
+    <string name="tfm_ik_number_already_registered">IK Number Already Registered</string>
     <string name="tfm_face_not_found">Face not found</string>
     <string name="tfm_preparing_phone_record">Preparing phone record</string>
     <string name="tfm_wait_for_recapture">Please wait for your template to be recaptured</string>

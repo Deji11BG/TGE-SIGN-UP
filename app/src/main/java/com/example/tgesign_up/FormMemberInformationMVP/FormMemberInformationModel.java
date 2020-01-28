@@ -398,6 +398,43 @@ public class FormMemberInformationModel {
     }
 
     @SuppressLint("StaticFieldLeak")
+    public List<String> getAllRegisteredIKResult (Context context) {
+        List<String> secretary_count = new ArrayList<>();
+        try {
+            secretary_count = new getAllRegisteredIK(context){
+                @Override
+                protected void onPostExecute(List<String> s) {}
+            }.execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return secretary_count;
+    }
+
+    //getTrustGroupSecretaryCount
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getAllRegisteredIK extends AsyncTask<Void, Void, List<String>> {
+        Context mCtx;
+        TFMDatabase tfmDatabase;
+
+        getAllRegisteredIK(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected List<String> doInBackground(Void... voids) {
+            try{
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                return tfmDatabase.getMembersTable().getAllRegisteredIK();
+
+            }catch (Exception e){
+                e.printStackTrace();
+                return new ArrayList<>();
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
     static String getLgaIDFromWardIDResult(Context context, String ward_id) {
         String result ;
         try {
