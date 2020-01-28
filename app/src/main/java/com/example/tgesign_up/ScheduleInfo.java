@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tgesign_up.Api.uploadSchedule;
 import com.example.tgesign_up.Database.TFM.Table.scheduleTable;
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.schedulerecycler;
 import com.example.tgesign_up.TGHomeMVP.schedulemodel;
@@ -51,7 +52,7 @@ public class ScheduleInfo extends AppCompatActivity {
     private ArrayList<schedulemodel> memberList1=new ArrayList<>();
     //private ArrayList<modelmappedfield> memberList1=new ArrayList<>();
     private ArrayList<schedulemodel> number_list=new ArrayList<>();
-    private List<scheduleTable> memberList2;
+    private List<scheduleTable> memberList2=new ArrayList<>();
     private List<scheduleTable> memberList2TFM;
     private ArrayList<Map<String,String>> memberList3;
     private ArrayList firstname;
@@ -108,14 +109,15 @@ public class ScheduleInfo extends AppCompatActivity {
         //memEdit.putString("member_id3",member_id2);
         //memEdit.commit();
 
-
+        uploadSchedule cls2 = new uploadSchedule();
+        //cls2.UpdateEmployee();
+        cls2.getScheduleRecords(getApplicationContext());
         loadRecyclerView();
 
     }
 
 
     public void loadRecyclerView(){
-        memberList2 = new ArrayList<>();
 
         @SuppressLint("StaticFieldLeak")
         scheduleAsynctask.getshedule x = new scheduleAsynctask.getshedule(this) {
@@ -123,9 +125,10 @@ public class ScheduleInfo extends AppCompatActivity {
         };
 
         try {
+            memberList2 = new ArrayList<>();
 
             memberList2 = x.execute().get();
-            Log.d("wardme",memberList2.toString());
+            Log.d("qqqqqq",memberList2.toString());
             memberList3 = new ArrayList<>();
             Map<String,String > map = null;
 

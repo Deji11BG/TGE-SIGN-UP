@@ -15,10 +15,10 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface scheduleApiInterface {
-    @FormUrlEncoded
+
 //    @POST("uploadSignUpWardSchedule")
 //    Call<List<scheduleDefaultResponse>> syncUpSchedule(@Field("wordlist") String sync_up_data);
 
     @GET("downloadSignUpWardSchedule")
-    Call<List<schedulemodel>> syncDownSchedule(String ward);
+    Call<List<schedulemodel>> syncDownSchedule(@Query( "ward") String ward);
 }

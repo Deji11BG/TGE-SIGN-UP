@@ -63,10 +63,12 @@ public class scheduleAsynctask {
                 //TFMDatabase.class, "DB").build();
                 tfmDatabase = TFMDatabase.getInstance(context);
                 String ward =sharedPreference.getWard();
+                //Log.d("warddd",ward);
 
                 return tfmDatabase.getscheduleTable().getschedule(ward);
             }catch (Exception e){
                 e.printStackTrace();
+                Log.e("eeeee",e.toString());
             }
             return null;
         }
