@@ -21,6 +21,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.tgesign_up.Api.GPSController;
 import com.example.tgesign_up.Api.SharedPreference;
+import com.example.tgesign_up.Api.UploadTFMData;
+import com.example.tgesign_up.Api.uploadSchedule;
 import com.example.tgesign_up.FormMemberInformationMVP.FormMemberInformationInterface;
 import com.example.tgesign_up.FormMemberInformationMVP.FormMemberInformationModel;
 import com.example.tgesign_up.FormMemberInformationMVP.FormMemberInformationPresenter;
@@ -211,23 +213,17 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        //int id = item.getItemId();
+        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_help) {
-//            try {
-//                startActivity(new Intent(FormMemberInformation.this, ViewActivityIssues.class)
-//                        .putExtra("activity_id", "tfm_3")
-//                        .putExtra("app_id", "tfm")
-//                        .putExtra("staff_id", "T-10000000000000AA")//get this guy from shared prefs
-//                        .putExtra("user_location", ""));
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                Toast.makeText(FormMemberInformation.this, "Activity not found", Toast.LENGTH_LONG).show();
-//            }
-//            return true;
-//        }
+        if (id == R.id.action_help) {
+
+            UploadTFMData uploadTFMData = new UploadTFMData(getApplicationContext());
+            uploadTFMData.syncData();
+
+            uploadSchedule cls2 = new uploadSchedule();
+            cls2.getScheduleRecords(getApplicationContext());
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -267,12 +263,14 @@ public class FormMemberInformation extends AppCompatActivity implements FormMemb
     @Override
     public void moveToAnotherActivity() {
         Intent intent = new Intent (FormMemberInformation.this, FormMemberLocation.class);
+        memberInformationPresenter.saveDetailsToSharedPreference(edtFirstName,edtLastName,edtPhoneNumber,edtAge,actSex,
+                FormMemberInformation.this);
         startActivity(intent);
     }
 
     @Override
     public void loadPreviousActivity() {
-        Intent intent = new Intent (FormMemberInformation.this, TGHome.class);
+        Intent intent = new Intent (FormMemberInformation.this, TFMHome.class);
         startActivity(intent);
     }
 

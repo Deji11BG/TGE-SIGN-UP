@@ -15,6 +15,7 @@ import com.example.tgesign_up.Database.TFM.TFMDBContractClass;
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMTemplateTrackerTable;
+import com.example.tgesign_up.Database.TFM.Table.TGE;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -651,6 +652,44 @@ public class TGLeaderModel {
     }
 
     @SuppressLint("StaticFieldLeak")
+    public String syncUpTGEDataResult(Context context) {
+        String s = "0";
+
+        try {
+            List<TGE> wordList = new syncUpTGEData(context){
+            }.execute().get();
+            Gson gson = new Gson();
+            //Use Gson to serialize Array List to JSON
+            s = gson.toJson(wordList,wordList.getClass());
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class syncUpTGEData extends AsyncTask<Void, Void, List<TGE>> {
+
+        Context mCtx;
+        TFMDatabase tfmDatabase;
+
+        syncUpTGEData(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected List<TGE> doInBackground(Void... strings) {
+            try{
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                return tfmDatabase.getTGEDao().getUnSynced();
+            }catch (Exception e){
+                e.printStackTrace();
+                return new ArrayList<>();
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
     public void saveMembersTableReturnResult(Context context, SyncingResponseTFM syncingResponse) {
 
         try {
@@ -698,6 +737,53 @@ public class TGLeaderModel {
     }
 
     @SuppressLint("StaticFieldLeak")
+    public void saveTGETableReturnResult(Context context, SyncingResponseTFM syncingResponse) {
+
+        try {
+            new saveTGETableReturn(context){
+            }.execute(syncingResponse).get();
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method saves into database the result of syncing up LMR data Mostly sync_flag and time
+     */
+    @SuppressLint("StaticFieldLeak")
+
+    public class saveTGETableReturn extends AsyncTask<SyncingResponseTFM, Void, Void> {
+
+
+        private final String TAG = saveTGETableReturn.class.getSimpleName();
+
+        Context mCtx;
+        TFMDatabase tfmDatabase;
+
+        saveTGETableReturn(Context context) {
+            this.mCtx = context;
+        }
+
+        //updateSyncStatus
+
+        @Override
+        protected Void doInBackground(SyncingResponseTFM... params) {
+
+            SyncingResponseTFM member = params[0];
+
+            try {
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                tfmDatabase.getTGEDao().updateSyncStatus(member.getUnique_member_id(),member.getSync_flag());
+            } catch (Exception e) {
+                Log.d(TAG, e+"");
+            }
+
+            return null;
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
     public int getTFMDataCountForSyncResult(Context context) {
         int result ;
         try {
@@ -726,6 +812,42 @@ public class TGLeaderModel {
             try{
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
                 return tfmDatabase.getMembersTable().getAllTFMDataCountForSync();
+            }catch (Exception e){
+                e.printStackTrace();
+                return 0;
+            }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public int getTGEDataCountForSyncResult(Context context) {
+        int result ;
+        try {
+            result = new getTGEDataCountForSync(context){
+                @Override
+                protected void onPostExecute(Integer s) {}
+            }.execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            result = 0;
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getTGEDataCountForSync extends AsyncTask<String, Void, Integer> {
+        Context mCtx;
+        TFMDatabase tfmDatabase;
+
+        getTGEDataCountForSync(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+            try{
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                return tfmDatabase.getTGEDao().getAllTGEDataCountForSync();
             }catch (Exception e){
                 e.printStackTrace();
                 return 0;
@@ -882,6 +1004,45 @@ public class TGLeaderModel {
             }catch (Exception e){
                 e.printStackTrace();
                 return "";
+            }
+        }
+    }
+
+
+
+    @SuppressLint("StaticFieldLeak")
+    public int getPictureNameCountResult(Context context, String picture_name) {
+        int result ;
+        try {
+            result = new getPictureNameCount(context){
+                @Override
+                protected void onPostExecute(Integer s) {}
+            }.execute(picture_name).get();
+        } catch (ExecutionException | InterruptedException e) {
+            result = 0;
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static abstract class getPictureNameCount extends AsyncTask<String, Void, Integer> {
+        Context mCtx;
+        TFMDatabase tfmDatabase;
+
+        getPictureNameCount(Context context) {
+            this.mCtx = context;
+        }
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+            try{
+                Log.d("answer_member_count", Arrays.toString(strings));
+                tfmDatabase = TFMDatabase.getInstance(mCtx);
+                return tfmDatabase.getPictureSyncDao().getPictureNameCount(strings[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+                return 0;
             }
         }
     }

@@ -278,59 +278,6 @@ public class DownloadPictureService extends IntentService {
 
     }
 
-    public void getOutputRecords(final String staff_id) {
-
-        String last_synced = "0";
-
-        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<MembersTable>> call = apiInterface.getOutputRecords(staff_id);
-
-        call.enqueue(new Callback<List<MembersTable>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<MembersTable>> call, @NonNull Response<List<MembersTable>> response) {
-                //Log.d("tobiRes", ""+ Objects.requireNonNull(response.body()).toString());
-                if (response.isSuccessful()) {
-                    membersTableList = response.body();
-
-                    Log.d("Retrofit_response1", Objects.requireNonNull(membersTableList).toString());
-                    String memberSize = String.valueOf(membersTableList != null ? membersTableList.size() : 0);
-                    Log.d("listSize", memberSize);
-
-
-                    for (int i = 0; i < membersTableList.size(); i++) {
-                        MembersTable member = membersTableList.get(i);
-                        SaveTFMOutputData task = new SaveTFMOutputData();
-                        task.execute(member);
-                    }
-
-                }else {
-                    int sc = response.code();
-                    Log.d("scCode",""+sc);
-                    switch (sc) {
-                        case 400:
-                            Log.e("Error 400", "Bad Request");
-                            Toast.makeText(DownloadPictureService.this, "Error 400: Network Error Please Reconnect", Toast.LENGTH_LONG).show();
-                            break;
-                        case 404:
-                            Log.e("Error 404", "Not Found");
-                            Toast.makeText(DownloadPictureService.this, "Error 404: Network Error Please Reconnect", Toast.LENGTH_LONG).show();
-                            break;
-                        default:
-                            Log.e("Error", "Generic Error");
-                            Toast.makeText(DownloadPictureService.this, "Error: Network Error Please Reconnect", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<List<MembersTable>> call, @NotNull Throwable t) {
-                Log.d("tobi", t.toString());
-
-            }
-        });
-
-    }
 
     void saveToCheckListTable(List<CheckListTable> checkListTableList){
     }

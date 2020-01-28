@@ -66,7 +66,7 @@ public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.Prod
 
         holder.memberCard.setOnClickListener(view -> {
 
-            startMemberInformationActivity(member.getIk_number(),member.getUnique_member_id());
+            startVerificationActivity(member.getIk_number(),member.getUnique_member_id());
             Log.d("unique_id",member.getUnique_member_id());
 
         });

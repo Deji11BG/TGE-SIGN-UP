@@ -35,12 +35,15 @@ public class prospectiveTGLTable {
     @ColumnInfo(name = TFMDBContractClass.ACTIVE_FLAG)//
     private String active_flag;
 
+    private String last_sync_time;
+
     public prospectiveTGLTable(){
 
     }
 
     public prospectiveTGLTable(@NonNull String unique_member_id, String ik_number, String member_id,
-                               String first_name, String last_name, String template, String active_flag) {
+                               String first_name, String last_name, String template, String active_flag,
+                               String last_sync_time) {
         this.unique_member_id = unique_member_id;
         this.ik_number = ik_number;
         this.member_id = member_id;
@@ -48,6 +51,7 @@ public class prospectiveTGLTable {
         this.last_name = last_name;
         this.template = template;
         this.active_flag = active_flag;
+        this.last_sync_time = last_sync_time;
     }
 
     @NonNull
@@ -57,6 +61,14 @@ public class prospectiveTGLTable {
 
     public void setUnique_member_id(@NonNull String unique_member_id) {
         this.unique_member_id = unique_member_id;
+    }
+
+    public String getLast_sync_time() {
+        return last_sync_time;
+    }
+
+    public void setLast_sync_time(String last_sync_time) {
+        this.last_sync_time = last_sync_time;
     }
 
     public String getIk_number() {

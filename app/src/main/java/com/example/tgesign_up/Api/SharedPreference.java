@@ -67,7 +67,10 @@ public class SharedPreference {
     public static final String KEY_QR_IK_NUMBER = "qr_ik_number";
     public static final String KEY_TRAINING_WARD = "training_ward";
     public static final String KEY_FILTER_HUB = "filter_hub";
-    public static final String KEY_IK_ARRAY = "ik_list_array";
+    public static final String KEY_LAST_SYNC_UP_TIME_TFM = "last_sync_up_time_tfm";
+    public static final String KEY_LAST_SYNC_UP_TIME_TGE = "last_sync_up_time_tge";
+    public static final String KEY_LAST_SYNC_TIME_TGE = "last_sync_down_time_tge";
+    public static final String KEY_LAST_SYNC_TIME_TGL = "last_sync_down_time_tgl";
 
     public static final String KEY_ROLE = "role";
 
@@ -97,9 +100,33 @@ public class SharedPreference {
     public SharedPreference() {
     }
 
-    public void setKeyIkArray(Set<String> ik_list_array){
+    public void setKeyLastSyncTimeTge(String last_sync_down_time_tge){
         // Storing name in pref
-        editor.putStringSet(KEY_IK_ARRAY, ik_list_array);
+        editor.putString(KEY_LAST_SYNC_TIME_TGE, last_sync_down_time_tge);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public void setKeyLastSyncTimeTgl(String last_sync_up_time_tge){
+        // Storing name in pref
+        editor.putString(KEY_LAST_SYNC_TIME_TGL, last_sync_up_time_tge);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public void setKeyLastSyncUpTimeTge(String last_sync_up_time_tge){
+        // Storing name in pref
+        editor.putString(KEY_LAST_SYNC_UP_TIME_TGE, last_sync_up_time_tge);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public void setKeyLastSyncUpTimeTfm(String last_sync_up_time_tfm){
+        // Storing name in pref
+        editor.putString(KEY_LAST_SYNC_UP_TIME_TFM, last_sync_up_time_tfm);
 
         // commit changes
         editor.commit();
@@ -317,13 +344,6 @@ public class SharedPreference {
         return pref.getString(KEY_PHONE_IMEI,"Nothing_yet");
     }
 
-    public HashMap<String, Set<String>> getIKArray(){
-        HashMap<String, Set<String>> user = new HashMap<>();
-        user.put(KEY_IK_ARRAY, pref.getStringSet(KEY_IK_ARRAY, new HashSet<>()));
-
-        return user;
-    }
-
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<>();
         // user name
@@ -349,8 +369,8 @@ public class SharedPreference {
         user.put(KEY_PHONE_NUMBER,pref.getString(KEY_PHONE_NUMBER,"0X123456789"));
         user.put(KEY_AGE,pref.getString(KEY_AGE,"156"));
         user.put(KEY_SEX,pref.getString(KEY_SEX,"Trans"));
-        user.put(KEY_CROP_TYPE,pref.getString(KEY_CROP_TYPE,"Millet"));
-        user.put(KEY_MEMBER_ROLE,pref.getString(KEY_MEMBER_ROLE,"Boss"));
+        user.put(KEY_CROP_TYPE,pref.getString(KEY_CROP_TYPE,"Maize"));
+        user.put(KEY_MEMBER_ROLE,pref.getString(KEY_MEMBER_ROLE,"Leader"));
         user.put(KEY_MEMBER_BIRTHDAY,pref.getString(KEY_MEMBER_BIRTHDAY,"21/6/1995"));
         user.put(KEY_REGISTRATION_ACTION,pref.getString(KEY_REGISTRATION_ACTION,"edit"));
 
@@ -371,6 +391,10 @@ public class SharedPreference {
         user.put(KEY_QR_IK_NUMBER,pref.getString(KEY_QR_IK_NUMBER,"IKXXXXXXXX"));
         user.put(KEY_TRAINING_WARD,pref.getString(KEY_TRAINING_WARD,"Nothing Selected"));
         user.put(KEY_FILTER_HUB,pref.getString(KEY_FILTER_HUB,"Lekki"));
+        user.put(KEY_LAST_SYNC_UP_TIME_TFM,pref.getString(KEY_LAST_SYNC_UP_TIME_TFM,"2019-01-01"));
+        user.put(KEY_LAST_SYNC_UP_TIME_TGE,pref.getString(KEY_LAST_SYNC_UP_TIME_TGE,"2019-01-01"));
+        user.put(KEY_LAST_SYNC_TIME_TGE,pref.getString(KEY_LAST_SYNC_TIME_TGE,"2019-01-01"));
+        user.put(KEY_LAST_SYNC_TIME_TGL,pref.getString(KEY_LAST_SYNC_TIME_TGL,"2019-01-01"));
 
         // return user
         return user;

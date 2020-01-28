@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.tgesign_up.Api.GPSController;
+import com.example.tgesign_up.Api.UploadTFMData;
+import com.example.tgesign_up.Api.uploadSchedule;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationInterface;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationModel;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationPresenter;
@@ -180,8 +182,15 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        //int id = item.getItemId();
+        int id = item.getItemId();
+        if (id == R.id.action_help) {
 
+            UploadTFMData uploadTFMData = new UploadTFMData(getApplicationContext());
+            uploadTFMData.syncData();
+
+            uploadSchedule cls2 = new uploadSchedule();
+            cls2.getScheduleRecords(getApplicationContext());
+        }
 
 
         return super.onOptionsItemSelected(item);
@@ -273,7 +282,7 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
 
     @Override
     public void moveToAnotherActivity() {
-        Intent intent = new Intent (FormMemberLocation.this, TGHome.class);
+        Intent intent = new Intent (FormMemberLocation.this, TFMHome.class);
         startActivity(intent);
     }
 
@@ -350,18 +359,20 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(false);
         builder.setTitle(context.getResources().getString(R.string.tfm_dialog_attention));
-        builder.setMessage("Is your secretary present?")
+        builder.setMessage("Data Saved")
                 .setPositiveButton(context.getResources().getString(R.string.yes), (dialog, id) -> {
                     //This is to start authentication activity
-                    memberLocationPresenter.secretaryTGQuestion(context);
-                    dialog.cancel();
-                })
-                .setNeutralButton(context.getResources().getString(R.string.no), (dialog, id) -> {
-                    //memberLocationPresenter.startActivityForResult();
-                    memberLocationPresenter.startHomeActivity();
+//                    memberLocationPresenter.secretaryTGQuestion(context);
+
+                    memberLocationPresenter.startTGMembersActivity();
                     dialog.cancel();
                 })
                 .show();
+                /*.setNeutralButton(context.getResources().getString(R.string.no), (dialog, id) -> {
+            //memberLocationPresenter.startActivityForResult();
+            memberLocationPresenter.startHomeActivity();
+            dialog.cancel();
+        })*/
     }
 
     @Override
@@ -391,7 +402,7 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
 
     @Override
     public void startTGMembersActivity() {
-        Intent intent = new Intent(getApplicationContext(), TgMembers.class);
+        Intent intent = new Intent(getApplicationContext(), ScheduleInfo.class);
         startActivity(intent);
     }
 

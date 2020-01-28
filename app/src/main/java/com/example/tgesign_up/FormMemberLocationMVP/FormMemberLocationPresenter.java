@@ -382,12 +382,13 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
         membersTable.setLatitude(user.get(SharedPreference.KEY_LATITUDE));
         membersTable.setLongitude(user.get(SharedPreference.KEY_LONGITUDE));
         membersTable.setImei(user.get(SharedPreference.KEY_PHONE_IMEI));
+        membersTable.setTemplate(template);
 
         tge.setFirst_name(first_name);
         tge.setLast_name(last_name);
         tge.setStaff_id(staff_id);
         tge.setApp_version(BuildConfig.VERSION_NAME);
-        tge.setTge_id(ik_number);
+        tge.setTge_id(formMemberLocationModel.new_ik_number_generator(ik_number));
         if (unique_member_id != null) {
             tge.setUnique_member_id(unique_member_id);
         }
@@ -417,9 +418,6 @@ public class FormMemberLocationPresenter implements FormMemberLocationPresenterI
 
         Log.d("result_save",saveResult);
         Log.d("result_save1",saveResult1);
-
-        membersTable.setMember_id(formMemberLocationModel.getNewID(context,unique_ik_number));
-        membersTable.setTemplate(template);
 
         Bitmap image_bitmap = getBitmap(member_picture_byte_array);
         Bitmap image_bitmap_large = getBitmap(member_picture_byte_array_large);

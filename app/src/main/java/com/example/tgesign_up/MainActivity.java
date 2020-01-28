@@ -29,7 +29,6 @@ import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceControl
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
-import com.example.tgesign_up.TGPage.TgMembers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,6 +36,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -49,12 +49,28 @@ public class MainActivity extends AppCompatActivity{
     @BindView(R.id.bt_open)
     Button open;
 
+    ProgressDialog pd1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loc_activity_main);
         ButterKnife.bind(MainActivity.this);
+
+        pd1 = new ProgressDialog(MainActivity.this);
+        pd1.setMessage(this.getResources().getString(R.string.tfm_preparing_phone_record));
+        pd1.show();
+        pd1.setCancelable(false);
+        new CountDownTimer(60000,1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+            @Override
+            public void onFinish() {
+                pd1.dismiss();
+            }
+        }.start();
 
         checkDBStatus();
 
@@ -70,11 +86,6 @@ public class MainActivity extends AppCompatActivity{
 
     @SuppressLint("StaticFieldLeak")
     public void checkDBStatus(){
-
-        final ProgressDialog pd1 = new ProgressDialog(MainActivity.this);
-        pd1.setMessage(this.getResources().getString(R.string.tfm_preparing_phone_record));
-        pd1.show();
-        pd1.setCancelable(false);
 
         // this method checks the value of the flag in shared preference whether 1 or 0
         int controller = getRecordFlag();
@@ -105,15 +116,6 @@ public class MainActivity extends AppCompatActivity{
                 //function call to the method that reads prospective TGL data from asset
                 prospectiveTGLInsertResult();
 
-                new CountDownTimer(10000,1000){
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                    }
-                    @Override
-                    public void onFinish() {
-                        pd1.dismiss();
-                    }
-                }.start();
 
             }else{
                 pd1.dismiss();
@@ -353,10 +355,14 @@ public class MainActivity extends AppCompatActivity{
     void prospectiveTGLInsertResult(){
         try {
 
+            @SuppressLint("StaticFieldLeak")
+            ArrayList<prospectiveTGLTable> prospectiveTGLTableList = new importProspectiveTGLTableBackground(getApplicationContext()){}
+            .execute().get();
+
             //function call to the async task method that preload into the database
             @SuppressLint("StaticFieldLeak")
             String x = new prospectiveTGLInsert(getApplicationContext()){}
-                    .execute(importProspectiveTGLTable()).get();
+                    .execute(prospectiveTGLTableList).get();
             Log.d("abc",x);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -382,6 +388,38 @@ public class MainActivity extends AppCompatActivity{
             tfmDatabase.getProspectiveTGLDao().insert(arrayLists[0]);
 
             return "";
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class importProspectiveTGETableBackground extends AsyncTask<Void, Void, ArrayList<prospectiveTGETable>> {
+
+        Context c1;
+
+        importProspectiveTGETableBackground(Context c){
+            this.c1 = c;
+        }
+
+        @Override
+        protected final ArrayList<prospectiveTGETable> doInBackground(Void... voids) {
+
+            return importProspectiveTGETable();
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class importProspectiveTGLTableBackground extends AsyncTask<Void, Void, ArrayList<prospectiveTGLTable>> {
+
+        Context c1;
+
+        importProspectiveTGLTableBackground(Context c){
+            this.c1 = c;
+        }
+
+        @Override
+        protected final ArrayList<prospectiveTGLTable> doInBackground(Void... voids) {
+
+            return importProspectiveTGLTable();
         }
     }
 
@@ -537,7 +575,7 @@ public class MainActivity extends AppCompatActivity{
             while ((line = br.readLine()) != null){
                 content = line.split(",");
                 //To escape out the header row
-                if (content[0].equalsIgnoreCase("unique_member_id") || content.length < 2){
+                if (removeQuote(content[0]).equalsIgnoreCase("unique_member_id") || content.length < 2){
 
                 }else{
                     //maps CSV row to model class and adds to list
@@ -549,7 +587,7 @@ public class MainActivity extends AppCompatActivity{
                             removeQuote(content[4]),
                             removeQuote(content[5]),
                             removeQuote(content[6]),
-                            removeQuote(content[7]));
+                            removeQuote(content[7]),"");
                     inventoryTS.add(inv);
                 }
             }
@@ -584,7 +622,7 @@ public class MainActivity extends AppCompatActivity{
             while ((line = br.readLine()) != null) {
                 content = line.split(",");
                 //To escape out the header row
-                if (content[0].equalsIgnoreCase("unique_member_id") || content.length < 6) {
+                if (removeQuote(content[0]).equalsIgnoreCase("unique_member_id") || content.length < 6) {
                     Log.d("TGL_length", String.valueOf(content.length));
                 } else {
                     //maps CSV row to model class and adds to list
@@ -595,7 +633,7 @@ public class MainActivity extends AppCompatActivity{
                             removeQuote(content[3]),
                             removeQuote(content[4]),
                             removeQuote(content[5]),
-                            "1");
+                            "1","");
                     inventoryTS.add(inv);
                 }
             }
@@ -620,7 +658,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     void moveToTFMHomeActivity(){
-        Intent intent = new Intent(getApplicationContext(), ScheduleInfo.class);
+        Intent intent = new Intent(getApplicationContext(), SelectHub.class);
         startActivity(intent);
     }
 

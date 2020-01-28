@@ -1,9 +1,5 @@
 package com.example.tgesign_up.Database.TFM.Table;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -11,12 +7,7 @@ import androidx.room.Entity;
 import androidx.room.Index;
 
 import com.example.tgesign_up.Database.TFM.TFMDBContractClass;
-import com.example.tgesign_up.Database.TFM.TFMDatabase;
-import com.example.tgesign_up.Home.LeaderModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Entity(primaryKeys = {TFMDBContractClass.COL_UNIQUE_MEMBER_ID},
         indices = {@Index(value = TFMDBContractClass.COL_UNIQUE_MEMBER_ID, unique = true)},
@@ -49,9 +40,11 @@ public class prospectiveTGETable {
     @ColumnInfo(name = TFMDBContractClass.COL_TEMPLATE)//
     private String template;
 
+    private String last_sync_time;
+
     public prospectiveTGETable(@NonNull String unique_member_id, String ik_number, String member_id,
                                String first_name, String last_name, String active_flag, String hub,
-                               String template) {
+                               String template, String last_sync_time) {
         this.unique_member_id = unique_member_id;
         this.ik_number = ik_number;
         this.member_id = member_id;
@@ -60,6 +53,7 @@ public class prospectiveTGETable {
         this.active_flag = active_flag;
         this.hub = hub;
         this.template = template;
+        this.last_sync_time = last_sync_time;
     }
 
     public prospectiveTGETable(){
@@ -73,6 +67,14 @@ public class prospectiveTGETable {
 
     public void setUnique_member_id(@NonNull String unique_member_id) {
         this.unique_member_id = unique_member_id;
+    }
+
+    public String getLast_sync_time() {
+        return last_sync_time;
+    }
+
+    public void setLast_sync_time(String last_sync_time) {
+        this.last_sync_time = last_sync_time;
     }
 
     public String getHub() {

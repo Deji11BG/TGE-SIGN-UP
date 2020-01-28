@@ -3,7 +3,10 @@ package com.example.tgesign_up.Api;
 public class SyncingResponseTFM{
 
     private String unique_member_id;
+
     private String sync_flag;
+
+    private String last_sync_time;
 
     public SyncingResponseTFM() {
     }
@@ -22,5 +25,13 @@ public class SyncingResponseTFM{
 
     public void setSync_flag(String sync_flag) {
         this.sync_flag = sync_flag;
+    }
+
+    public String getLast_sync_time() {
+        return last_sync_time;
+    }
+
+    public void setLast_sync_time(String last_sync_time) {
+        this.last_sync_time = last_sync_time;
     }
 }

@@ -17,11 +17,18 @@ import java.util.List;
 public interface TGEDao {
 
 
-    @Query("SELECT * FROM " +
-            TFMDBContractClass.TABLE_NEW_TGE +" WHERE sync_flag ='0'")
-    List<TGE> getUnsynced();
+    @Query("SELECT * FROM " + TFMDBContractClass.TABLE_NEW_TGE +" WHERE sync_flag != '1' AND slot_id not null")
+    List<TGE> getUnSynced();
+
+    @Query("SELECT COUNT(unique_member_id) FROM " + TFMDBContractClass.TABLE_NEW_TGE + " WHERE sync_flag != '1'")
+    int getAllTGEDataCountForSync();
+
     @Query("UPDATE " + TFMDBContractClass.TABLE_NEW_TGE +" SET slot_id =:slot_id WHERE unique_member_id = :unique_member_id")
     void updateSlotID(String unique_member_id,String slot_id);
+
+    @Query("UPDATE " + TFMDBContractClass.TABLE_NEW_TGE + " SET sync_flag = :sync_flag WHERE unique_member_id = :unique_member_id")
+    void updateSyncStatus(String unique_member_id, String sync_flag);
+
     /**
      * Insert the object in database
      * @param tge, object to be inserted

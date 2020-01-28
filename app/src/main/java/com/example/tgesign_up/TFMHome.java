@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tgesign_up.Api.SharedPreference;
+import com.example.tgesign_up.Api.UploadTFMData;
+import com.example.tgesign_up.Api.uploadSchedule;
 import com.example.tgesign_up.Home.TFMHomeInterface;
 import com.example.tgesign_up.Home.TFMHomePresenter;
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.LeaderCardRecyclerViewAdapter;
@@ -114,6 +116,12 @@ public class TFMHome extends AppCompatActivity implements TFMHomeInterface {
 
         if (id == R.id.action_help) {
             //sync action goes here
+            UploadTFMData uploadTFMData = new UploadTFMData(getApplicationContext());
+            uploadTFMData.syncData();
+
+            uploadSchedule cls2 = new uploadSchedule();
+            cls2.getScheduleRecords(getApplicationContext());
+
             return true;
         }
 

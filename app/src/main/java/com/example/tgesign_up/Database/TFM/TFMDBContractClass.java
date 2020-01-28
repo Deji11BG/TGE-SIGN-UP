@@ -23,6 +23,7 @@ public class TFMDBContractClass {
     public static final String TABLE_PROSPECTIVE_TGE   = "prospectiveTGE";
     public static final String TABLE_PROSPECTIVE_TGL   = "prospectiveTGL";
     public static final String TABLE_SCHEDULE   = "schedule";
+    public static final String TABLE_PICTURE_SYNC                   = "picture_sync";
 
     /**
      * members data column names
@@ -93,6 +94,11 @@ public class TFMDBContractClass {
     public static final String COL_LAST_SYNC_DOWN_EXTRA_RECORD_4  = "last_sync_down_extra_record_4";
     public static final String COL_LAST_SYNC_DOWN_EXTRA_RECORD_5  = "last_sync_down_extra_record_5";
     public static final String COL_LAST_SYNC_DOWN_EXTRA_RECORD_6  = "last_sync_down_extra_record_6";
+
+    /**
+     * picture_sync column names
+     */
+    public static final String COL_PICTURE_NAME                     = "picture_name";
 
     /**
      * check_list table

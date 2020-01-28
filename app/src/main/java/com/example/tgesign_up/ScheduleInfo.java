@@ -109,9 +109,6 @@ public class ScheduleInfo extends AppCompatActivity {
         //memEdit.putString("member_id3",member_id2);
         //memEdit.commit();
 
-        uploadSchedule cls2 = new uploadSchedule();
-        //cls2.UpdateEmployee();
-        cls2.getScheduleRecords(getApplicationContext());
         loadRecyclerView();
 
     }
