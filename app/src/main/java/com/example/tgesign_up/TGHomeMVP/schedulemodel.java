@@ -15,8 +15,8 @@ public class schedulemodel {
     private Integer schedulecount;
     private String schedule_flag;
 
-    public schedulemodel(String ward, String slot_id, String first_time, String first_day,
-                       String second_time, String second_day,String schedule_flag, Integer schedule_count  ) {
+    public schedulemodel(String ward, String slot_id, String first_day, String first_time,
+                       String second_day, String second_time,String schedule_flag, Integer schedule_count  ) {
 
         this.ward = ward;
         this.slot_id = slot_id;

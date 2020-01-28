@@ -26,7 +26,7 @@ public interface scheduleDao {
     List<scheduleTable> getUnsynced();
 
     @Query("SELECT ward,first_day,first_time,second_day,second_time,slot_id,schedule_count FROM " +
-            TFMDBContractClass.TABLE_SCHEDULE +" WHERE ward = :ward AND schedule_count <20")
+            TFMDBContractClass.TABLE_SCHEDULE +" WHERE ward = :ward")
     List<scheduleTable> getschedule(String ward);
 
     @Query("UPDATE " + TFMDBContractClass.TABLE_SCHEDULE +" SET schedule_sync_flag =:schedule_flag WHERE ward = :ward AND slot_id=:slot_id")

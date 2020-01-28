@@ -620,7 +620,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     void moveToTFMHomeActivity(){
-        Intent intent = new Intent(getApplicationContext(), SelectHub.class);
+        Intent intent = new Intent(getApplicationContext(), ScheduleInfo.class);
         startActivity(intent);
     }
 

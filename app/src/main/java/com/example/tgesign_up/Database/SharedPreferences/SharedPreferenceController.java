@@ -98,7 +98,7 @@ public class SharedPreferenceController {
     public static final String FIRST_TIME = "first_time";
     public static final String SECOND_TIME = "second_time";
     //public static final String SCHEDUL = "second_time";
-    public static final String SCHEDULE_COUNT = "shedule_count";
+    public static final String SCHEDULE_COUNT = "schedule_count";
 
 
     // Constructor
@@ -289,7 +289,7 @@ public class SharedPreferenceController {
     }
 
     public String getWard(){
-        String ward = pref.getString(KEY_WARD, "");
+        String ward = pref.getString(KEY_WARD, "ward");
         return ward;
     }
 

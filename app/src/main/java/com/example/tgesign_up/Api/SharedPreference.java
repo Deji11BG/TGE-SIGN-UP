@@ -355,7 +355,7 @@ public class SharedPreference {
         user.put(KEY_REGISTRATION_ACTION,pref.getString(KEY_REGISTRATION_ACTION,"edit"));
 
         user.put(KEY_MEMBER_ID,pref.getString(KEY_MEMBER_ID,"1"));
-        user.put(KEY_UNIQUE_MEMBER_ID,pref.getString(KEY_UNIQUE_MEMBER_ID,"0"));
+        user.put(KEY_UNIQUE_MEMBER_ID,pref.getString(KEY_UNIQUE_MEMBER_ID,"10001"));
         user.put(KEY_TEMPLATE,pref.getString(KEY_TEMPLATE,"FOUR"));
         user.put(KEY_LATITUDE,pref.getString(KEY_LATITUDE,"0.00"));
         user.put(KEY_LONGITUDE,pref.getString(KEY_LONGITUDE,"0.00"));
