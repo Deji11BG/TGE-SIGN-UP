@@ -20,8 +20,11 @@ import java.util.List;
 public interface prospectiveTGEDao {
 
 
-    @Query("SELECT first_name,last_name,ik_number,member_id,unique_member_id FROM " + TFMDBContractClass.TABLE_PROSPECTIVE_TGE +"")
-    List<prospectiveTGETable.prospectiveTGETableRecycler> getLeaders();
+    @Query("SELECT first_name,last_name,ik_number,member_id,unique_member_id FROM " + TFMDBContractClass.TABLE_PROSPECTIVE_TGE +" WHERE hub = :hub")
+    List<prospectiveTGETable.prospectiveTGETableRecycler> getLeaders(String hub);
+
+    @Query("SELECT DISTINCT hub FROM " + TFMDBContractClass.TABLE_PROSPECTIVE_TGE +"")
+    List<String> getWards();
 
     @Query("SELECT template FROM " + TFMDBContractClass.TABLE_PROSPECTIVE_TGE +" WHERE unique_member_id = :unique_member_id")
     String getLeaderTemplate(String unique_member_id);

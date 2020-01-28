@@ -4,6 +4,7 @@ package com.example.tgesign_up.TGPage;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
+import com.example.tgesign_up.FormMemberInformation;
 import com.example.tgesign_up.R;
 import com.example.tgesign_up.VerifyTemplate;
 
@@ -64,17 +66,33 @@ public class TgMembersAdapter extends RecyclerView.Adapter<TgMembersAdapter.Prod
 
         holder.memberCard.setOnClickListener(view -> {
 
-            SharedPreference sharedPreference = new SharedPreference(mCtx);
-            Intent intent = new Intent(mCtx, VerifyTemplate.class);
-            sharedPreference.setIKNumber(member.getIk_number());
-            sharedPreference.setUniqueMemberId(member.getUnique_member_id());
-            sharedPreference.setKeyRoleToRegisterFor("Member");
-            sharedPreference.setKeyRegistrationAction("new");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mCtx.startActivity(intent);
+            startMemberInformationActivity(member.getIk_number(),member.getUnique_member_id());
+            Log.d("unique_id",member.getUnique_member_id());
 
         });
 
+    }
+
+    private void startVerificationActivity(String ik_number, String unique_member_id){
+        SharedPreference sharedPreference = new SharedPreference(mCtx);
+        Intent intent = new Intent(mCtx, VerifyTemplate.class);
+        sharedPreference.setIKNumber(ik_number);
+        sharedPreference.setUniqueMemberId(unique_member_id);
+        sharedPreference.setKeyRoleToRegisterFor("Member");
+        sharedPreference.setKeyRegistrationAction("new");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mCtx.startActivity(intent);
+    }
+
+    private void startMemberInformationActivity(String ik_number, String unique_member_id){
+        SharedPreference sharedPreference = new SharedPreference(mCtx);
+        Intent intent = new Intent(mCtx, FormMemberInformation.class);
+        sharedPreference.setIKNumber(ik_number);
+        sharedPreference.setUniqueMemberId(unique_member_id);
+        sharedPreference.setKeyRoleToRegisterFor("Member");
+        sharedPreference.setKeyRegistrationAction("new");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mCtx.startActivity(intent);
     }
 
 

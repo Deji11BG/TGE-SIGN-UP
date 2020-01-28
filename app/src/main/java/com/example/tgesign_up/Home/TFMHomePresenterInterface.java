@@ -2,7 +2,9 @@ package com.example.tgesign_up.Home;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
@@ -26,4 +28,6 @@ public interface TFMHomePresenterInterface {
     String getProspectiveTGETemplate(Context context);
     String getProspectiveTGLTemplate(Context context);
     void showDialogToVerifyTemplate(String s, Context context,String ik_number, String unique_member_id);
+    void buttonColor(Button button);
+    void setTextViewText(TextView view, Context context);
 }

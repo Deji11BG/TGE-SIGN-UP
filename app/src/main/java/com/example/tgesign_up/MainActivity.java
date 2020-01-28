@@ -29,6 +29,7 @@ import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceControl
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
+import com.example.tgesign_up.TGPage.TgMembers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity{
                 prospectiveTGEInsertResult();
 
                 //function call to the method that reads prospective TGL data from asset
-                //prospectiveTGLInsertResult();
+                prospectiveTGLInsertResult();
 
                 new CountDownTimer(10000,1000){
                     @Override
@@ -547,7 +548,8 @@ public class MainActivity extends AppCompatActivity{
                             content[3],
                             content[4],
                             content[5],
-                            content[6]);
+                            content[6],
+                            content[7]);
                     inventoryTS.add(inv);
                 }
             }
@@ -578,8 +580,8 @@ public class MainActivity extends AppCompatActivity{
             while ((line = br.readLine()) != null) {
                 content = line.split(",");
                 //To escape out the header row
-                if (content[0].equalsIgnoreCase("unique_member_id") || content.length < 2) {
-
+                if (content[0].equalsIgnoreCase("unique_member_id") || content.length < 6) {
+                    Log.d("TGL_length", String.valueOf(content.length));
                 } else {
                     //maps CSV row to model class and adds to list
                     final prospectiveTGLTable inv = new prospectiveTGLTable(
@@ -589,7 +591,7 @@ public class MainActivity extends AppCompatActivity{
                             content[3],
                             content[4],
                             content[5],
-                            content[6]);
+                            "1");
                     inventoryTS.add(inv);
                 }
             }
@@ -614,7 +616,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     void moveToTFMHomeActivity(){
-        Intent intent = new Intent(getApplicationContext(),ScheduleInfo.class);
+        Intent intent = new Intent(getApplicationContext(), SelectHub.class);
         startActivity(intent);
     }
 

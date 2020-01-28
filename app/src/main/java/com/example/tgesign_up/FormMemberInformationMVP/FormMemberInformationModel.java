@@ -314,6 +314,7 @@ public class FormMemberInformationModel {
         protected FormMemberInformationModel.memberKeyDetails doInBackground(String... strings) {
             try{
                 tfmDatabase = TFMDatabase.getInstance(mCtx);
+                Log.d("first_name_1",tfmDatabase.getProspectiveTGLDao().getProspectiveTGLDetails(strings[0]).getFirst_name()+"");
                 return tfmDatabase.getProspectiveTGLDao().getProspectiveTGLDetails(strings[0]);
             }catch (Exception e){
                 e.printStackTrace();

@@ -27,9 +27,12 @@ import com.example.tgesign_up.R;
 import com.example.tgesign_up.VerifyActivity;
 import com.example.tgesign_up.VerifyTemplate;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -168,9 +171,20 @@ public class LeaderCardRecyclerViewAdapter extends RecyclerView.Adapter<LeaderCa
         }
 
         @OnClick(R.id.leader_card_container)
-        void submit(){
-            tfmHomePresenter.showDialogToVerifyTemplate("Click 'OK' to proceed to verify prospective TGE template",mCtx,mFilteredList.get(getAdapterPosition()).getIk_number(),
-                    mFilteredList.get(getAdapterPosition()).getUnique_member_id());
+        void submit(View view){
+            SharedPreference sharedPreference = new SharedPreference(mCtx);
+            HashMap<String,String> user = sharedPreference.getUserDetails();
+            if (!Objects.requireNonNull(user.get(SharedPreference.KEY_TRAINING_WARD)).equalsIgnoreCase("Nothing Selected")){
+                tfmHomePresenter.showDialogToVerifyTemplate("Click 'OK' to proceed to verify prospective TGE template",mCtx,mFilteredList.get(getAdapterPosition()).getIk_number(),
+                        mFilteredList.get(getAdapterPosition()).getUnique_member_id());
+            }else{
+                Snackbar.make(view, "Please select a training ward", Snackbar.LENGTH_LONG)
+                        .setAction("CLOSE", view1 -> {
+                            //do nothing
+                        })
+                        .setActionTextColor(mCtx.getResources().getColor(android.R.color.holo_red_light ))
+                        .show();
+            }
         }
 
         void setTextController(TextView textView, String text) {

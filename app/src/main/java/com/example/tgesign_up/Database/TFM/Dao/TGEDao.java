@@ -23,29 +23,29 @@ public interface TGEDao {
 
     /**
      * Insert the object in database
-     * @param prospectiveTGE, object to be inserted
+     * @param tge, object to be inserted
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(prospectiveTGETable prospectiveTGE);
+    void insert(TGE tge);
 
     /**
      * update the object in database
-     * @param prospectiveTGE, object to be updated
+     * @param tge, object to be updated
      */
     @Update
-    void update(prospectiveTGETable prospectiveTGE);
+    void update(TGE tge);
 
     /**
      * delete the object from database
-     * @param prospectiveTGE, object to be deleted
+     * @param tge, object to be deleted
      */
     @Delete
-    void delete(prospectiveTGETable prospectiveTGE);
+    void delete(TGE tge);
 
     /**
      * delete list of objects from database
      * @param data, array of objects to be deleted
      */
     @Delete
-    void delete(prospectiveTGETable... data);      // data... is varargs, here data is an array
+    void delete(TGE... data);      // data... is varargs, here data is an array
 }

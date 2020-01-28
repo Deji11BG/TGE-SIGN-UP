@@ -95,6 +95,41 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:orientation="horizontal"
+        android:id="@+id/ward_container"
+        android:layout_marginStart="@dimen/tfm_search_view_margin"
+        android:layout_marginEnd="@dimen/tfm_search_view_margin"
+        android:layout_marginTop="@dimen/tfm_search_view_margin"
+        android:layout_marginBottom="@dimen/tfm_search_view_margin">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt_ward_selector"
+            android:layout_gravity="center"
+            android:layout_marginEnd="2dp"
+            android:backgroundTint="@color/text_color_grey"
+            android:text="@string/select_ward"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/ic_back_button"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tv_ward_selected"
+            android:background="@color/colorWhite"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:hint="@string/text_ward_selected"
+            android:textSize="20sp"
+            android:textColorHint="@color/absolute_black"/>
+
+
+    </LinearLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -5,11 +5,14 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.Database.TFM.Table.TFMAppVariables;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGETable;
+import com.example.tgesign_up.R;
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.LeaderCardRecyclerInterface;
 import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.LeaderCardRecyclerViewAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -17,6 +20,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class TFMHomePresenter  implements TFMHomePresenterInterface {
@@ -51,12 +55,14 @@ public class TFMHomePresenter  implements TFMHomePresenterInterface {
     @SuppressLint("StaticFieldLeak")
     @Override
     public List<prospectiveTGETable.prospectiveTGETableRecycler> getLeaderList(Context context) {
+        SharedPreference sharedPreference = new SharedPreference(context);
+        HashMap<String,String> user = sharedPreference.getUserDetails();
         List<prospectiveTGETable.prospectiveTGETableRecycler> leader_data = new ArrayList<>();
         try {
             leader_data = new LeaderModel.getLeaderDetails(context){
                 @Override
                 protected void onPostExecute(List<prospectiveTGETable.prospectiveTGETableRecycler> s) {}
-            }.execute().get();
+            }.execute(user.get(SharedPreference.KEY_FILTER_HUB)).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -168,6 +174,18 @@ public class TFMHomePresenter  implements TFMHomePresenterInterface {
     public void showDialogToVerifyTemplate(String s, Context context, String ik_number, String unique_member_id) {
         MaterialAlertDialogBuilder builder = (new MaterialAlertDialogBuilder(context));
         leaderCardRecyclerInterface.showDialogToVerifyTemplate(builder,s,context,ik_number,unique_member_id);
+    }
+
+    @Override
+    public void buttonColor(Button button) {
+        viewObject.setColor(button);
+    }
+
+    @Override
+    public void setTextViewText(TextView view, Context context) {
+        SharedPreference sharedPreference = new SharedPreference(context);
+        HashMap<String,String> user = sharedPreference.getUserDetails();
+        viewObject.setTextViewText(view,user.get(SharedPreference.KEY_TRAINING_WARD));
     }
 
     private String stringOutputController(String input){

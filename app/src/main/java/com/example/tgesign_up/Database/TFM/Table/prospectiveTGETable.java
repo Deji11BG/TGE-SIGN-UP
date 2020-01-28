@@ -43,11 +43,14 @@ public class prospectiveTGETable {
     @ColumnInfo(name = TFMDBContractClass.ACTIVE_FLAG)
     private String active_flag;
 
+    @ColumnInfo(name = TFMDBContractClass.COL_HUB)
+    private String hub;
+
     @ColumnInfo(name = TFMDBContractClass.COL_TEMPLATE)//
     private String template;
 
     public prospectiveTGETable(@NonNull String unique_member_id, String ik_number, String member_id,
-                               String first_name, String last_name, String active_flag,
+                               String first_name, String last_name, String active_flag, String hub,
                                String template) {
         this.unique_member_id = unique_member_id;
         this.ik_number = ik_number;
@@ -55,6 +58,7 @@ public class prospectiveTGETable {
         this.first_name = first_name;
         this.last_name = last_name;
         this.active_flag = active_flag;
+        this.hub = hub;
         this.template = template;
     }
 
@@ -69,6 +73,14 @@ public class prospectiveTGETable {
 
     public void setUnique_member_id(@NonNull String unique_member_id) {
         this.unique_member_id = unique_member_id;
+    }
+
+    public String getHub() {
+        return hub;
+    }
+
+    public void setHub(String hub) {
+        this.hub = hub;
     }
 
     public String getIk_number() {

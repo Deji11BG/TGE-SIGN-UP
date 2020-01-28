@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,13 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.prospectiveTGLTable;
 import com.example.tgesign_up.R;
+import com.example.tgesign_up.TFMRecyclers.TFMHomeRecycler.VerticalSpaceItemDecoration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class TgMembers extends AppCompatActivity {
-    SharedPreferenceController sharedPreferenceController;
+    SharedPreference sharedPreferenceController;
     List<prospectiveTGLTable.prospectiveTGLTableRecycler> membertList;
     RecyclerView recyclerView;
     List dataResult;
@@ -34,14 +37,19 @@ public class TgMembers extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tg_members);
-        sharedPreferenceController= new SharedPreferenceController(getApplicationContext());
+        sharedPreferenceController= new SharedPreference(getApplicationContext());
 
+
+        int smallPadding = getResources().getDimensionPixelSize(R.dimen.tfm_home_linear_spacing_small);
+        VerticalSpaceItemDecoration verticalSpaceItemDecoration = new VerticalSpaceItemDecoration(smallPadding);
 
         recyclerView = findViewById(R.id.recyclerViewMemberFields);
         nextButton= findViewById(R.id.next);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ikNumber= sharedPreferenceController.getIkNumber();
+        recyclerView.addItemDecoration(verticalSpaceItemDecoration);
+        HashMap<String,String> user = sharedPreferenceController.getUserDetails();
+        ikNumber = user.get(SharedPreference.KEY_IK_NUMBER);
 
         membertList = new ArrayList<>();
         membertList= getMemberDetails(getApplicationContext(),ikNumber);
@@ -54,11 +62,7 @@ public class TgMembers extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-
     }
-
-
 
     // function to retrieve lga data from preloaded data on state_info table
     @SuppressLint("StaticFieldLeak")

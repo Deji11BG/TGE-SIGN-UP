@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/member_location_confirmation_dialog"
+    android:id="@+id/training_ward_confirmation_dialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/custom_layout"
@@ -26,39 +26,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:drawablePadding="5dp"
-                android:text="@string/tfm_member_loc_bottom_sheet_state"
+                android:text="@string/tfm_training_ward_sheet"
                 android:textSize="18sp"
                 android:id="@+id/state"
-                android:textColor="@color/view_black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:drawablePadding="5dp"
-                android:text="@string/tfm_member_loc_bottom_sheet_lga"
-                android:textSize="18sp"
-                android:id="@+id/lga"
-                android:textColor="@color/view_black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:drawablePadding="5dp"
-                android:text="@string/tfm_member_loc_bottom_sheet_ward"
-                android:textSize="18sp"
-                android:id="@+id/ward"
-                android:textColor="@color/view_black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:drawablePadding="5dp"
-                android:text="@string/tfm_member_loc_bottom_sheet_village"
-                android:textSize="18sp"
-                android:id="@+id/village"
                 android:textColor="@color/view_black"/>
 
         </LinearLayout>
@@ -73,45 +43,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/bottom_sheet_text_view_separation"
                 android:drawablePadding="5dp"
-                android:text="@string/tfm_member_loc_state"
+                android:text="@string/tfm_training_ward"
                 android:textSize="18sp"
-                android:id="@+id/bottom_sheet_state"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/view_black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/bottom_sheet_text_view_separation"
-                android:drawablePadding="5dp"
-                android:text="@string/tfm_member_loc_lga"
-                android:textSize="18sp"
-                android:id="@+id/bottom_sheet_lga"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/view_black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/bottom_sheet_text_view_separation"
-                android:drawablePadding="5dp"
-                android:id="@+id/bottom_sheet_ward"
-                android:text="@string/tfm_member_loc_ward"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textSize="18sp"
-                android:textColor="@color/view_black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/bottom_sheet_text_view_separation"
-                android:drawablePadding="5dp"
-                android:text="@string/tfm_member_loc_village"
-                android:textSize="18sp"
-                android:id="@+id/bottom_sheet_village"
+                android:id="@+id/bottom_sheet_training_ward"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@color/view_black"/>
@@ -125,6 +59,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
         style="?android:attr/buttonBarStyle">
 
         <Button

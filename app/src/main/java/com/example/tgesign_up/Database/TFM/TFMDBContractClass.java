@@ -58,6 +58,9 @@ public class TFMDBContractClass {
     public static final String COL_APP_VERSION                  = "app_version";
     public static final String COL_IMEI                         = "imei";
     public static final String COL_SLOT_ID                      = "slot_id";
+    public static final String COL_HUB                          = "hub";
+    public static final String COL_VILLAGE                      = "village";
+    public static final String COL_TGE_ID                       = "tge_id";
 
 
     /**

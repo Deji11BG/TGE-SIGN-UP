@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context="com.example.tgesign_up.TrainingWardLocation"
+    tools:showIn="@layout/activity_training_ward">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:theme="@style/Theme.TGRecruitment.TFM">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/toolbar_linear_layout"
+            android:padding="@dimen/tg_toolbar_padding">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_tg"
+                style="@style/Widget.TGRecruitment.Toolbar"
+                android:layout_width="match_parent"
+                android:background="@color/colorWhite"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_back_button"
+                app:title="@string/tfm_activity_name" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tfm_member_loc_label"
+                android:textColor="@color/view_black"
+                android:textSize="@dimen/tfm_member_information_title"
+                android:layout_margin="@dimen/tfm_text_view_padding" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edlState"
+                style="@style/ExposedDropdownMenu"
+                android:paddingStart="@dimen/tfm_text_view_padding"
+                android:paddingEnd="@dimen/tfm_text_view_padding"
+                android:hint="@string/tfm_member_loc_state">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/actState"
+                    android:editable="false"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ExposedDropdownMenu"
+                android:id="@+id/edlLga"
+                android:paddingStart="@dimen/tfm_text_view_padding"
+                android:paddingEnd="@dimen/tfm_text_view_padding"
+                android:hint="@string/tfm_member_loc_lga">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/actLga"
+                    android:editable="false"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ExposedDropdownMenu"
+                android:id="@+id/edlWard"
+                android:paddingStart="@dimen/tfm_text_view_padding"
+                android:paddingEnd="@dimen/tfm_text_view_padding"
+                android:hint="@string/tfm_member_loc_ward">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/actWard"
+                    android:editable="false"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="bottom|center">
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddMember"
+                    android:layout_marginTop="150dp"
+                    android:layout_width="300dp"
+                    android:layout_height="70dp"
+                    android:background="@color/view_blue"
+
+                    android:text="@string/select_training_ward" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

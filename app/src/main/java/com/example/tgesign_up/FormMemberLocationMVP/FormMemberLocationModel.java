@@ -19,6 +19,7 @@ import com.example.tgesign_up.Database.TFM.TFMDBContractClass;
 import com.example.tgesign_up.Database.TFM.TFMDatabase;
 import com.example.tgesign_up.Database.TFM.Table.MembersTable;
 import com.example.tgesign_up.Database.TFM.Table.TFMTemplateTrackerTable;
+import com.example.tgesign_up.Database.TFM.Table.TGE;
 import com.google.gson.annotations.SerializedName;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +35,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class FormMemberLocationModel {
@@ -117,6 +119,17 @@ public class FormMemberLocationModel {
             }
         }
         return "T-" + staff_id+"_"+getDate("concat")+"_m";
+    }
+
+    String new_ik_number_generator(String ik_number){
+        if (ik_number != null){
+            if (ik_number.length() > 6){
+                ik_number = ik_number.substring(ik_number.length() - 6);
+            }else{
+                return "IK00" + ik_number;
+            }
+        }
+        return "IK00" + ik_number;
     }
 
     String reg_date_generator(){
@@ -295,6 +308,50 @@ public class FormMemberLocationModel {
         }
 
         return s;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    String getSaveNewTGDataResult(Context c, TGE tge) {
+        String s = "0";
+        try {
+            s = new getSaveNewTGData(c){
+
+            }.execute(tge).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return s;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static  class getSaveNewTGData extends AsyncTask<TGE, Void, String> {
+
+        //private WeakReference<Main2Model> activityReference;
+        Context c;
+
+        getSaveNewTGData(Context mCtx) {
+            //activityReference = new WeakReference<>(context);
+            this.c = mCtx;
+        }
+
+        @Override
+        protected String doInBackground(TGE... strings) {
+
+            try {
+                Room.databaseBuilder(c,
+                        TFMDatabase.class, TFMDBContractClass.TFM_DATABASE_NAME).build();
+                TFMDatabase tfmDatabase = TFMDatabase.getInstance(c);
+                tfmDatabase.getTGEDao().insert(strings[0]);
+
+                return "1";
+            } catch (Exception e) {
+                Log.d("MUFASA__1", e + "");
+                return "0";
+            }
+
+        }
+
     }
 
     /**
@@ -898,18 +955,21 @@ public class FormMemberLocationModel {
 
     }
 
-    String saveToSdCard(Bitmap bitmap, String filename) {
+    String saveToSdCard(Bitmap bitmap, String filename, String child_name, Context context) {
 
         String stored = null;
+        String picture_holder;
 
-            /*File sdcard = Environment.getExternalStorageDirectory() ;
-            File folder = new File(sdcard.getAbsoluteFile(), "TGL_TFMPictures/.nomedia");//the dot makes this directory hidden to the user
-            folder.mkdir();*/
+        if (child_name.equalsIgnoreCase("small")){
+            picture_holder = "TFMPictures";
+        }else{
+            picture_holder = "TFMPicturesLarge";
+        }
 
         File ChkImgDirectory;
         String storageState = Environment.getExternalStorageState();
         if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-            ChkImgDirectory = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(), "TFMPictures");
+            ChkImgDirectory = new File(Objects.requireNonNull(context.getExternalFilesDir(null)).getAbsoluteFile(), picture_holder);
 
             File file, file3;
             File file1 = new File(ChkImgDirectory.getAbsoluteFile(), filename + ".jpg");

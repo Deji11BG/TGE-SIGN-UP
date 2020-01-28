@@ -14,11 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.tgesign_up.Api.GPSController;
+import com.example.tgesign_up.Api.SharedPreference;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationInterface;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationModel;
 import com.example.tgesign_up.FormMemberLocationMVP.FormMemberLocationPresenter;
@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FormMemberLocation extends AppCompatActivity implements FormMemberLocationInterface {
+public class TrainingWardLocation extends AppCompatActivity implements FormMemberLocationInterface {
 
     @BindView(R.id.actState)
     AutoCompleteTextView actState;
@@ -57,35 +57,20 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
     @BindView(R.id.edlWard)
     TextInputLayout edlWard;
 
-    @BindView(R.id.actVillage)
-    AutoCompleteTextView actVillage;
-
-    @BindView(R.id.edlVillage)
-    TextInputLayout edlVillage;
-
     @BindView(R.id.toolbar_tg)
     Toolbar toolbar_tg;
 
     @BindView(R.id.btnAddMember)
     MaterialButton btnAddMember;
 
-    @BindView(R.id.member_location_confirmation_dialog)
-    LinearLayout member_location_confirmation_dialog;
+    @BindView(R.id.training_ward_confirmation_dialog)
+    LinearLayout training_ward_confirmation_dialog;
 
     FormMemberLocationPresenter memberLocationPresenter;
     FormMemberLocationModel memberLocationModel;
 
-    @BindView(R.id.bottom_sheet_state)
-    TextView bottom_sheet_state;
-
-    @BindView(R.id.bottom_sheet_lga)
-    TextView bottom_sheet_lga;
-
-    @BindView(R.id.bottom_sheet_ward)
-    TextView bottom_sheet_ward;
-
-    @BindView(R.id.bottom_sheet_village)
-    TextView bottom_sheet_village;
+    @BindView(R.id.bottom_sheet_training_ward)
+    TextView bottom_sheet_training_ward;
 
     @BindView(R.id.btnCancel)
     Button btnCancel;
@@ -98,22 +83,22 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_member_locaton);
-        ButterKnife.bind(FormMemberLocation.this);
+        setContentView(R.layout.activity_training_ward);
+        ButterKnife.bind(TrainingWardLocation.this);
         setSupportActionBar(toolbar_tg);
         GPSController.checkPermission(this);
         GPSController.initialiseLocationListener(this);
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
-        memberLocationPresenter = new FormMemberLocationPresenter(FormMemberLocation.this);
+        memberLocationPresenter = new FormMemberLocationPresenter(TrainingWardLocation.this);
         memberLocationModel = new FormMemberLocationModel();
 
 
-        memberLocationPresenter.fillStateSpinner(actState,FormMemberLocation.this,
-                memberLocationPresenter.getRegistrationAction(this));
+        memberLocationPresenter.fillStateSpinner(actState, TrainingWardLocation.this,
+                true);
 
         toolbar_tg.setNavigationOnClickListener(view -> memberLocationPresenter.loadPreviousActivity());
 
-        sheetBehavior = BottomSheetBehavior.from(member_location_confirmation_dialog);
+        sheetBehavior = BottomSheetBehavior.from(training_ward_confirmation_dialog);
 
         addBehaviourToBottomSheet(sheetBehavior);
     }
@@ -142,11 +127,8 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
         });
     }
 
-    void setBottomSheerTexts(){
-        bottom_sheet_state.setText(Objects.requireNonNull(actState.getText()).toString());
-        bottom_sheet_lga.setText(Objects.requireNonNull(actLga.getText()).toString());
-        bottom_sheet_ward.setText(Objects.requireNonNull(actWard.getText()).toString());
-        bottom_sheet_village.setText(Objects.requireNonNull(actVillage.getText()).toString());
+    void setBottomSheetTexts(){
+        bottom_sheet_training_ward.setText(Objects.requireNonNull(actWard.getText()).toString());
     }
 
     void showBottomSheet(){
@@ -197,10 +179,9 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
         autoCompleteTextView.setOnItemClickListener((parent, view, position, rowId) -> {
             memberLocationPresenter.clearSpinnerText(actLga);
             memberLocationPresenter.clearSpinnerText(actWard);
-            memberLocationPresenter.clearSpinnerText(actVillage);
             String state_selection = (String) parent.getItemAtPosition(position);
             memberLocationModel.setState(state_selection);
-            memberLocationPresenter.fillLgaSpinner(actLga, FormMemberLocation.this, memberLocationModel.getState(), bool);
+            memberLocationPresenter.fillLgaSpinner(actLga, TrainingWardLocation.this, memberLocationModel.getState(), bool);
         });
     }
 
@@ -208,20 +189,17 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
     public void setToLGAModel(AutoCompleteTextView autoCompleteTextView, final boolean bool) {
         autoCompleteTextView.setOnItemClickListener((parent, view, position, rowId) -> {
             memberLocationPresenter.clearSpinnerText(actWard);
-            memberLocationPresenter.clearSpinnerText(actVillage);
             String lga_selection = (String) parent.getItemAtPosition(position);
             memberLocationModel.setLga(lga_selection);
-            memberLocationPresenter.fillWardSpinner(actWard, FormMemberLocation.this, memberLocationModel.getLga(), bool);
+            memberLocationPresenter.fillWardSpinner(actWard, TrainingWardLocation.this, memberLocationModel.getLga(), bool);
         });
     }
 
     @Override
     public void setToWardModel(AutoCompleteTextView autoCompleteTextView, boolean bool) {
         autoCompleteTextView.setOnItemClickListener((parent, view, position, rowId) -> {
-            memberLocationPresenter.clearSpinnerText(actVillage);
             String ward_selection = (String) parent.getItemAtPosition(position);
             memberLocationModel.setWard(ward_selection);
-            memberLocationPresenter.fillVillageSpinner(actVillage, FormMemberLocation.this, memberLocationModel.getWard());
         });
 
     }
@@ -273,13 +251,13 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
 
     @Override
     public void moveToAnotherActivity() {
-        Intent intent = new Intent (FormMemberLocation.this, TGHome.class);
+        Intent intent = new Intent (TrainingWardLocation.this, TGHome.class);
         startActivity(intent);
     }
 
     @Override
     public void loadPreviousActivity() {
-        Intent intent = new Intent (FormMemberLocation.this, FormMemberInformation.class);
+        Intent intent = new Intent (TrainingWardLocation.this, FormMemberInformation.class);
         startActivity(intent);
     }
 
@@ -326,7 +304,6 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
         memberLocationPresenter.setTextOfAutoCompleteTextViews(actState,memberLocationModel.getState());
         memberLocationPresenter.setTextOfAutoCompleteTextViews(actLga, memberLocationModel.getLga());
         memberLocationPresenter.setTextOfAutoCompleteTextViews(actWard, memberLocationModel.getWard());
-        memberLocationPresenter.setTextOfAutoCompleteTextViews(actVillage, memberLocationModel.getVillage_name());
     }
 
     @Override
@@ -339,10 +316,10 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
 
     @Override
     public void startActivityForResult() {
-        Intent intent = new Intent(this, VerifyActivity.class);
-        intent.putExtra("role","Leader");
-        intent.putExtra("verification_stage","stage_2");
-        startActivityForResult(intent,419);
+        Intent intent = new Intent(this, TFMHome.class);
+        SharedPreference sharedPreference = new SharedPreference(this);
+        sharedPreference.setKeyTrainingWard(actWard.getText().toString());
+        startActivity(intent);
     }
 
     @Override
@@ -397,42 +374,19 @@ public class FormMemberLocation extends AppCompatActivity implements FormMemberL
 
     @OnClick(R.id.btnAddMember)
     public  void next(View view){
-        if (memberLocationPresenter.validateMemberInfo(actState,actLga,actWard,actVillage) == 0){
-            memberLocationPresenter.checkIfAutocompleteEmpty(actState,edlState,this.getResources().getString(R.string.error_message_state));
-            memberLocationPresenter.checkIfAutocompleteEmpty(actLga,edlLga,this.getResources().getString(R.string.error_message_lga));
-            memberLocationPresenter.checkIfAutocompleteEmpty(actWard,edlWard,this.getResources().getString(R.string.error_message_ward));
-            memberLocationPresenter.checkIfAutocompleteEmpty(actVillage,edlVillage,this.getResources().getString(R.string.error_message_village));
+        if (memberLocationPresenter.validateMemberInfo(actState,actLga,actWard) == 0){
+            completeFieldCheck();
         }else{
-            //memberLocationPresenter.displayDialog(FormMemberLocation.this,actState,actLga,actWard,actVillage,actOtherCrops,edtOtherCropsNotListed);
-            setBottomSheerTexts();
+            completeFieldCheck();
+            setBottomSheetTexts();
             showBottomSheet();
         }
     }
 
-    /**
-     * This method handles whatever happens after capture or authentication of template
-     * @param requestCode might be 419 or 519 either for capture or authentication respectively
-     * @param resultCode 0 or 1 depending on whether success or failure of actions from request code
-     * @param data Intent
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        View parentLayout = findViewById(android.R.id.content);
-        if (requestCode == 419) {
-            if (data != null) {
-                if (data.getIntExtra("RESULT", 0) == 1) {
-                    //my code
-                    memberLocationPresenter.collateAllResult(this,
-                            memberLocationPresenter.getTextFromSpinner(actState),
-                            memberLocationPresenter.getTextFromSpinner(actLga),
-                            memberLocationPresenter.getTextFromSpinner(actWard),
-                            memberLocationPresenter.getTextFromSpinner(actVillage),
-                            parentLayout,memberLocationPresenter.getRegistrationAction(this));
-                    //memberLocationPresenter.moveToNextActivity();
-                    memberLocationPresenter.secretaryPresenceDialog(this);
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    void completeFieldCheck(){
+        memberLocationPresenter.checkIfAutocompleteEmpty(actState,edlState,this.getResources().getString(R.string.error_message_state));
+        memberLocationPresenter.checkIfAutocompleteEmpty(actLga,edlLga,this.getResources().getString(R.string.error_message_lga));
+        memberLocationPresenter.checkIfAutocompleteEmpty(actWard,edlWard,this.getResources().getString(R.string.error_message_ward));
+
     }
 }
