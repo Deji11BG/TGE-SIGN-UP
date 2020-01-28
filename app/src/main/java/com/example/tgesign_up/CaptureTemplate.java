@@ -6,7 +6,11 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tgesign_up.Api.SharedPreference;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 
 public class CaptureTemplate extends AppCompatActivity {
@@ -37,15 +41,36 @@ public class CaptureTemplate extends AppCompatActivity {
             if (data != null) {
                 if (data.getIntExtra("RESULT", 0) == 1) {
                     //This is supposed to be used for new or old members...
-                    loadFormMemberInformation();
+                    loadNextActivityLogic();
                 }else if (data.getIntExtra("RESULT", 0) == 2){
                     showDialogForFailedCapture(this.getResources().getString(R.string.tfm_face_not_found),CaptureTemplate.this);
                 }else{
                     showDialogForFailedCapture(this.getResources().getString(R.string.tfm_face_already_registered),CaptureTemplate.this);
                 }
             }
+        } else if (requestCode == 619){
+            if (data != null) {
+                if (data.getIntExtra("RESULT", 0) == 1) {
+                    //This is supposed to be used for new or old members...
+                    loadFormMemberInformation();
+                }else if (data.getIntExtra("RESULT", 0) == 2){
+                    showDialogForFailedCapture(this.getResources().getString(R.string.tfm_wrong_qr_scanned),CaptureTemplate.this);
+                }else{
+                    showDialogForFailedCapture(this.getResources().getString(R.string.tfm_ik_number_already_registered),CaptureTemplate.this);
+                }
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    void loadNextActivityLogic(){
+        SharedPreference sharedPreference = new SharedPreference(this);
+        HashMap<String,String> user = sharedPreference.getUserDetails();
+        if (Objects.requireNonNull(user.get(SharedPreference.KEY_ROLE_TO_REGISTER_FOR)).equalsIgnoreCase("Leader")){
+            loadFormMemberInformation();
+        }else{
+            startActivityForResult(new Intent(this,QRScanner.class),619);
+        }
     }
 
     void loadFormMemberInformation(){

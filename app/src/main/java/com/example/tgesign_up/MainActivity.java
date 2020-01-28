@@ -542,14 +542,14 @@ public class MainActivity extends AppCompatActivity{
                 }else{
                     //maps CSV row to model class and adds to list
                     final prospectiveTGETable inv = new prospectiveTGETable(
-                            content[0],
-                            content[1],
-                            content[2],
-                            content[3],
-                            content[4],
-                            content[5],
-                            content[6],
-                            content[7]);
+                            removeQuote(content[0]),
+                            removeQuote(content[1]),
+                            removeQuote(content[2]),
+                            removeQuote(content[3]),
+                            removeQuote(content[4]),
+                            removeQuote(content[5]),
+                            removeQuote(content[6]),
+                            removeQuote(content[7]));
                     inventoryTS.add(inv);
                 }
             }
@@ -564,6 +564,10 @@ public class MainActivity extends AppCompatActivity{
         setRecordFlag();
         return inventoryTS; //return List
 
+    }
+
+    String removeQuote(String string){
+        return string.replace("\"","");
     }
 
     public ArrayList<prospectiveTGLTable> importProspectiveTGLTable() {
@@ -585,12 +589,12 @@ public class MainActivity extends AppCompatActivity{
                 } else {
                     //maps CSV row to model class and adds to list
                     final prospectiveTGLTable inv = new prospectiveTGLTable(
-                            content[0],
-                            content[1],
-                            content[2],
-                            content[3],
-                            content[4],
-                            content[5],
+                            removeQuote(content[0]),
+                            removeQuote(content[1]),
+                            removeQuote(content[2]),
+                            removeQuote(content[3]),
+                            removeQuote(content[4]),
+                            removeQuote(content[5]),
                             "1");
                     inventoryTS.add(inv);
                 }

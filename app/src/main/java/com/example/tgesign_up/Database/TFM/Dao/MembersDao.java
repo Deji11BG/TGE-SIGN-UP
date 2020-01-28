@@ -23,6 +23,9 @@ public interface MembersDao {
             TFMDBContractClass.TABLE_NEW_MEMBERS_DATA +" WHERE unique_ik_number = :unique_ik_number AND role = 'Leader'")
     TGLeaderModel.CountModel getTrustGroupLeaderCount(String unique_ik_number);
 
+    @Query("SELECT DISTINCT ik_number FROM " + TFMDBContractClass.TABLE_NEW_MEMBERS_DATA +" ")
+    List<String> getAllRegisteredIK();
+
     @Query("SELECT count(unique_member_id) as count FROM " +
             TFMDBContractClass.TABLE_NEW_MEMBERS_DATA +" WHERE unique_ik_number = :unique_ik_number AND role = 'Secretary'")
     FormMemberInformationModel.CountModel getTrustGroupSecretaryCount(String unique_ik_number);

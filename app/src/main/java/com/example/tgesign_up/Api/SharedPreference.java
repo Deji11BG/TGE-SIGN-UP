@@ -67,6 +67,7 @@ public class SharedPreference {
     public static final String KEY_QR_IK_NUMBER = "qr_ik_number";
     public static final String KEY_TRAINING_WARD = "training_ward";
     public static final String KEY_FILTER_HUB = "filter_hub";
+    public static final String KEY_IK_ARRAY = "ik_list_array";
 
     public static final String KEY_ROLE = "role";
 
@@ -94,6 +95,14 @@ public class SharedPreference {
     }
 
     public SharedPreference() {
+    }
+
+    public void setKeyIkArray(Set<String> ik_list_array){
+        // Storing name in pref
+        editor.putStringSet(KEY_IK_ARRAY, ik_list_array);
+
+        // commit changes
+        editor.commit();
     }
 
     public void setKeyFilterHub(String filter_hub){
@@ -306,6 +315,13 @@ public class SharedPreference {
 
     public String getKeyActivityResult(){
         return pref.getString(KEY_PHONE_IMEI,"Nothing_yet");
+    }
+
+    public HashMap<String, Set<String>> getIKArray(){
+        HashMap<String, Set<String>> user = new HashMap<>();
+        user.put(KEY_IK_ARRAY, pref.getStringSet(KEY_IK_ARRAY, new HashSet<>()));
+
+        return user;
     }
 
     public HashMap<String, String> getUserDetails(){
