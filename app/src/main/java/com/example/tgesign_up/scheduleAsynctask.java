@@ -40,7 +40,7 @@ public class scheduleAsynctask {
 
         Context context;
         TFMDatabase tfmDatabase;
-        SharedPreferenceController sharedPreference;
+        SharedPreference sharedPreference;
 
 
 
@@ -50,8 +50,10 @@ public class scheduleAsynctask {
 
         @Override
         protected List<scheduleTable> doInBackground(String... params) {
+            sharedPreference = new SharedPreference(context);
 
-            sharedPreference = new SharedPreferenceController(context);
+            HashMap<String,String> user = sharedPreference.getUserDetails();
+            //sharedPreference = new SharedPreferenceController(context);
 
            // HashMap<String,String> user = sharedPreference.getUserDetails();
             //String unique_id_for_field_mapping = user.get(SharedPreference.KEY_UNIQUE_ID_FIELD_MAPPING);
@@ -62,7 +64,9 @@ public class scheduleAsynctask {
                 // Room.databaseBuilder(context,
                 //TFMDatabase.class, "DB").build();
                 tfmDatabase = TFMDatabase.getInstance(context);
-                String ward =sharedPreference.getWard();
+                String ward = user.get(SharedPreference.KEY_TRAINING_WARD);
+
+                //String ward =sharedPreference.getWard();
                 //Log.d("warddd",ward);
 
                 return tfmDatabase.getscheduleTable().getschedule(ward);

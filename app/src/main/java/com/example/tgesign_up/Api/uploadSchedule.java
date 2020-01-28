@@ -48,7 +48,7 @@ public class uploadSchedule {
     private List<scheduleTable> membersTableList = new ArrayList<>();
     private List<schedulemodel> oldMembersDownloadModelList = new ArrayList<>();
     List<scheduleTable> unsyncedFields;
-    SharedPreferenceController sharedPreferenceController;
+    SharedPreference sharedPreference;
 
 
 
@@ -76,10 +76,14 @@ public class uploadSchedule {
     public void getScheduleRecords(Context context) {
 
         //SharedPreferenceController sharedPreferenceController = new SharedPreferenceController(context);
-        sharedPreferenceController = new SharedPreferenceController(context);
+        sharedPreference = new SharedPreference(context);
+
+        //sharedPreferenceController = new SharedPreferenceController(context);
 
         //String last_synced = sharedPreferenceController.getTfmOutputSyncTime();
-        String ward =sharedPreferenceController.getWard();
+        HashMap<String,String> user = sharedPreference.getUserDetails();
+        String ward = user.get(SharedPreference.KEY_TRAINING_WARD);
+        //String ward =sharedPreferenceController.getWard();
         Log.d("warddddd",ward);
 
         apiInterface = ApiClient.getApiClient().create(scheduleApiInterface.class);
