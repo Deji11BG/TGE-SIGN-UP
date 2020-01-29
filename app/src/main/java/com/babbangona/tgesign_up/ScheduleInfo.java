@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -33,6 +34,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.babbangona.tgesign_up.Database.SharedPreferences.SharedPreferenceController;
@@ -46,6 +48,7 @@ public class ScheduleInfo extends AppCompatActivity {
     private List<scheduleTable> memberList2=new ArrayList<>();
     private List<scheduleTable> memberList2TFM;
     private ArrayList<Map<String,String>> memberList3;
+    Toolbar toolbar_tg;
     private ArrayList firstname;
     private ArrayList lastname;
     private ArrayList number;
@@ -86,7 +89,8 @@ public class ScheduleInfo extends AppCompatActivity {
 //        memEdit = member.edit();
         //OnlineDBHelper db = new OnlineDBHelper(this);
         //spinner_lga = findViewById(R.id.spinner_lga);
-        ward=findViewById(R.id.wardschedule);
+        ward = findViewById(R.id.wardschedule);
+        toolbar_tg = findViewById(R.id.toolbar_tg);
         Log.d(TAG, "onCreate: started.");
 
         //Toast.makeText(this, mem_id, Toast.LENGTH_SHORT).show();
@@ -99,6 +103,10 @@ public class ScheduleInfo extends AppCompatActivity {
         //String member_id=member.getString("member_id","R-20null1");
         //memEdit.putString("member_id3",member_id2);
         //memEdit.commit();
+
+
+
+        toolbar_tg.setNavigationOnClickListener(view -> ScheduleInfo.this.backPressedMethod(ScheduleInfo.this));
 
         loadRecyclerView();
 
@@ -203,12 +211,11 @@ public class ScheduleInfo extends AppCompatActivity {
 //    }
 
 
-
+    @Override
     public void onBackPressed() {
-        super.onBackPressed();
         //startActivity(new Intent(activefield.this, TGHome.class));
 
-        backPressedMethod(this);
+        backPressedMethod(ScheduleInfo.this);
 
     }
 
@@ -223,7 +230,6 @@ public class ScheduleInfo extends AppCompatActivity {
                 })
                 .setNeutralButton(context.getResources().getString(R.string.cancel), (dialog, id) -> {
                     dialog.cancel();
-                    finish();
                 })
                 .show();
 
