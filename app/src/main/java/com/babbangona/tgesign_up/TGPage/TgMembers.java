@@ -54,7 +54,7 @@ public class TgMembers extends AppCompatActivity {
         membertList = new ArrayList<>();
         membertList= getMemberDetails(getApplicationContext(),ikNumber);
 
-        TgMembersAdapter adapter = new TgMembersAdapter(TgMembers.this, membertList);
+        TgMembersAdapter adapter = new TgMembersAdapter(this, membertList);
         recyclerView.setAdapter(adapter);
 
     }

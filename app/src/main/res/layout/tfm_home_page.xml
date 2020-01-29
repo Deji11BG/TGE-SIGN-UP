@@ -124,7 +124,7 @@
             android:layout_gravity="center"
             android:gravity="center_vertical"
             android:hint="@string/text_ward_selected"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColorHint="@color/absolute_black"/>
 
 

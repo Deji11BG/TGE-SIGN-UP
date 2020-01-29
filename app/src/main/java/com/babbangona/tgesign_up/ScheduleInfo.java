@@ -3,15 +3,20 @@ package com.babbangona.tgesign_up;
 //active fields activity. recycler view is directly below it.
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.babbangona.tgesign_up.Database.TFM.Table.scheduleTable;
 import com.babbangona.tgesign_up.TFMRecyclers.TFMHomeRecycler.schedulerecycler;
@@ -202,7 +207,25 @@ public class ScheduleInfo extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         //startActivity(new Intent(activefield.this, TGHome.class));
-        finish();
+
+        backPressedMethod(this);
+
+    }
+
+    public void backPressedMethod(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setTitle(context.getResources().getString(R.string.tfm_dialog_attention));
+        builder.setMessage("Do you want to launch home page?")
+                .setPositiveButton(context.getResources().getString(R.string.yes), (dialog, id) -> {
+                    startActivity(new Intent(getApplicationContext(),TFMHome.class));
+                    finish();
+                })
+                .setNeutralButton(context.getResources().getString(R.string.cancel), (dialog, id) -> {
+                    dialog.cancel();
+                    finish();
+                })
+                .show();
 
     }
 

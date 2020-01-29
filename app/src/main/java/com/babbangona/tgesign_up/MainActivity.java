@@ -674,8 +674,8 @@ public class MainActivity extends AppCompatActivity{
         builder.setMessage("Click 'OK' to set up Application records (This may take a while)")
                 .setPositiveButton(context.getResources().getString(R.string.ok), (dialog, id) -> {
                     Toast.makeText(context, "Setting up started", Toast.LENGTH_SHORT).show();
-                    checkDBStatus();
                     dialog.cancel();
+                    checkDBStatus();
                 })
                 .show();
 

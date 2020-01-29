@@ -142,6 +142,7 @@
 
     <!-- Member Location Screen -->
     <string name="tfm_member_loc_label">Member\'s Location</string>
+    <string name="tfm_training_ward_location_label">Training Ward Location</string>
     <string name="tfm_member_survey_label">Member\'s Survey (Optional)</string>
     <string name="tfm_member_loc_state">State</string>
     <string name="tfm_member_loc_lga">LGA</string>
