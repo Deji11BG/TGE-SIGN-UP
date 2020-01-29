@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
-    tools:context="com.example.tgesign_up.ScheduleInfo">
+    tools:context="com.babbangona.tgesign_up.ScheduleInfo">
 
     <include layout="@layout/loc_activity_schedule_info" />
 

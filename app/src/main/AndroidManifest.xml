@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tgesign_up">
+    package="com.babbangona.tgesign_up">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,8 +20,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelectHub"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.babbangona.tgesign_up.LaunchQRScanner"></activity>
+
+        <activity
+            android:name="com.babbangona.tgesign_up.Main2Activity"
+            android:exported="true" />
+
+        <activity android:name="com.babbangona.tgesign_up.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,36 +34,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TGHome"
+            android:name="com.babbangona.tgesign_up.TGHome"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TFMHome"
+            android:name="com.babbangona.tgesign_up.TFMHome"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FormMemberInformation"
+            android:name="com.babbangona.tgesign_up.FormMemberInformation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FormMemberLocation"
+            android:name="com.babbangona.tgesign_up.FormMemberLocation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TGPage.TgMembers"
+            android:name="com.babbangona.tgesign_up.TGPage.TgMembers"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".VerifyTemplate"
+            android:name="com.babbangona.tgesign_up.VerifyTemplate"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CaptureTemplate"
+            android:name="com.babbangona.tgesign_up.CaptureTemplate"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CaptureActivity" />
-        <activity android:name=".VerifyActivity" />
+        <activity android:name="com.babbangona.tgesign_up.CaptureActivity" />
+        <activity android:name="com.babbangona.tgesign_up.VerifyActivity" />
         <activity
-            android:name=".ScheduleInfo"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".QRScanner"
+            android:name="com.babbangona.tgesign_up.ScheduleInfo"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TrainingWardLocation"
+            android:name="com.babbangona.tgesign_up.QRScanner"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.babbangona.tgesign_up.TrainingWardLocation"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

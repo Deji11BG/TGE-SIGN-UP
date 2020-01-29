@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tgesign_up.TrainingWardLocation"
+    tools:context="com.babbangona.tgesign_up.TrainingWardLocation"
     android:orientation="vertical">
 
     <include layout="@layout/training_ward_location_content" />

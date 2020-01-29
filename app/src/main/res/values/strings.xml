@@ -238,8 +238,8 @@
     <string name="start">Start</string>
     <string name="help">Help</string>
     <string name="capture">Capture</string>
-    <string name="capture_intro">Capture face of member taking test</string>
-    <string name="verify_intro">Verify face of member that took test</string>
+    <string name="capture_intro">This Application is specifically for obtaining face Template Data.\n\n1. Hold the phone firmly, and ensure proper lighting.\n2. Position the face at a good distance from the camera, not too far.\n3.Turn on flash when necessary with the flash button.\n4 Inform member to blink while their face is being captured</string>
+    <string name="verify_intro">This Application is specifically for verifying face Template Data.\n\n1. Hold the phone firmly, and ensure proper lighting.\n2. Position the face at a good distance from the camera, not too far.\n3.Turn on flash when necessary with the flash button.\n4 Inform member to blink while their face is being verified</string>
     <string name="congratulatory_message">Congratulations on completing your test, we will get back to you</string>
     <string name="Continue">Continue</string>
     <string name="random_num">145874</string>

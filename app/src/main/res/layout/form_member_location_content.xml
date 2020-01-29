@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context="com.example.tgesign_up.FormMemberLocation"
+    tools:context="com.babbangona.tgesign_up.FormMemberLocation"
     tools:showIn="@layout/activity_form_member_locaton">
 
     <com.google.android.material.appbar.AppBarLayout
